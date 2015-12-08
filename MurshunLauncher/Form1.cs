@@ -23,6 +23,7 @@ namespace MurshunLauncher
             pathToTheLauncher = Directory.GetCurrentDirectory();
             iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
             iniFilePath = iniDirectoryPath + "\\MurshunLauncherClient.ini";
+            iniFilePathServer = iniDirectoryPath + "\\MurshunLauncherServer.ini";
 
             textBox3.Text = iniFilePath;
             textBox4.Text = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
@@ -35,6 +36,7 @@ namespace MurshunLauncher
             if (File.Exists(iniFilePath))
             {
                 ReadIniFile();
+                ReadIniFileServer();
                 RefreshInterface();
             }
             else
@@ -77,6 +79,7 @@ namespace MurshunLauncher
 
         string iniDirectoryPath;
         string iniFilePath;
+        string iniFilePathServer;
         string pathToArma3EXE;
         string pathToArma3Mods;
         string pathToTheLauncher;
@@ -152,6 +155,39 @@ namespace MurshunLauncher
             }
         }
 
+        public void ReadIniFileServer()
+        {
+            string[] infoFromIniFile = File.ReadAllLines(iniFilePathServer);
+
+            foreach (string X in infoFromIniFile)
+            {
+                if (X.Contains("SERVERPATH="))
+                {
+                    textBox6.Text = X.Replace("SERVERPATH=", "");
+                }
+                if (X.Contains("MODPATH="))
+                {
+                    textBox7.Text = X.Replace("MODPATH=", "");
+                }
+                if (X.Contains("CUSTOMMOD="))
+                {
+                    listView9.Items.Add(X.Replace("CUSTOMMOD=", ""));
+                }
+                if (X.Contains("CONFIG="))
+                {
+                    textBox8.Text = X.Replace("CONFIG=", "");
+                }
+                if (X.Contains("CFG="))
+                {
+                    textBox9.Text = X.Replace("CFG=", "");
+                }
+                if (X.Contains("PROFILES="))
+                {
+                    textBox10.Text = X.Replace("PROFILES=", "");
+                }
+            }
+        }
+
         public void SaveIniFile()
         {
             List<string> infoForSave = new List<string>();
@@ -192,8 +228,6 @@ namespace MurshunLauncher
         public void RefreshInterface()
         {
             listView5.Items.Clear();
-            listView5.Update();
-            listView5.Refresh();
 
             listView5.Items.Add("GAMEPATH=" + pathToArma3EXE);
 
@@ -248,6 +282,30 @@ namespace MurshunLauncher
                     X.BackColor = Color.Red;
                 }
             }
+
+            foreach (ListViewItem X in listView8.Items)
+            {
+                if (Directory.Exists(textBox7.Text + "\\" + X.Text + "\\addons") || Directory.Exists(textBox7.Text + "\\" + X.Text + "\\Addons"))
+                {
+                    X.BackColor = Color.Green;
+                }
+                else
+                {
+                    X.BackColor = Color.Red;
+                }
+            }
+
+            foreach (ListViewItem X in listView9.Items)
+            {
+                if (Directory.Exists(X.Text + "\\addons") || Directory.Exists(X.Text + "\\Addons"))
+                {
+                    X.BackColor = Color.Green;
+                }
+                else
+                {
+                    X.BackColor = Color.Red;
+                }
+            }
         }
 
         public void VerifyMods()
@@ -284,8 +342,6 @@ namespace MurshunLauncher
                 }
 
                 listView4.Items.Clear();
-                listView4.Update();
-                listView4.Refresh();
 
                 foreach (string X in btsync_filesList)
                 {
@@ -320,8 +376,6 @@ namespace MurshunLauncher
                 }
 
                 listView1.Items.Clear();
-                listView1.Update();
-                listView1.Refresh();
 
                 if (File.Exists(pathToArma3EXE.Replace("\\arma3.exe", "") + "\\Userconfig\\task_force_radio\\radio_settings.hpp"))
                 {
@@ -341,12 +395,8 @@ namespace MurshunLauncher
                 missingFilesArray = missingFilesArray.Where(x => !folder_foldersArray.Contains(x)).ToArray();
 
                 listView2.Items.Clear();
-                listView2.Update();
-                listView2.Refresh();
 
                 listView3.Items.Clear();
-                listView3.Update();
-                listView3.Refresh();
 
                 if (missingFilesArray.Length == 0)
                 {
@@ -417,12 +467,14 @@ namespace MurshunLauncher
         public void RefreshPresetModsList()
         {
             listView6.Items.Clear();
-            listView6.Update();
-            listView6.Refresh();
+
+            listView8.Items.Clear();
 
             foreach (string X in presetModsList)
             {
                 listView6.Items.Add(X);
+
+                listView8.Items.Add(X.Replace("@allinarmaterrainpack", "@allinarmaterrainpacklite"));
             }
         }
 
@@ -443,8 +495,6 @@ namespace MurshunLauncher
                 folder_filesArray = folder_filesArray.Select(s => s.Replace(choosenFolder.SelectedPath, "")).ToArray();
 
                 listView1.Items.Clear();
-                listView1.Update();
-                listView1.Refresh();
 
                 foreach (string X in folder_foldersArray)
                 {
@@ -478,29 +528,9 @@ namespace MurshunLauncher
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             VerifyMods();
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -518,7 +548,7 @@ namespace MurshunLauncher
                     }
                     else
                     {
-                        tabControl1.SelectedTab = tabPage1;
+                        tabControl1.SelectedTab = tabPage2;
                         return;
                     }
                 }
@@ -600,22 +630,6 @@ namespace MurshunLauncher
             RefreshInterface();
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            SaveIniFile();
-            RefreshInterface();
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog choosenFolder = new FolderBrowserDialog();
@@ -637,8 +651,6 @@ namespace MurshunLauncher
             customModsList = customModsList.Except(listView7.CheckedItems.Cast<ListViewItem>().Select(X => X.Text)).ToList();
 
             listView7.Items.Clear();
-            listView7.Update();
-            listView7.Refresh();
 
             foreach (string X in customModsList)
             {
@@ -661,26 +673,6 @@ namespace MurshunLauncher
             RefreshInterface();
         }
 
-        private void listView5_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkedListBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkBox1_Click(object sender, EventArgs e)
         {
             SaveIniFile();
@@ -691,11 +683,6 @@ namespace MurshunLauncher
         {
             SaveIniFile();
             RefreshInterface();
-        }
-
-        private void listView7_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-
         }
 
         private void listView7_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -745,6 +732,131 @@ namespace MurshunLauncher
 
             SaveIniFile();
             RefreshInterface();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            button9_Click(sender, e);
+
+            if (listView12.Items.Count != 0 || listView10.Items.Count != 0)
+            {
+                tabControl1.SelectedTab = tabPage4;
+                return;
+            }
+
+            List<string> clientMissionlist = Directory.GetFiles("D:\\Program Files\\Steam\\steamapps\\common\\Arma 3\\MPMissions", "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
+
+            foreach (string X in clientMissionlist)
+            {
+                File.Copy(X, X.Replace("D:\\Program Files\\Steam\\steamapps\\common\\Arma 3\\MPMissions", "G:\\Program Files\\Steam\\SteamApps\\common\\Arma 3 Server\\mpmissions"), true);
+            }
+
+            string modLine;
+
+            modLine = "-port=2302";
+
+            modLine = modLine + " \"-config=" + textBox8.Text + "\"";
+
+            modLine = modLine + " \"-cfg=" + textBox9.Text + "\"";
+
+            modLine = modLine + " \"-profiles=" + textBox10.Text + "\"";
+
+            modLine = modLine + " -name=server";
+
+            modLine = modLine + " \"-mod=";
+
+            foreach (ListViewItem X in listView8.Items)
+            {
+                modLine = modLine + textBox7.Text + "\\" + X.Text + ";";
+            }
+
+            foreach (ListViewItem X in listView9.Items)
+            {
+                modLine = modLine + X.Text + ";";
+            }
+
+            modLine = modLine + "\"";
+
+            modLine = modLine + " -nologs -nofilepatching";
+
+            if (File.Exists(textBox6.Text))
+            {                
+                Process myProcess = new Process();
+
+                myProcess.StartInfo.FileName = textBox6.Text;
+                myProcess.StartInfo.Arguments = modLine;
+                myProcess.Start();
+                myProcess.ProcessorAffinity = (System.IntPtr)12;
+                myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
+            }
+            else
+            {
+                MessageBox.Show("EXE not found.");
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            textBox12.Text = pathToArma3Mods;
+            textBox11.Text = textBox7.Text;
+
+            List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3Mods, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+            List<string> folder_serverFilesList = Directory.GetFiles(textBox7.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+
+            listView13.Items.Clear();
+            listView11.Items.Clear();
+
+            foreach (string X in folder_clientFilesList)
+            {
+                FileInfo F = new FileInfo(X);
+                listView13.Items.Add(X.Replace(pathToArma3Mods,"") + ":" + F.Length);
+            }
+
+            foreach (string X in folder_serverFilesList)
+            {
+                FileInfo F = new FileInfo(X);
+                listView11.Items.Add(X.Replace(textBox7.Text, "") + ":" + F.Length);
+            }
+
+            folder_clientFilesList = listView13.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+            folder_serverFilesList = listView11.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+
+            List<string> missingFilesList = folder_clientFilesList.Where(x => !folder_serverFilesList.Contains(x)).ToList();
+            List<string> excessFilesList = folder_serverFilesList.Where(x => !folder_clientFilesList.Contains(x)).ToList();
+
+            listView12.Items.Clear();
+            listView10.Items.Clear();
+
+            foreach (string X in missingFilesList)
+            {
+                if (!X.Contains("@allinarmaterrainpack"))
+                {
+                    listView12.Items.Add(X);
+                }
+            }
+
+            foreach (string X in excessFilesList)
+            {
+                if (!X.Contains("@allinarmaterrainpack"))
+                {
+                    listView10.Items.Add(X);
+                }
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in listView10.Items)
+            {
+                MessageBox.Show("Deleting " + textBox7.Text + item.Text.Split(':')[0]);
+                File.Delete(textBox7.Text + item.Text.Split(':')[0]);
+            }
+
+            foreach (ListViewItem item in listView12.Items)
+            {
+                MessageBox.Show("Copying " + pathToArma3Mods + item.Text.Split(':')[0] + " to " + textBox7.Text + item.Text.Split(':')[0]);
+                File.Copy(pathToArma3Mods + item.Text.Split(':')[0], textBox7.Text + item.Text.Split(':')[0], true);
+            }
         }
     }
 }
