@@ -5,12 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurshunLauncher", "MurshunL
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}.Release|Any CPU.Deploy.0 = Release|Any CPU
