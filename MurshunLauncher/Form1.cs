@@ -846,15 +846,17 @@ namespace MurshunLauncher
 
         private void button10_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Removing " + listView10.Items.Count + " files.");
+
             foreach (ListViewItem item in listView10.Items)
             {
-                MessageBox.Show("Deleting " + textBox7.Text + item.Text.Split(':')[0]);
                 File.Delete(textBox7.Text + item.Text.Split(':')[0]);
             }
 
+            MessageBox.Show("Copying " + listView12.Items.Count + " files.");
+
             foreach (ListViewItem item in listView12.Items)
             {
-                MessageBox.Show("Copying " + pathToArma3Mods + item.Text.Split(':')[0] + " to " + textBox7.Text + item.Text.Split(':')[0]);
                 File.Copy(pathToArma3Mods + item.Text.Split(':')[0], textBox7.Text + item.Text.Split(':')[0], true);
             }
         }
