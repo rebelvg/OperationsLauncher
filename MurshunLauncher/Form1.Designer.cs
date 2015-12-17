@@ -29,60 +29,64 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.removeUncheckedMod_button = new System.Windows.Forms.Button();
+            this.changePathToArma3ClientMods_button = new System.Windows.Forms.Button();
+            this.changePathToArma3Client_button = new System.Windows.Forms.Button();
+            this.pathToArma3ClientMods_textBox = new System.Windows.Forms.TextBox();
+            this.pathToArma3Client_textBox = new System.Windows.Forms.TextBox();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.verifyBeforeLaunch_checkBox = new System.Windows.Forms.CheckBox();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.clientCustomMods_listView = new System.Windows.Forms.ListView();
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clientPresetMods_listView = new System.Windows.Forms.ListView();
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.advancedStartLine_textBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.defaultStartLine_textBox = new System.Windows.Forms.TextBox();
+            this.joinTheServer_checkBox = new System.Windows.Forms.CheckBox();
+            this.addCustomMod_button = new System.Windows.Forms.Button();
+            this.showScriptErrors_checkBox = new System.Windows.Forms.CheckBox();
+            this.xmlPath_textBox = new System.Windows.Forms.TextBox();
+            this.launch_button = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.listView3 = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView4 = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.listView7 = new System.Windows.Forms.ListView();
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listView6 = new System.Windows.Forms.ListView();
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.listView5 = new System.Windows.Forms.ListView();
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button1 = new System.Windows.Forms.Button();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.removeUncheckedServerMod_button = new System.Windows.Forms.Button();
+            this.addCustomServerMod = new System.Windows.Forms.Button();
+            this.serverProfileName_textBox = new System.Windows.Forms.TextBox();
+            this.changeServerProfiles_button = new System.Windows.Forms.Button();
+            this.changeServerCfg_button = new System.Windows.Forms.Button();
+            this.changeServerConfig_button = new System.Windows.Forms.Button();
+            this.changePathToArma3ServerMods_button = new System.Windows.Forms.Button();
+            this.changePathToArma3Server_button = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.listView9 = new System.Windows.Forms.ListView();
+            this.serverProfiles_textBox = new System.Windows.Forms.TextBox();
+            this.serverCustomMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listView8 = new System.Windows.Forms.ListView();
+            this.serverPresetMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.serverCfg_textBox = new System.Windows.Forms.TextBox();
+            this.serverConfig_textBox = new System.Windows.Forms.TextBox();
+            this.pathToArma3ServerMods_textBox = new System.Windows.Forms.TextBox();
+            this.pathToArma3Server_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button10 = new System.Windows.Forms.Button();
             this.textBox11 = new System.Windows.Forms.TextBox();
@@ -103,6 +107,329 @@
             this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Location = new System.Drawing.Point(2, 2);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1052, 740);
+            this.tabControl1.TabIndex = 8;
+            this.tabControl1.Tag = "";
+            this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.removeUncheckedMod_button);
+            this.tabPage1.Controls.Add(this.changePathToArma3ClientMods_button);
+            this.tabPage1.Controls.Add(this.changePathToArma3Client_button);
+            this.tabPage1.Controls.Add(this.pathToArma3ClientMods_textBox);
+            this.tabPage1.Controls.Add(this.pathToArma3Client_textBox);
+            this.tabPage1.Controls.Add(this.linkLabel3);
+            this.tabPage1.Controls.Add(this.verifyBeforeLaunch_checkBox);
+            this.tabPage1.Controls.Add(this.linkLabel2);
+            this.tabPage1.Controls.Add(this.linkLabel1);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.clientCustomMods_listView);
+            this.tabPage1.Controls.Add(this.clientPresetMods_listView);
+            this.tabPage1.Controls.Add(this.advancedStartLine_textBox);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.defaultStartLine_textBox);
+            this.tabPage1.Controls.Add(this.joinTheServer_checkBox);
+            this.tabPage1.Controls.Add(this.addCustomMod_button);
+            this.tabPage1.Controls.Add(this.showScriptErrors_checkBox);
+            this.tabPage1.Controls.Add(this.xmlPath_textBox);
+            this.tabPage1.Controls.Add(this.launch_button);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tabPage1.Size = new System.Drawing.Size(1044, 714);
+            this.tabPage1.TabIndex = 1;
+            this.tabPage1.Text = "Client";
+            // 
+            // removeUncheckedMod_button
+            // 
+            this.removeUncheckedMod_button.Location = new System.Drawing.Point(916, 556);
+            this.removeUncheckedMod_button.Name = "removeUncheckedMod_button";
+            this.removeUncheckedMod_button.Size = new System.Drawing.Size(120, 23);
+            this.removeUncheckedMod_button.TabIndex = 27;
+            this.removeUncheckedMod_button.Text = "Remove Unchecked";
+            this.removeUncheckedMod_button.UseVisualStyleBackColor = true;
+            this.removeUncheckedMod_button.Click += new System.EventHandler(this.removeUncheckedMod_button_Click);
+            // 
+            // changePathToArma3ClientMods_button
+            // 
+            this.changePathToArma3ClientMods_button.Location = new System.Drawing.Point(420, 56);
+            this.changePathToArma3ClientMods_button.Name = "changePathToArma3ClientMods_button";
+            this.changePathToArma3ClientMods_button.Size = new System.Drawing.Size(26, 20);
+            this.changePathToArma3ClientMods_button.TabIndex = 26;
+            this.changePathToArma3ClientMods_button.Text = "...";
+            this.changePathToArma3ClientMods_button.UseVisualStyleBackColor = true;
+            this.changePathToArma3ClientMods_button.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // changePathToArma3Client_button
+            // 
+            this.changePathToArma3Client_button.Location = new System.Drawing.Point(420, 32);
+            this.changePathToArma3Client_button.Name = "changePathToArma3Client_button";
+            this.changePathToArma3Client_button.Size = new System.Drawing.Size(26, 20);
+            this.changePathToArma3Client_button.TabIndex = 25;
+            this.changePathToArma3Client_button.Text = "...";
+            this.changePathToArma3Client_button.UseVisualStyleBackColor = true;
+            this.changePathToArma3Client_button.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // pathToArma3ClientMods_textBox
+            // 
+            this.pathToArma3ClientMods_textBox.Enabled = false;
+            this.pathToArma3ClientMods_textBox.Location = new System.Drawing.Point(7, 57);
+            this.pathToArma3ClientMods_textBox.Name = "pathToArma3ClientMods_textBox";
+            this.pathToArma3ClientMods_textBox.ReadOnly = true;
+            this.pathToArma3ClientMods_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToArma3ClientMods_textBox.TabIndex = 24;
+            // 
+            // pathToArma3Client_textBox
+            // 
+            this.pathToArma3Client_textBox.Enabled = false;
+            this.pathToArma3Client_textBox.Location = new System.Drawing.Point(7, 32);
+            this.pathToArma3Client_textBox.Name = "pathToArma3Client_textBox";
+            this.pathToArma3Client_textBox.ReadOnly = true;
+            this.pathToArma3Client_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToArma3Client_textBox.TabIndex = 23;
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.Location = new System.Drawing.Point(4, 420);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(73, 13);
+            this.linkLabel3.TabIndex = 22;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "Load Defaults";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            // 
+            // verifyBeforeLaunch_checkBox
+            // 
+            this.verifyBeforeLaunch_checkBox.AutoSize = true;
+            this.verifyBeforeLaunch_checkBox.Location = new System.Drawing.Point(790, 653);
+            this.verifyBeforeLaunch_checkBox.Name = "verifyBeforeLaunch_checkBox";
+            this.verifyBeforeLaunch_checkBox.Size = new System.Drawing.Size(106, 17);
+            this.verifyBeforeLaunch_checkBox.TabIndex = 21;
+            this.verifyBeforeLaunch_checkBox.Text = "Verify on Launch";
+            this.verifyBeforeLaunch_checkBox.UseVisualStyleBackColor = true;
+            this.verifyBeforeLaunch_checkBox.Click += new System.EventHandler(this.checkBox3_Click);
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(4, 673);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(80, 13);
+            this.linkLabel2.TabIndex = 19;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Murshun Group";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(4, 653);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(79, 13);
+            this.linkLabel1.TabIndex = 18;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Murshun Home";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 694);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Version 0.99";
+            // 
+            // clientCustomMods_listView
+            // 
+            this.clientCustomMods_listView.CheckBoxes = true;
+            this.clientCustomMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader7});
+            this.clientCustomMods_listView.FullRowSelect = true;
+            this.clientCustomMods_listView.GridLines = true;
+            this.clientCustomMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.clientCustomMods_listView.Location = new System.Drawing.Point(748, 6);
+            this.clientCustomMods_listView.Name = "clientCustomMods_listView";
+            this.clientCustomMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.clientCustomMods_listView.TabIndex = 16;
+            this.clientCustomMods_listView.UseCompatibleStateImageBehavior = false;
+            this.clientCustomMods_listView.View = System.Windows.Forms.View.Details;
+            this.clientCustomMods_listView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.clientCustomMods_listView_ItemChecked);
+            this.clientCustomMods_listView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clientCustomMods_listView_MouseDown);
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Custom Mods";
+            this.columnHeader7.Width = 286;
+            // 
+            // clientPresetMods_listView
+            // 
+            this.clientPresetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader6});
+            this.clientPresetMods_listView.FullRowSelect = true;
+            this.clientPresetMods_listView.GridLines = true;
+            this.clientPresetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.clientPresetMods_listView.Location = new System.Drawing.Point(452, 6);
+            this.clientPresetMods_listView.Name = "clientPresetMods_listView";
+            this.clientPresetMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.clientPresetMods_listView.TabIndex = 15;
+            this.clientPresetMods_listView.UseCompatibleStateImageBehavior = false;
+            this.clientPresetMods_listView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Preset Mods";
+            this.columnHeader6.Width = 265;
+            // 
+            // advancedStartLine_textBox
+            // 
+            this.advancedStartLine_textBox.Location = new System.Drawing.Point(7, 460);
+            this.advancedStartLine_textBox.Name = "advancedStartLine_textBox";
+            this.advancedStartLine_textBox.Size = new System.Drawing.Size(439, 20);
+            this.advancedStartLine_textBox.TabIndex = 14;
+            this.advancedStartLine_textBox.Leave += new System.EventHandler(this.advancedStartLine_textBox_Leave);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(4, 444);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(116, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Advanced Startup Line";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 381);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Default Startup Line";
+            // 
+            // defaultStartLine_textBox
+            // 
+            this.defaultStartLine_textBox.Location = new System.Drawing.Point(8, 397);
+            this.defaultStartLine_textBox.Name = "defaultStartLine_textBox";
+            this.defaultStartLine_textBox.Size = new System.Drawing.Size(438, 20);
+            this.defaultStartLine_textBox.TabIndex = 11;
+            this.defaultStartLine_textBox.Leave += new System.EventHandler(this.defaultStartLine_textBox_Leave);
+            // 
+            // joinTheServer_checkBox
+            // 
+            this.joinTheServer_checkBox.AutoSize = true;
+            this.joinTheServer_checkBox.Location = new System.Drawing.Point(790, 676);
+            this.joinTheServer_checkBox.Name = "joinTheServer_checkBox";
+            this.joinTheServer_checkBox.Size = new System.Drawing.Size(97, 17);
+            this.joinTheServer_checkBox.TabIndex = 9;
+            this.joinTheServer_checkBox.Text = "Join the Server";
+            this.joinTheServer_checkBox.UseVisualStyleBackColor = true;
+            this.joinTheServer_checkBox.Click += new System.EventHandler(this.checkBox2_Click);
+            // 
+            // addCustomMod_button
+            // 
+            this.addCustomMod_button.Location = new System.Drawing.Point(802, 556);
+            this.addCustomMod_button.Name = "addCustomMod_button";
+            this.addCustomMod_button.Size = new System.Drawing.Size(108, 23);
+            this.addCustomMod_button.TabIndex = 7;
+            this.addCustomMod_button.Text = "Add Custom Mod";
+            this.addCustomMod_button.UseVisualStyleBackColor = true;
+            this.addCustomMod_button.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // showScriptErrors_checkBox
+            // 
+            this.showScriptErrors_checkBox.AutoSize = true;
+            this.showScriptErrors_checkBox.Location = new System.Drawing.Point(333, 374);
+            this.showScriptErrors_checkBox.Name = "showScriptErrors_checkBox";
+            this.showScriptErrors_checkBox.Size = new System.Drawing.Size(113, 17);
+            this.showScriptErrors_checkBox.TabIndex = 5;
+            this.showScriptErrors_checkBox.Text = "Show Script Errors";
+            this.showScriptErrors_checkBox.UseVisualStyleBackColor = true;
+            this.showScriptErrors_checkBox.Click += new System.EventHandler(this.checkBox1_Click);
+            // 
+            // xmlPath_textBox
+            // 
+            this.xmlPath_textBox.Enabled = false;
+            this.xmlPath_textBox.Location = new System.Drawing.Point(7, 6);
+            this.xmlPath_textBox.Name = "xmlPath_textBox";
+            this.xmlPath_textBox.ReadOnly = true;
+            this.xmlPath_textBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.xmlPath_textBox.Size = new System.Drawing.Size(439, 20);
+            this.xmlPath_textBox.TabIndex = 1;
+            // 
+            // launch_button
+            // 
+            this.launch_button.Location = new System.Drawing.Point(902, 652);
+            this.launch_button.Name = "launch_button";
+            this.launch_button.Size = new System.Drawing.Size(136, 55);
+            this.launch_button.TabIndex = 0;
+            this.launch_button.Text = "LAUNCH";
+            this.launch_button.UseVisualStyleBackColor = true;
+            this.launch_button.Click += new System.EventHandler(this.launch_button_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.listView3);
+            this.tabPage2.Controls.Add(this.listView4);
+            this.tabPage2.Controls.Add(this.listView2);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.listView1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1044, 714);
+            this.tabPage2.TabIndex = 0;
+            this.tabPage2.Text = "Client Verify";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(195, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(180, 23);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "Remove Excess";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Enabled = false;
+            this.textBox2.Location = new System.Drawing.Point(534, 36);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(505, 20);
+            this.textBox2.TabIndex = 8;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(9, 6);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(180, 23);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Verify";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // textBox1
             // 
             this.textBox1.Enabled = false;
@@ -111,64 +438,6 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(507, 20);
             this.textBox1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(195, 6);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(213, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Create Verify File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.Location = new System.Drawing.Point(9, 62);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(507, 234);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Files (Path:Size)";
-            this.columnHeader1.Width = 503;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(6, 6);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(183, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Verify";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // listView2
-            // 
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader2});
-            this.listView2.FullRowSelect = true;
-            this.listView2.GridLines = true;
-            this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView2.Location = new System.Drawing.Point(9, 302);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(507, 406);
-            this.listView2.TabIndex = 5;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Missing Files (Path:Size)";
-            this.columnHeader2.Width = 503;
             // 
             // listView3
             // 
@@ -208,327 +477,157 @@
             this.columnHeader4.Text = "Files (Path:Size)";
             this.columnHeader4.Width = 503;
             // 
-            // tabControl1
+            // listView2
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(2, 2);
-            this.tabControl1.Multiline = true;
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1052, 740);
-            this.tabControl1.TabIndex = 8;
-            this.tabControl1.Tag = "";
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.listView2.FullRowSelect = true;
+            this.listView2.GridLines = true;
+            this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView2.Location = new System.Drawing.Point(9, 302);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(507, 406);
+            this.listView2.TabIndex = 5;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
             // 
-            // tabPage1
+            // columnHeader2
             // 
-            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage1.Controls.Add(this.linkLabel3);
-            this.tabPage1.Controls.Add(this.checkBox3);
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.linkLabel2);
-            this.tabPage1.Controls.Add(this.linkLabel1);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.listView7);
-            this.tabPage1.Controls.Add(this.listView6);
-            this.tabPage1.Controls.Add(this.textBox5);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.textBox4);
-            this.tabPage1.Controls.Add(this.checkBox2);
-            this.tabPage1.Controls.Add(this.button7);
-            this.tabPage1.Controls.Add(this.button6);
-            this.tabPage1.Controls.Add(this.checkBox1);
-            this.tabPage1.Controls.Add(this.button5);
-            this.tabPage1.Controls.Add(this.listView5);
-            this.tabPage1.Controls.Add(this.textBox3);
-            this.tabPage1.Controls.Add(this.button4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabPage1.Size = new System.Drawing.Size(1044, 714);
-            this.tabPage1.TabIndex = 1;
-            this.tabPage1.Text = "Main";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.columnHeader2.Text = "Missing Files (Path:Size)";
+            this.columnHeader2.Width = 503;
             // 
-            // linkLabel3
+            // button1
             // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(4, 420);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(73, 13);
-            this.linkLabel3.TabIndex = 22;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Load Defaults";
-            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            this.button1.Location = new System.Drawing.Point(381, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(180, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Create Verify File";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // checkBox3
+            // listView1
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(318, 367);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(125, 17);
-            this.checkBox3.TabIndex = 21;
-            this.checkBox3.Text = "Verify Before Launch";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.Click += new System.EventHandler(this.checkBox3_Click);
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView1.Location = new System.Drawing.Point(9, 62);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(507, 234);
+            this.listView1.TabIndex = 2;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
-            // button2
+            // columnHeader1
             // 
-            this.button2.Location = new System.Drawing.Point(358, 486);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 23);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Save Settings";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(4, 557);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(80, 13);
-            this.linkLabel2.TabIndex = 19;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Murshun Group";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(4, 537);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(79, 13);
-            this.linkLabel1.TabIndex = 18;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Murshun Home";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 694);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Version 0.99";
-            // 
-            // listView7
-            // 
-            this.listView7.CheckBoxes = true;
-            this.listView7.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader7});
-            this.listView7.FullRowSelect = true;
-            this.listView7.GridLines = true;
-            this.listView7.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView7.Location = new System.Drawing.Point(748, 6);
-            this.listView7.Name = "listView7";
-            this.listView7.Size = new System.Drawing.Size(290, 544);
-            this.listView7.TabIndex = 16;
-            this.listView7.UseCompatibleStateImageBehavior = false;
-            this.listView7.View = System.Windows.Forms.View.Details;
-            this.listView7.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView7_ItemCheck);
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "Custom Mods";
-            this.columnHeader7.Width = 286;
-            // 
-            // listView6
-            // 
-            this.listView6.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader6});
-            this.listView6.FullRowSelect = true;
-            this.listView6.GridLines = true;
-            this.listView6.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView6.Location = new System.Drawing.Point(452, 6);
-            this.listView6.Name = "listView6";
-            this.listView6.Size = new System.Drawing.Size(290, 544);
-            this.listView6.TabIndex = 15;
-            this.listView6.UseCompatibleStateImageBehavior = false;
-            this.listView6.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Preset Mods";
-            this.columnHeader6.Width = 270;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(3, 460);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(443, 20);
-            this.textBox5.TabIndex = 14;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 444);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(116, 13);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Advanced Startup Line";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 381);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Default Startup Line";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(4, 397);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(442, 20);
-            this.textBox4.TabIndex = 11;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(318, 344);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(130, 17);
-            this.checkBox2.TabIndex = 9;
-            this.checkBox2.Text = "Connect to the Server";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.Click += new System.EventHandler(this.checkBox2_Click);
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(862, 557);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(125, 23);
-            this.button7.TabIndex = 8;
-            this.button7.Text = "Remove Custom Mod";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(748, 557);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(108, 23);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Add Custom Mod";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(318, 321);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(113, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Show Script Errors";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Click += new System.EventHandler(this.checkBox1_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(760, 652);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(136, 55);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "CHANGE PATHS";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // listView5
-            // 
-            this.listView5.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader5});
-            this.listView5.FullRowSelect = true;
-            this.listView5.GridLines = true;
-            this.listView5.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView5.Location = new System.Drawing.Point(7, 32);
-            this.listView5.Name = "listView5";
-            this.listView5.Size = new System.Drawing.Size(439, 283);
-            this.listView5.TabIndex = 2;
-            this.listView5.UseCompatibleStateImageBehavior = false;
-            this.listView5.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Ini Info";
-            this.columnHeader5.Width = 435;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(7, 6);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox3.Size = new System.Drawing.Size(439, 20);
-            this.textBox3.TabIndex = 1;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(902, 652);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(136, 55);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "LAUNCH";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Controls.Add(this.button3);
-            this.tabPage2.Controls.Add(this.textBox1);
-            this.tabPage2.Controls.Add(this.listView3);
-            this.tabPage2.Controls.Add(this.listView4);
-            this.tabPage2.Controls.Add(this.listView2);
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.listView1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1044, 714);
-            this.tabPage2.TabIndex = 0;
-            this.tabPage2.Text = "Verify Mods";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(534, 36);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(505, 20);
-            this.textBox2.TabIndex = 8;
+            this.columnHeader1.Text = "Files (Path:Size)";
+            this.columnHeader1.Width = 503;
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.removeUncheckedServerMod_button);
+            this.tabPage3.Controls.Add(this.addCustomServerMod);
+            this.tabPage3.Controls.Add(this.serverProfileName_textBox);
+            this.tabPage3.Controls.Add(this.changeServerProfiles_button);
+            this.tabPage3.Controls.Add(this.changeServerCfg_button);
+            this.tabPage3.Controls.Add(this.changeServerConfig_button);
+            this.tabPage3.Controls.Add(this.changePathToArma3ServerMods_button);
+            this.tabPage3.Controls.Add(this.changePathToArma3Server_button);
             this.tabPage3.Controls.Add(this.button8);
-            this.tabPage3.Controls.Add(this.textBox10);
-            this.tabPage3.Controls.Add(this.label8);
-            this.tabPage3.Controls.Add(this.label7);
-            this.tabPage3.Controls.Add(this.label6);
-            this.tabPage3.Controls.Add(this.label5);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.listView9);
-            this.tabPage3.Controls.Add(this.listView8);
-            this.tabPage3.Controls.Add(this.textBox9);
-            this.tabPage3.Controls.Add(this.textBox8);
-            this.tabPage3.Controls.Add(this.textBox7);
-            this.tabPage3.Controls.Add(this.textBox6);
+            this.tabPage3.Controls.Add(this.serverProfiles_textBox);
+            this.tabPage3.Controls.Add(this.serverCustomMods_listView);
+            this.tabPage3.Controls.Add(this.serverPresetMods_listView);
+            this.tabPage3.Controls.Add(this.serverCfg_textBox);
+            this.tabPage3.Controls.Add(this.serverConfig_textBox);
+            this.tabPage3.Controls.Add(this.pathToArma3ServerMods_textBox);
+            this.tabPage3.Controls.Add(this.pathToArma3Server_textBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1044, 714);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // removeUncheckedServerMod_button
+            // 
+            this.removeUncheckedServerMod_button.Location = new System.Drawing.Point(919, 556);
+            this.removeUncheckedServerMod_button.Name = "removeUncheckedServerMod_button";
+            this.removeUncheckedServerMod_button.Size = new System.Drawing.Size(120, 23);
+            this.removeUncheckedServerMod_button.TabIndex = 33;
+            this.removeUncheckedServerMod_button.Text = "Remove Unchecked";
+            this.removeUncheckedServerMod_button.UseVisualStyleBackColor = true;
+            this.removeUncheckedServerMod_button.Click += new System.EventHandler(this.removeUncheckedServerMod_button_Click);
+            // 
+            // addCustomServerMod
+            // 
+            this.addCustomServerMod.Location = new System.Drawing.Point(805, 556);
+            this.addCustomServerMod.Name = "addCustomServerMod";
+            this.addCustomServerMod.Size = new System.Drawing.Size(108, 23);
+            this.addCustomServerMod.TabIndex = 32;
+            this.addCustomServerMod.Text = "Add Custom Mod";
+            this.addCustomServerMod.UseVisualStyleBackColor = true;
+            this.addCustomServerMod.Click += new System.EventHandler(this.addCustomServerMod_Click);
+            // 
+            // serverProfileName_textBox
+            // 
+            this.serverProfileName_textBox.Location = new System.Drawing.Point(7, 136);
+            this.serverProfileName_textBox.Name = "serverProfileName_textBox";
+            this.serverProfileName_textBox.Size = new System.Drawing.Size(440, 20);
+            this.serverProfileName_textBox.TabIndex = 31;
+            this.serverProfileName_textBox.Leave += new System.EventHandler(this.serverProfileName_textBox_Leave);
+            // 
+            // changeServerProfiles_button
+            // 
+            this.changeServerProfiles_button.Location = new System.Drawing.Point(421, 110);
+            this.changeServerProfiles_button.Name = "changeServerProfiles_button";
+            this.changeServerProfiles_button.Size = new System.Drawing.Size(26, 20);
+            this.changeServerProfiles_button.TabIndex = 30;
+            this.changeServerProfiles_button.Text = "...";
+            this.changeServerProfiles_button.UseVisualStyleBackColor = true;
+            this.changeServerProfiles_button.Click += new System.EventHandler(this.changeServerProfiles_button_Click);
+            // 
+            // changeServerCfg_button
+            // 
+            this.changeServerCfg_button.Location = new System.Drawing.Point(421, 84);
+            this.changeServerCfg_button.Name = "changeServerCfg_button";
+            this.changeServerCfg_button.Size = new System.Drawing.Size(26, 20);
+            this.changeServerCfg_button.TabIndex = 29;
+            this.changeServerCfg_button.Text = "...";
+            this.changeServerCfg_button.UseVisualStyleBackColor = true;
+            this.changeServerCfg_button.Click += new System.EventHandler(this.changeServerCfg_button_Click);
+            // 
+            // changeServerConfig_button
+            // 
+            this.changeServerConfig_button.Location = new System.Drawing.Point(421, 58);
+            this.changeServerConfig_button.Name = "changeServerConfig_button";
+            this.changeServerConfig_button.Size = new System.Drawing.Size(26, 20);
+            this.changeServerConfig_button.TabIndex = 28;
+            this.changeServerConfig_button.Text = "...";
+            this.changeServerConfig_button.UseVisualStyleBackColor = true;
+            this.changeServerConfig_button.Click += new System.EventHandler(this.changeServerConfig_button_Click);
+            // 
+            // changePathToArma3ServerMods_button
+            // 
+            this.changePathToArma3ServerMods_button.Location = new System.Drawing.Point(421, 32);
+            this.changePathToArma3ServerMods_button.Name = "changePathToArma3ServerMods_button";
+            this.changePathToArma3ServerMods_button.Size = new System.Drawing.Size(26, 20);
+            this.changePathToArma3ServerMods_button.TabIndex = 27;
+            this.changePathToArma3ServerMods_button.Text = "...";
+            this.changePathToArma3ServerMods_button.UseVisualStyleBackColor = true;
+            this.changePathToArma3ServerMods_button.Click += new System.EventHandler(this.changePathToArma3ServerMods_button_Click);
+            // 
+            // changePathToArma3Server_button
+            // 
+            this.changePathToArma3Server_button.Location = new System.Drawing.Point(421, 6);
+            this.changePathToArma3Server_button.Name = "changePathToArma3Server_button";
+            this.changePathToArma3Server_button.Size = new System.Drawing.Size(26, 20);
+            this.changePathToArma3Server_button.TabIndex = 26;
+            this.changePathToArma3Server_button.Text = "...";
+            this.changePathToArma3Server_button.UseVisualStyleBackColor = true;
+            this.changePathToArma3Server_button.Click += new System.EventHandler(this.changePathToArma3Server_button_Click);
             // 
             // button8
             // 
@@ -540,125 +639,93 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // textBox10
+            // serverProfiles_textBox
             // 
-            this.textBox10.Location = new System.Drawing.Point(6, 175);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(441, 20);
-            this.textBox10.TabIndex = 11;
+            this.serverProfiles_textBox.Enabled = false;
+            this.serverProfiles_textBox.Location = new System.Drawing.Point(7, 110);
+            this.serverProfiles_textBox.Name = "serverProfiles_textBox";
+            this.serverProfiles_textBox.ReadOnly = true;
+            this.serverProfiles_textBox.Size = new System.Drawing.Size(409, 20);
+            this.serverProfiles_textBox.TabIndex = 11;
             // 
-            // label8
+            // serverCustomMods_listView
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 159);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "PROFILES";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 120);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(28, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "CFG";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 81);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "CONFIG";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 42);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(61, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "MODPATH";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 3);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "SERVERPATH";
-            // 
-            // listView9
-            // 
-            this.listView9.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.serverCustomMods_listView.CheckBoxes = true;
+            this.serverCustomMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader9});
-            this.listView9.FullRowSelect = true;
-            this.listView9.GridLines = true;
-            this.listView9.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView9.Location = new System.Drawing.Point(749, 3);
-            this.listView9.MultiSelect = false;
-            this.listView9.Name = "listView9";
-            this.listView9.Size = new System.Drawing.Size(290, 544);
-            this.listView9.TabIndex = 5;
-            this.listView9.UseCompatibleStateImageBehavior = false;
-            this.listView9.View = System.Windows.Forms.View.Details;
+            this.serverCustomMods_listView.FullRowSelect = true;
+            this.serverCustomMods_listView.GridLines = true;
+            this.serverCustomMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.serverCustomMods_listView.Location = new System.Drawing.Point(748, 6);
+            this.serverCustomMods_listView.MultiSelect = false;
+            this.serverCustomMods_listView.Name = "serverCustomMods_listView";
+            this.serverCustomMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.serverCustomMods_listView.TabIndex = 5;
+            this.serverCustomMods_listView.UseCompatibleStateImageBehavior = false;
+            this.serverCustomMods_listView.View = System.Windows.Forms.View.Details;
+            this.serverCustomMods_listView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.serverCustomMods_listView_ItemChecked);
+            this.serverCustomMods_listView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.serverCustomMods_listView_MouseDown);
             // 
             // columnHeader9
             // 
             this.columnHeader9.Text = "Custom Mods";
             this.columnHeader9.Width = 286;
             // 
-            // listView8
+            // serverPresetMods_listView
             // 
-            this.listView8.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.serverPresetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader8});
-            this.listView8.FullRowSelect = true;
-            this.listView8.GridLines = true;
-            this.listView8.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView8.Location = new System.Drawing.Point(453, 3);
-            this.listView8.MultiSelect = false;
-            this.listView8.Name = "listView8";
-            this.listView8.Size = new System.Drawing.Size(290, 544);
-            this.listView8.TabIndex = 4;
-            this.listView8.UseCompatibleStateImageBehavior = false;
-            this.listView8.View = System.Windows.Forms.View.Details;
+            this.serverPresetMods_listView.FullRowSelect = true;
+            this.serverPresetMods_listView.GridLines = true;
+            this.serverPresetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.serverPresetMods_listView.Location = new System.Drawing.Point(452, 6);
+            this.serverPresetMods_listView.MultiSelect = false;
+            this.serverPresetMods_listView.Name = "serverPresetMods_listView";
+            this.serverPresetMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.serverPresetMods_listView.TabIndex = 4;
+            this.serverPresetMods_listView.UseCompatibleStateImageBehavior = false;
+            this.serverPresetMods_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader8
             // 
             this.columnHeader8.Text = "Preset Mods";
-            this.columnHeader8.Width = 270;
+            this.columnHeader8.Width = 265;
             // 
-            // textBox9
+            // serverCfg_textBox
             // 
-            this.textBox9.Location = new System.Drawing.Point(6, 136);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(441, 20);
-            this.textBox9.TabIndex = 3;
+            this.serverCfg_textBox.Enabled = false;
+            this.serverCfg_textBox.Location = new System.Drawing.Point(7, 84);
+            this.serverCfg_textBox.Name = "serverCfg_textBox";
+            this.serverCfg_textBox.ReadOnly = true;
+            this.serverCfg_textBox.Size = new System.Drawing.Size(409, 20);
+            this.serverCfg_textBox.TabIndex = 3;
             // 
-            // textBox8
+            // serverConfig_textBox
             // 
-            this.textBox8.Location = new System.Drawing.Point(6, 97);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(441, 20);
-            this.textBox8.TabIndex = 2;
+            this.serverConfig_textBox.Enabled = false;
+            this.serverConfig_textBox.Location = new System.Drawing.Point(7, 58);
+            this.serverConfig_textBox.Name = "serverConfig_textBox";
+            this.serverConfig_textBox.ReadOnly = true;
+            this.serverConfig_textBox.Size = new System.Drawing.Size(409, 20);
+            this.serverConfig_textBox.TabIndex = 2;
             // 
-            // textBox7
+            // pathToArma3ServerMods_textBox
             // 
-            this.textBox7.Location = new System.Drawing.Point(6, 58);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(441, 20);
-            this.textBox7.TabIndex = 1;
+            this.pathToArma3ServerMods_textBox.Enabled = false;
+            this.pathToArma3ServerMods_textBox.Location = new System.Drawing.Point(7, 32);
+            this.pathToArma3ServerMods_textBox.Name = "pathToArma3ServerMods_textBox";
+            this.pathToArma3ServerMods_textBox.ReadOnly = true;
+            this.pathToArma3ServerMods_textBox.Size = new System.Drawing.Size(409, 20);
+            this.pathToArma3ServerMods_textBox.TabIndex = 1;
             // 
-            // textBox6
+            // pathToArma3Server_textBox
             // 
-            this.textBox6.Location = new System.Drawing.Point(6, 19);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(441, 20);
-            this.textBox6.TabIndex = 0;
+            this.pathToArma3Server_textBox.Enabled = false;
+            this.pathToArma3Server_textBox.Location = new System.Drawing.Point(7, 6);
+            this.pathToArma3Server_textBox.Name = "pathToArma3Server_textBox";
+            this.pathToArma3Server_textBox.ReadOnly = true;
+            this.pathToArma3Server_textBox.Size = new System.Drawing.Size(409, 20);
+            this.pathToArma3Server_textBox.TabIndex = 0;
             // 
             // tabPage4
             // 
@@ -674,13 +741,13 @@
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1044, 714);
             this.tabPage4.TabIndex = 0;
-            this.tabPage4.Text = "Compare Folders";
+            this.tabPage4.Text = "Server Verify";
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(194, 6);
+            this.button10.Location = new System.Drawing.Point(195, 6);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(183, 23);
+            this.button10.Size = new System.Drawing.Size(180, 23);
             this.button10.TabIndex = 17;
             this.button10.Text = "Sync Folders";
             this.button10.UseVisualStyleBackColor = true;
@@ -689,7 +756,7 @@
             // textBox11
             // 
             this.textBox11.Enabled = false;
-            this.textBox11.Location = new System.Drawing.Point(533, 36);
+            this.textBox11.Location = new System.Drawing.Point(534, 36);
             this.textBox11.Name = "textBox11";
             this.textBox11.ReadOnly = true;
             this.textBox11.Size = new System.Drawing.Size(505, 20);
@@ -697,18 +764,18 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(5, 6);
+            this.button9.Location = new System.Drawing.Point(9, 6);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(183, 23);
+            this.button9.Size = new System.Drawing.Size(180, 23);
             this.button9.TabIndex = 12;
-            this.button9.Text = "Compare";
+            this.button9.Text = "Verify";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // textBox12
             // 
             this.textBox12.Enabled = false;
-            this.textBox12.Location = new System.Drawing.Point(8, 36);
+            this.textBox12.Location = new System.Drawing.Point(9, 36);
             this.textBox12.Name = "textBox12";
             this.textBox12.ReadOnly = true;
             this.textBox12.Size = new System.Drawing.Size(507, 20);
@@ -721,7 +788,7 @@
             this.listView10.FullRowSelect = true;
             this.listView10.GridLines = true;
             this.listView10.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView10.Location = new System.Drawing.Point(533, 302);
+            this.listView10.Location = new System.Drawing.Point(534, 302);
             this.listView10.Name = "listView10";
             this.listView10.Size = new System.Drawing.Size(507, 406);
             this.listView10.TabIndex = 14;
@@ -740,7 +807,7 @@
             this.listView11.FullRowSelect = true;
             this.listView11.GridLines = true;
             this.listView11.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView11.Location = new System.Drawing.Point(533, 62);
+            this.listView11.Location = new System.Drawing.Point(534, 62);
             this.listView11.Name = "listView11";
             this.listView11.Size = new System.Drawing.Size(507, 234);
             this.listView11.TabIndex = 15;
@@ -759,7 +826,7 @@
             this.listView12.FullRowSelect = true;
             this.listView12.GridLines = true;
             this.listView12.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView12.Location = new System.Drawing.Point(8, 302);
+            this.listView12.Location = new System.Drawing.Point(9, 302);
             this.listView12.Name = "listView12";
             this.listView12.Size = new System.Drawing.Size(507, 406);
             this.listView12.TabIndex = 13;
@@ -778,7 +845,7 @@
             this.listView13.FullRowSelect = true;
             this.listView13.GridLines = true;
             this.listView13.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView13.Location = new System.Drawing.Point(8, 62);
+            this.listView13.Location = new System.Drawing.Point(9, 62);
             this.listView13.Name = "listView13";
             this.listView13.Size = new System.Drawing.Size(507, 234);
             this.listView13.TabIndex = 11;
@@ -798,6 +865,7 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Murshun Launcher";
@@ -816,59 +884,37 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListView listView2;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ListView listView3;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ListView listView4;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.ListView listView5;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button launch_button;
+        private System.Windows.Forms.TextBox xmlPath_textBox;
+        private System.Windows.Forms.CheckBox showScriptErrors_checkBox;
+        private System.Windows.Forms.Button addCustomMod_button;
+        private System.Windows.Forms.CheckBox joinTheServer_checkBox;
+        private System.Windows.Forms.TextBox defaultStartLine_textBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox advancedStartLine_textBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListView listView7;
+        private System.Windows.Forms.ListView clientCustomMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ListView listView6;
+        private System.Windows.Forms.ListView clientPresetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox verifyBeforeLaunch_checkBox;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ListView listView8;
+        private System.Windows.Forms.ListView serverPresetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.ListView listView9;
+        private System.Windows.Forms.TextBox serverCfg_textBox;
+        private System.Windows.Forms.TextBox serverConfig_textBox;
+        private System.Windows.Forms.TextBox pathToArma3ServerMods_textBox;
+        private System.Windows.Forms.TextBox pathToArma3Server_textBox;
+        private System.Windows.Forms.ListView serverCustomMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader9;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox serverProfiles_textBox;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox textBox11;
@@ -883,6 +929,32 @@
         private System.Windows.Forms.ListView listView13;
         private System.Windows.Forms.ColumnHeader columnHeader13;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button changePathToArma3ClientMods_button;
+        private System.Windows.Forms.Button changePathToArma3Client_button;
+        private System.Windows.Forms.TextBox pathToArma3ClientMods_textBox;
+        private System.Windows.Forms.TextBox pathToArma3Client_textBox;
+        private System.Windows.Forms.Button changeServerProfiles_button;
+        private System.Windows.Forms.Button changeServerCfg_button;
+        private System.Windows.Forms.Button changeServerConfig_button;
+        private System.Windows.Forms.Button changePathToArma3ServerMods_button;
+        private System.Windows.Forms.Button changePathToArma3Server_button;
+        private System.Windows.Forms.TextBox serverProfileName_textBox;
+        private System.Windows.Forms.Button addCustomServerMod;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ListView listView4;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ListView listView3;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button removeUncheckedMod_button;
+        private System.Windows.Forms.Button removeUncheckedServerMod_button;
     }
 }
 
