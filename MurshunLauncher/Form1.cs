@@ -20,7 +20,6 @@ namespace MurshunLauncher
         {
             InitializeComponent();
             
-            iniFilePath = iniDirectoryPath + "\\MurshunLauncherClient.ini";
             xmlFilePath = iniDirectoryPath + "\\MurshunLauncher.xml";
 
             pathToArma3Client_textBox.Text = pathToTheLauncher + "\\arma3.exe";
@@ -37,13 +36,6 @@ namespace MurshunLauncher
             if (!Directory.Exists(iniDirectoryPath))
             {
                 Directory.CreateDirectory(iniDirectoryPath);
-            }
-
-            if (File.Exists(iniFilePath))
-            {
-                ReadIniFile();
-                SaveXmlFile();
-                File.Delete(iniFilePath);
             }
 
             if (File.Exists(xmlFilePath))
@@ -79,12 +71,11 @@ namespace MurshunLauncher
                 GetWebModLine();
             }
 
-            label3.Text = "Version " + launcherVersion.ToString();
+            label3.Text = "Version " + launcherVersion;
         }
 
         string pathToTheLauncher = Directory.GetCurrentDirectory();
         string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
-        string iniFilePath;
         string xmlFilePath;
         string lastSelectedFolder;
 
@@ -96,28 +87,9 @@ namespace MurshunLauncher
 
         List<string> presetModsList;
 
-        double launcherVersion = 0.23;
+        double launcherVersion = 0.232;
 
-        public void ReadIniFile()
-        {
-            string[] infoFromIniFile = File.ReadAllLines(iniFilePath);
-            
-            foreach (string X in infoFromIniFile)
-            {
-                if (X.Contains("GAMEPATH="))
-                {
-                    pathToArma3Client_textBox.Text = X.Replace("GAMEPATH=", "");
-                }
-                if (X.Contains("MODPATH="))
-                {
-                    pathToArma3ClientMods_textBox.Text = X.Replace("MODPATH=", "");
-                }
-                if (X.Contains("CUSTOMMOD="))
-                {
-                    clientCustomMods_listView.Items.Add(X.Replace("CUSTOMMOD=", ""));
-                }
-            }
-        }
+        MurshunLauncherXmlSettings LauncherSettings;
 
         public class MurshunLauncherXmlSettings
         {
@@ -141,17 +113,18 @@ namespace MurshunLauncher
             public string serverCfg_textBox;
             public string serverProfiles_textBox;
             public string serverProfileName_textBox;
+            public bool hideWindow_checkBox;
         }
 
         public void ReadXmlFile()
         {
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
-            
+
             StreamReader reader = new StreamReader(xmlFilePath);
 
             try
             {
-                MurshunLauncherXmlSettings LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
+                LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
                 reader.Close();
 
                 pathToArma3Client_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
@@ -183,7 +156,8 @@ namespace MurshunLauncher
 
                 if (serverTabEnabled)
                 {
-                    button1.Visible = true;
+                    button1.Enabled = true;
+                    button2.Enabled = false;
                 }
 
                 pathToArma3Server_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
@@ -209,12 +183,13 @@ namespace MurshunLauncher
                 serverCfg_textBox.Text = LauncherSettings.serverCfg_textBox;
                 serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
                 serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
+                hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
             }
             catch
             {
                 reader.Close();
 
-                DialogResult dialogResult = MessageBox.Show("Create a new one?", "Xml file is corrupted", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Create a new one?", "Xml file is corrupted.", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -229,7 +204,7 @@ namespace MurshunLauncher
 
         public void SaveXmlFile()
         {
-            MurshunLauncherXmlSettings LauncherSettings = new MurshunLauncherXmlSettings();
+            LauncherSettings = new MurshunLauncherXmlSettings();
 
             LauncherSettings.pathToArma3Client_textBox = pathToArma3Client_textBox.Text;
             LauncherSettings.pathToArma3ClientMods_textBox = pathToArma3ClientMods_textBox.Text;
@@ -251,6 +226,7 @@ namespace MurshunLauncher
             LauncherSettings.serverCfg_textBox = serverCfg_textBox.Text;
             LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
             LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
+            LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
 
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -761,6 +737,9 @@ namespace MurshunLauncher
 
                 myProcess.StartInfo.FileName = pathToArma3Server_textBox.Text;
                 myProcess.StartInfo.Arguments = modLine;
+                if (hideWindow_checkBox.Checked) {
+                    myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                }
                 myProcess.Start();
                 myProcess.ProcessorAffinity = (System.IntPtr)12;
                 myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
@@ -1062,6 +1041,33 @@ namespace MurshunLauncher
                 SaveXmlFile();
 
             isCustomModsMouseButtonDown = false;
+        }
+
+        private void closeServer_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process[] processes = Process.GetProcessesByName("arma3server");
+
+                foreach (Process process in processes)
+                {
+                    process.Kill();
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void hideWindow_checkBox_Click(object sender, EventArgs e)
+        {
+            SaveXmlFile();
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher/releases");
         }
     }
 }

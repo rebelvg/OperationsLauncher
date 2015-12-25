@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.removeUncheckedMod_button = new System.Windows.Forms.Button();
             this.changePathToArma3ClientMods_button = new System.Windows.Forms.Button();
             this.changePathToArma3Client_button = new System.Windows.Forms.Button();
@@ -69,6 +70,8 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.closeServer_button = new System.Windows.Forms.Button();
+            this.hideWindow_checkBox = new System.Windows.Forms.CheckBox();
             this.removeUncheckedServerMod_button = new System.Windows.Forms.Button();
             this.addCustomServerMod = new System.Windows.Forms.Button();
             this.serverProfileName_textBox = new System.Windows.Forms.TextBox();
@@ -125,6 +128,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.linkLabel4);
             this.tabPage1.Controls.Add(this.removeUncheckedMod_button);
             this.tabPage1.Controls.Add(this.changePathToArma3ClientMods_button);
             this.tabPage1.Controls.Add(this.changePathToArma3Client_button);
@@ -154,9 +158,20 @@
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Client";
             // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.Location = new System.Drawing.Point(5, 673);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(40, 13);
+            this.linkLabel4.TabIndex = 28;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "GitHub";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
             // removeUncheckedMod_button
             // 
-            this.removeUncheckedMod_button.Location = new System.Drawing.Point(916, 556);
+            this.removeUncheckedMod_button.Location = new System.Drawing.Point(918, 556);
             this.removeUncheckedMod_button.Name = "removeUncheckedMod_button";
             this.removeUncheckedMod_button.Size = new System.Drawing.Size(120, 23);
             this.removeUncheckedMod_button.TabIndex = 27;
@@ -227,7 +242,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(4, 673);
+            this.linkLabel2.Location = new System.Drawing.Point(4, 653);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(80, 13);
             this.linkLabel2.TabIndex = 19;
@@ -238,7 +253,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(4, 653);
+            this.linkLabel1.Location = new System.Drawing.Point(4, 633);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(79, 13);
             this.linkLabel1.TabIndex = 18;
@@ -333,7 +348,7 @@
             // joinTheServer_checkBox
             // 
             this.joinTheServer_checkBox.AutoSize = true;
-            this.joinTheServer_checkBox.Location = new System.Drawing.Point(790, 676);
+            this.joinTheServer_checkBox.Location = new System.Drawing.Point(790, 673);
             this.joinTheServer_checkBox.Name = "joinTheServer_checkBox";
             this.joinTheServer_checkBox.Size = new System.Drawing.Size(97, 17);
             this.joinTheServer_checkBox.TabIndex = 9;
@@ -343,7 +358,7 @@
             // 
             // addCustomMod_button
             // 
-            this.addCustomMod_button.Location = new System.Drawing.Point(802, 556);
+            this.addCustomMod_button.Location = new System.Drawing.Point(804, 556);
             this.addCustomMod_button.Name = "addCustomMod_button";
             this.addCustomMod_button.Size = new System.Drawing.Size(108, 23);
             this.addCustomMod_button.TabIndex = 7;
@@ -374,11 +389,11 @@
             // 
             // launch_button
             // 
-            this.launch_button.Location = new System.Drawing.Point(902, 652);
+            this.launch_button.Location = new System.Drawing.Point(902, 653);
             this.launch_button.Name = "launch_button";
             this.launch_button.Size = new System.Drawing.Size(136, 55);
             this.launch_button.TabIndex = 0;
-            this.launch_button.Text = "LAUNCH";
+            this.launch_button.Text = "LAUNCH CLIENT";
             this.launch_button.UseVisualStyleBackColor = true;
             this.launch_button.Click += new System.EventHandler(this.launch_button_Click);
             // 
@@ -498,13 +513,13 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(381, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(180, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Create Verify File";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // listView1
@@ -528,6 +543,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.closeServer_button);
+            this.tabPage3.Controls.Add(this.hideWindow_checkBox);
             this.tabPage3.Controls.Add(this.removeUncheckedServerMod_button);
             this.tabPage3.Controls.Add(this.addCustomServerMod);
             this.tabPage3.Controls.Add(this.serverProfileName_textBox);
@@ -551,9 +568,30 @@
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // closeServer_button
+            // 
+            this.closeServer_button.Location = new System.Drawing.Point(902, 622);
+            this.closeServer_button.Name = "closeServer_button";
+            this.closeServer_button.Size = new System.Drawing.Size(136, 25);
+            this.closeServer_button.TabIndex = 35;
+            this.closeServer_button.Text = "CLOSE SERVER";
+            this.closeServer_button.UseVisualStyleBackColor = true;
+            this.closeServer_button.Click += new System.EventHandler(this.closeServer_button_Click);
+            // 
+            // hideWindow_checkBox
+            // 
+            this.hideWindow_checkBox.AutoSize = true;
+            this.hideWindow_checkBox.Location = new System.Drawing.Point(806, 653);
+            this.hideWindow_checkBox.Name = "hideWindow_checkBox";
+            this.hideWindow_checkBox.Size = new System.Drawing.Size(90, 17);
+            this.hideWindow_checkBox.TabIndex = 34;
+            this.hideWindow_checkBox.Text = "Hide Window";
+            this.hideWindow_checkBox.UseVisualStyleBackColor = true;
+            this.hideWindow_checkBox.Click += new System.EventHandler(this.hideWindow_checkBox_Click);
+            // 
             // removeUncheckedServerMod_button
             // 
-            this.removeUncheckedServerMod_button.Location = new System.Drawing.Point(919, 556);
+            this.removeUncheckedServerMod_button.Location = new System.Drawing.Point(918, 556);
             this.removeUncheckedServerMod_button.Name = "removeUncheckedServerMod_button";
             this.removeUncheckedServerMod_button.Size = new System.Drawing.Size(120, 23);
             this.removeUncheckedServerMod_button.TabIndex = 33;
@@ -563,7 +601,7 @@
             // 
             // addCustomServerMod
             // 
-            this.addCustomServerMod.Location = new System.Drawing.Point(805, 556);
+            this.addCustomServerMod.Location = new System.Drawing.Point(804, 556);
             this.addCustomServerMod.Name = "addCustomServerMod";
             this.addCustomServerMod.Size = new System.Drawing.Size(108, 23);
             this.addCustomServerMod.TabIndex = 32;
@@ -631,11 +669,11 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(903, 653);
+            this.button8.Location = new System.Drawing.Point(902, 653);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(136, 55);
             this.button8.TabIndex = 12;
-            this.button8.Text = "LAUNCH";
+            this.button8.Text = "LAUNCH SERVER";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
@@ -955,6 +993,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button removeUncheckedMod_button;
         private System.Windows.Forms.Button removeUncheckedServerMod_button;
+        private System.Windows.Forms.CheckBox hideWindow_checkBox;
+        private System.Windows.Forms.Button closeServer_button;
+        private System.Windows.Forms.LinkLabel linkLabel4;
     }
 }
 
