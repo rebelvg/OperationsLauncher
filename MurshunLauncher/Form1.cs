@@ -47,29 +47,7 @@ namespace MurshunLauncher
                 SaveXmlFile();
             }
 
-            if (File.Exists(iniDirectoryPath + "\\MurshunLauncherPreset.txt"))
-            {
-                string[] infoFromPresetFile = File.ReadAllLines(iniDirectoryPath + "\\MurshunLauncherPreset.txt");
-
-                string modsStringArray = infoFromPresetFile[0];
-
-                presetModsList = modsStringArray.Split(';').ToList();
-
-                presetModsList = presetModsList.Select(s => s.Replace("-mod=", "")).ToList();
-                presetModsList = presetModsList.Select(s => s.Replace(";", "")).ToList();
-                presetModsList.RemoveAll(s => String.IsNullOrEmpty(s.Trim()));
-                
-                RefreshPresetModsList();
-
-                Thread NewThread = new Thread(() => GetWebModLine());
-                NewThread.Start();
-            }
-            else
-            {
-                MessageBox.Show("MurshunLauncherPreset.txt not found. Trying to get it from Poddy...");
-
-                GetWebModLine();
-            }
+            ReadPresetFile();
 
             label3.Text = "Version " + launcherVersion;
         }
@@ -87,7 +65,7 @@ namespace MurshunLauncher
 
         List<string> presetModsList;
 
-        double launcherVersion = 0.232;
+        double launcherVersion = 0.233;
 
         MurshunLauncherXmlSettings LauncherSettings;
 
@@ -235,67 +213,28 @@ namespace MurshunLauncher
             writer.Close();
         }
 
-        public void RefreshInterface()
+        public void ReadPresetFile()
         {
-            foreach (ListViewItem X in clientPresetMods_listView.Items)
+            if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\arma3_murshun_preset.txt"))
             {
-                if (Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text + "\\addons") || Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text + "\\Addons"))
-                {
-                    if (X.BackColor != Color.Green)
-                    X.BackColor = Color.Green;
-                }
-                else
-                {
-                    if (X.BackColor != Color.Red)
-                    X.BackColor = Color.Red;
-                }
-            }
+                string[] infoFromPresetFile = File.ReadAllLines(pathToArma3ClientMods_textBox.Text + "\\arma3_murshun_preset.txt");
 
-            foreach (ListViewItem X in clientCustomMods_listView.Items)
+                string modsStringArray = infoFromPresetFile[0];
+
+                presetModsList = modsStringArray.Split(';').ToList();
+
+                presetModsList = presetModsList.Select(s => s.Replace("-mod=", "")).ToList();
+                presetModsList = presetModsList.Select(s => s.Replace(";", "")).ToList();
+                presetModsList.RemoveAll(s => String.IsNullOrEmpty(s.Trim()));
+
+                RefreshPresetModsList();
+            }
+            else
             {
-                if (Directory.Exists(X.Text + "\\addons") || Directory.Exists(X.Text + "\\Addons"))
-                {
-                    if (X.BackColor != Color.Green)
-                    X.BackColor = Color.Green;
-                }
-                else
-                {
-                    if (X.BackColor != Color.Red)
-                    X.BackColor = Color.Red;
-                }
+                MessageBox.Show(pathToArma3ClientMods_textBox.Text + "\\arma3_murshun_preset.txt not found. Trying to get it from Poddy...");
+
+                GetWebModLine();
             }
-
-            columnHeader7.Width = -2;
-
-            foreach (ListViewItem X in serverPresetMods_listView.Items)
-            {
-                if (Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text + "\\addons") || Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text + "\\Addons"))
-                {
-                    if (X.BackColor != Color.Green)
-                    X.BackColor = Color.Green;
-                }
-                else
-                {
-                    if (X.BackColor != Color.Red)
-                    X.BackColor = Color.Red;
-                }
-            }
-
-            foreach (ListViewItem X in serverCustomMods_listView.Items)
-            {
-                if (Directory.Exists(X.Text + "\\addons") || Directory.Exists(X.Text + "\\Addons"))
-                {
-                    if (X.BackColor != Color.Green)
-                    X.BackColor = Color.Green;
-                }
-                else
-                {
-                    if (X.BackColor != Color.Red)
-                    X.BackColor = Color.Red;
-                }
-            }
-
-            columnHeader9.Width = -2;
         }
 
         public void VerifyMods()
@@ -425,8 +364,6 @@ namespace MurshunLauncher
             try
             {
                 string webModLine = client.DownloadString("http://dedick.podkolpakom.net/arma/mods.php");
-
-                File.WriteAllText(iniDirectoryPath + "\\MurshunLauncherPreset.txt", webModLine);
                 
                 presetModsList = webModLine.Split(';').ToList();
 
@@ -437,28 +374,17 @@ namespace MurshunLauncher
                 if (InvokeRequired)
                 {
                     this.Invoke(new Action(() => RefreshPresetModsList()));
-                    this.Invoke(new Action(() => RefreshInterface()));
                 }
                 else
                 {
                     RefreshPresetModsList();
-                    RefreshInterface();
                 }
             }
             catch (Exception)
             {
-                if (InvokeRequired)
-                {
-                    this.Invoke(new Action(() => RefreshInterface()));
-                }
-                else
-                {
-                    RefreshInterface();
-                }
-
                 if (!InvokeRequired)
                 {
-                    MessageBox.Show("Couldn't retrieve MurshunLauncherPreset.txt from Poddy. Restart the launcher to try again.");
+                    MessageBox.Show("Couldn't retrieve preset list from Poddy. Restart the launcher to try again.");
                 }
             }
         }
@@ -478,6 +404,66 @@ namespace MurshunLauncher
             {
                 serverPresetMods_listView.Items.Add(X.Replace("@allinarmaterrainpack", "@allinarmaterrainpacklite"));
             }
+
+            foreach (ListViewItem X in clientPresetMods_listView.Items)
+            {
+                if (Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text + "\\addons") || Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text + "\\Addons"))
+                {
+                    if (X.BackColor != Color.Green)
+                        X.BackColor = Color.Green;
+                }
+                else
+                {
+                    if (X.BackColor != Color.Red)
+                        X.BackColor = Color.Red;
+                }
+            }
+
+            foreach (ListViewItem X in clientCustomMods_listView.Items)
+            {
+                if (Directory.Exists(X.Text + "\\addons") || Directory.Exists(X.Text + "\\Addons"))
+                {
+                    if (X.BackColor != Color.Green)
+                        X.BackColor = Color.Green;
+                }
+                else
+                {
+                    if (X.BackColor != Color.Red)
+                        X.BackColor = Color.Red;
+                }
+            }
+
+            columnHeader7.Width = -2;
+
+            foreach (ListViewItem X in serverPresetMods_listView.Items)
+            {
+                if (Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text + "\\addons") || Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text + "\\Addons"))
+                {
+                    if (X.BackColor != Color.Green)
+                        X.BackColor = Color.Green;
+                }
+                else
+                {
+                    if (X.BackColor != Color.Red)
+                        X.BackColor = Color.Red;
+                }
+            }
+
+            foreach (ListViewItem X in serverCustomMods_listView.Items)
+            {
+                if (Directory.Exists(X.Text + "\\addons") || Directory.Exists(X.Text + "\\Addons"))
+                {
+                    if (X.BackColor != Color.Green)
+                        X.BackColor = Color.Green;
+                }
+                else
+                {
+                    if (X.BackColor != Color.Red)
+                        X.BackColor = Color.Red;
+                }
+            }
+
+            columnHeader9.Width = -2;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -604,10 +590,6 @@ namespace MurshunLauncher
                     myProcess.StartInfo.FileName = pathToArma3Client_textBox.Text;
                     myProcess.StartInfo.Arguments = modLine;
                     myProcess.Start();
-
-                    Thread.Sleep(1000);
-
-                    System.Windows.Forms.Application.Exit();
                 }
                 else
                 {
@@ -628,7 +610,7 @@ namespace MurshunLauncher
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
                 
                 SaveXmlFile();
-                RefreshInterface();
+                RefreshPresetModsList();
             }
         }
 
@@ -860,7 +842,8 @@ namespace MurshunLauncher
                 pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
                 
                 SaveXmlFile();
-                RefreshInterface();
+                ReadPresetFile();
+                RefreshPresetModsList();
             }
         }
 
@@ -903,7 +886,8 @@ namespace MurshunLauncher
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
 
                 SaveXmlFile();
-                RefreshInterface();
+                ReadPresetFile();
+                RefreshPresetModsList();
             }
         }
 
@@ -973,7 +957,7 @@ namespace MurshunLauncher
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
                 SaveXmlFile();
-                RefreshInterface();
+                RefreshPresetModsList();
             }
         }
 
