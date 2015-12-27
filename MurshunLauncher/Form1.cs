@@ -523,78 +523,78 @@ namespace MurshunLauncher
 
         private void launch_button_Click(object sender, EventArgs e)
         {
-                SaveXmlFile();
+            SaveXmlFile();
 
-                if (verifyBeforeLaunch_checkBox.Checked)
+            if (verifyBeforeLaunch_checkBox.Checked)
+            {
+                VerifyMods();
+
+                if (missingFilesArray.Length == 0 && excessFilesArray.Length == 0)
                 {
-                    VerifyMods();
-
-                    if (missingFilesArray.Length == 0 && excessFilesArray.Length == 0)
-                    {
-                        MessageBox.Show("No missing or excess files.");
-                    }
-                    else
-                    {
-                        tabControl1.SelectedTab = tabPage2;
-                        return;
-                    }
-                }
-
-                string modLine;
-
-                modLine = defaultStartLine_textBox.Text;
-
-                if (advancedStartLine_textBox.Text != "")
-                {
-                    modLine = modLine + " " + advancedStartLine_textBox.Text;
-                }
-
-                if (showScriptErrors_checkBox.Checked)
-                {
-                    modLine = modLine + " -showscripterrors";
-                }
-
-                modLine = modLine + " \"-mod=";
-
-                foreach (ListViewItem X in clientPresetMods_listView.Items)
-                {
-                    modLine = modLine + pathToArma3ClientMods_textBox.Text + "\\" + X.Text + ";";
-                    if (X.BackColor == Color.Red)
-                    {
-                        MessageBox.Show(X.Text + " not found.");
-                        return;
-                    }
-                }
-
-                foreach (ListViewItem X in clientCustomMods_listView.CheckedItems)
-                {
-                    modLine = modLine + X.Text + ";";
-                    if (X.BackColor == Color.Red)
-                    {
-                        MessageBox.Show(X.Text + " not found.");
-                        return;
-                    }
-                }
-
-                modLine = modLine + "\"";
-
-                if (joinTheServer_checkBox.Checked)
-                {
-                    modLine = modLine + " -connect=109.87.76.153 -port=2302 -password=v";
-                }
-
-                if (File.Exists(pathToArma3Client_textBox.Text))
-                {
-                    Process myProcess = new Process();
-
-                    myProcess.StartInfo.FileName = pathToArma3Client_textBox.Text;
-                    myProcess.StartInfo.Arguments = modLine;
-                    myProcess.Start();
+                    MessageBox.Show("No missing or excess files.");
                 }
                 else
                 {
-                    MessageBox.Show("arma3.exe not found.");
+                    tabControl1.SelectedTab = tabPage2;
+                    return;
                 }
+            }
+
+            string modLine;
+
+            modLine = defaultStartLine_textBox.Text;
+
+            if (advancedStartLine_textBox.Text != "")
+            {
+                modLine = modLine + " " + advancedStartLine_textBox.Text;
+            }
+
+            if (showScriptErrors_checkBox.Checked)
+            {
+                modLine = modLine + " -showscripterrors";
+            }
+
+            modLine = modLine + " \"-mod=";
+
+            foreach (ListViewItem X in clientPresetMods_listView.Items)
+            {
+                modLine = modLine + pathToArma3ClientMods_textBox.Text + "\\" + X.Text + ";";
+                if (X.BackColor == Color.Red)
+                {
+                    MessageBox.Show(X.Text + " not found.");
+                    return;
+                }
+            }
+
+            foreach (ListViewItem X in clientCustomMods_listView.CheckedItems)
+            {
+                modLine = modLine + X.Text + ";";
+                if (X.BackColor == Color.Red)
+                {
+                    MessageBox.Show(X.Text + " not found.");
+                    return;
+                }
+            }
+
+            modLine = modLine + "\"";
+
+            if (joinTheServer_checkBox.Checked)
+            {
+                modLine = modLine + " -connect=109.87.76.153 -port=2302 -password=v";
+            }
+
+            if (File.Exists(pathToArma3Client_textBox.Text))
+            {
+                Process myProcess = new Process();
+
+                myProcess.StartInfo.FileName = pathToArma3Client_textBox.Text;
+                myProcess.StartInfo.Arguments = modLine;
+                myProcess.Start();
+            }
+            else
+            {
+                MessageBox.Show("arma3.exe not found.");
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
