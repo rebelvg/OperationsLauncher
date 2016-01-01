@@ -19,23 +19,39 @@ namespace MurshunLauncher
         public Form1()
         {
             InitializeComponent();
+
+            if (Process.GetProcessesByName("MurshunLauncher").Length > 1)
+            {
+                MessageBox.Show("Launcher is already running.");
+                System.Environment.Exit(1);
+            }
+
+            pathToTheLauncher = Directory.GetCurrentDirectory();
+            iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
             
             xmlFilePath = iniDirectoryPath + "\\MurshunLauncher.xml";
-
-            pathToArma3Client_textBox.Text = pathToTheLauncher + "\\arma3.exe";
-            pathToArma3ClientMods_textBox.Text = pathToTheLauncher;
-
-            pathToArma3Server_textBox.Text = pathToTheLauncher + "\\arma3server.exe";
-            pathToArma3ServerMods_textBox.Text = pathToTheLauncher;
-
-            lastSelectedFolder = pathToTheLauncher;
-
             xmlPath_textBox.Text = xmlFilePath;
-            defaultStartLine_textBox.Text = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
 
+            pathToArma3Client_textBox.Text = Directory.GetCurrentDirectory() + "\\arma3.exe";
+            pathToArma3ClientMods_textBox.Text = Directory.GetCurrentDirectory();
+            defaultStartLine_textBox.Text = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
+            lastSelectedFolder = Directory.GetCurrentDirectory();
+
+            pathToArma3Server_textBox.Text = Directory.GetCurrentDirectory() + "\\arma3server.exe";
+            pathToArma3ServerMods_textBox.Text = Directory.GetCurrentDirectory();
+            
+            launcherVersion = 0.234;
+            
             if (!Directory.Exists(iniDirectoryPath))
             {
-                Directory.CreateDirectory(iniDirectoryPath);
+                try
+                {
+                    Directory.CreateDirectory(iniDirectoryPath);
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't create a folder at " + iniDirectoryPath);
+                }
             }
 
             if (File.Exists(xmlFilePath))
@@ -52,39 +68,37 @@ namespace MurshunLauncher
             label3.Text = "Version " + launcherVersion;
         }
 
-        string pathToTheLauncher = Directory.GetCurrentDirectory();
-        string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
+        string pathToTheLauncher;
+        string iniDirectoryPath;
         string xmlFilePath;
         string lastSelectedFolder;
 
-        bool isCustomModsMouseButtonDown = false;
-        bool serverTabEnabled = false;
+        bool serverTabEnabled;
 
-        string[] missingFilesArray = {};
-        string[] excessFilesArray = {};
+        string[] missingFilesArray;
+        string[] excessFilesArray;
 
         List<string> presetModsList;
 
-        double launcherVersion = 0.233;
+        double launcherVersion;
 
         MurshunLauncherXmlSettings LauncherSettings;
 
         public class MurshunLauncherXmlSettings
         {
-            public string pathToArma3Client_textBox;
-            public string pathToArma3ClientMods_textBox;
-            public bool showScriptErrors_checkBox;
+            public string pathToArma3Client_textBox = Directory.GetCurrentDirectory() + "\\arma3.exe";
+            public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
             public bool joinTheServer_checkBox;
             public List<string> clientCustomMods_listView;
             public List<string> clientCheckedModsList_listView;
-            public string defaultStartLine_textBox;
+            public string defaultStartLine_textBox = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
             public string advancedStartLine_textBox;
-            public bool verifyBeforeLaunch_checkBox;            
-            public string lastSelectedFolder;
+            public bool verifyBeforeLaunch_checkBox;
+            public string lastSelectedFolder = Directory.GetCurrentDirectory();
             public bool serverTabEnabled;
 
-            public string pathToArma3Server_textBox;
-            public string pathToArma3ServerMods_textBox;
+            public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server.exe";
+            public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
             public List<string> serverCustomMods_listView;
             public List<string> serverCheckedModsList_listView;
             public string serverConfig_textBox;
@@ -107,7 +121,6 @@ namespace MurshunLauncher
 
                 pathToArma3Client_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
                 pathToArma3ClientMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
-                showScriptErrors_checkBox.Checked = LauncherSettings.showScriptErrors_checkBox;
                 joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
@@ -182,35 +195,41 @@ namespace MurshunLauncher
 
         public void SaveXmlFile()
         {
-            LauncherSettings = new MurshunLauncherXmlSettings();
+            try
+            {
+                LauncherSettings = new MurshunLauncherXmlSettings();
 
-            LauncherSettings.pathToArma3Client_textBox = pathToArma3Client_textBox.Text;
-            LauncherSettings.pathToArma3ClientMods_textBox = pathToArma3ClientMods_textBox.Text;
-            LauncherSettings.showScriptErrors_checkBox = showScriptErrors_checkBox.Checked;
-            LauncherSettings.joinTheServer_checkBox = joinTheServer_checkBox.Checked;
-            LauncherSettings.clientCustomMods_listView = clientCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-            LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
-            LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
-            LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
-            LauncherSettings.verifyBeforeLaunch_checkBox = verifyBeforeLaunch_checkBox.Checked;
-            LauncherSettings.lastSelectedFolder = lastSelectedFolder;
-            LauncherSettings.serverTabEnabled = serverTabEnabled;
+                LauncherSettings.pathToArma3Client_textBox = pathToArma3Client_textBox.Text;
+                LauncherSettings.pathToArma3ClientMods_textBox = pathToArma3ClientMods_textBox.Text;
+                LauncherSettings.joinTheServer_checkBox = joinTheServer_checkBox.Checked;
+                LauncherSettings.clientCustomMods_listView = clientCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+                LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
+                LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
+                LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
+                LauncherSettings.verifyBeforeLaunch_checkBox = verifyBeforeLaunch_checkBox.Checked;
+                LauncherSettings.lastSelectedFolder = lastSelectedFolder;
+                LauncherSettings.serverTabEnabled = serverTabEnabled;
 
-            LauncherSettings.pathToArma3Server_textBox = pathToArma3Server_textBox.Text;
-            LauncherSettings.pathToArma3ServerMods_textBox = pathToArma3ServerMods_textBox.Text;
-            LauncherSettings.serverCustomMods_listView = serverCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-            LauncherSettings.serverCheckedModsList_listView = serverCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
-            LauncherSettings.serverConfig_textBox = serverConfig_textBox.Text;
-            LauncherSettings.serverCfg_textBox = serverCfg_textBox.Text;
-            LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
-            LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
-            LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
+                LauncherSettings.pathToArma3Server_textBox = pathToArma3Server_textBox.Text;
+                LauncherSettings.pathToArma3ServerMods_textBox = pathToArma3ServerMods_textBox.Text;
+                LauncherSettings.serverCustomMods_listView = serverCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+                LauncherSettings.serverCheckedModsList_listView = serverCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
+                LauncherSettings.serverConfig_textBox = serverConfig_textBox.Text;
+                LauncherSettings.serverCfg_textBox = serverCfg_textBox.Text;
+                LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
+                LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
+                LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
 
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
-            System.IO.FileStream writer = System.IO.File.Create(xmlFilePath);
-            serializer.Serialize(writer, LauncherSettings);
-            writer.Close();
+                System.IO.FileStream writer = System.IO.File.Create(xmlFilePath);
+                serializer.Serialize(writer, LauncherSettings);
+                writer.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Saving xml settings failed.");
+            }
         }
 
         public void ReadPresetFile()
@@ -523,7 +542,7 @@ namespace MurshunLauncher
 
         private void launch_button_Click(object sender, EventArgs e)
         {
-            SaveXmlFile();
+            RefreshPresetModsList();
 
             if (verifyBeforeLaunch_checkBox.Checked)
             {
@@ -547,11 +566,6 @@ namespace MurshunLauncher
             if (advancedStartLine_textBox.Text != "")
             {
                 modLine = modLine + " " + advancedStartLine_textBox.Text;
-            }
-
-            if (showScriptErrors_checkBox.Checked)
-            {
-                modLine = modLine + " -showscripterrors";
             }
 
             modLine = modLine + " \"-mod=";
@@ -609,19 +623,18 @@ namespace MurshunLauncher
 
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
                 
-                SaveXmlFile();
                 RefreshPresetModsList();
             }
         }
 
         private void checkBox1_Click(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void checkBox2_Click(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -636,18 +649,18 @@ namespace MurshunLauncher
 
         private void checkBox3_Click(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             defaultStartLine_textBox.Text = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
-
-            SaveXmlFile();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
+            RefreshPresetModsList();
+
             button9_Click(sender, e);
 
             if (listView12.Items.Count != 0 || listView10.Items.Count != 0)
@@ -802,15 +815,12 @@ namespace MurshunLauncher
 
         private void clientCustomMods_listView_MouseDown(object sender, MouseEventArgs e)
         {
-            isCustomModsMouseButtonDown = true;
+
         }
 
         private void clientCustomMods_listView_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (isCustomModsMouseButtonDown)
-                SaveXmlFile();
 
-            isCustomModsMouseButtonDown = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -824,8 +834,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 pathToArma3Client_textBox.Text = selectFile.FileName;
-                
-                SaveXmlFile();
             }
         }
 
@@ -841,7 +849,6 @@ namespace MurshunLauncher
 
                 pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
                 
-                SaveXmlFile();
                 ReadPresetFile();
                 RefreshPresetModsList();
             }
@@ -849,12 +856,12 @@ namespace MurshunLauncher
 
         private void defaultStartLine_textBox_Leave(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void advancedStartLine_textBox_Leave(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void changePathToArma3Server_button_Click(object sender, EventArgs e)
@@ -868,8 +875,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 pathToArma3Server_textBox.Text = selectFile.FileName;
-
-                SaveXmlFile();
             }
         }
 
@@ -885,7 +890,6 @@ namespace MurshunLauncher
 
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
 
-                SaveXmlFile();
                 ReadPresetFile();
                 RefreshPresetModsList();
             }
@@ -902,8 +906,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 serverConfig_textBox.Text = selectFile.FileName;
-
-                SaveXmlFile();
             }
         }
 
@@ -918,8 +920,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 serverCfg_textBox.Text = selectFile.FileName;
-
-                SaveXmlFile();
             }
         }
 
@@ -934,14 +934,12 @@ namespace MurshunLauncher
                 lastSelectedFolder = chosenFolder.SelectedPath;
 
                 serverProfiles_textBox.Text = chosenFolder.SelectedPath;
-
-                SaveXmlFile();
             }
         }
 
         private void serverProfileName_textBox_Leave(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void addCustomServerMod_Click(object sender, EventArgs e)
@@ -956,7 +954,6 @@ namespace MurshunLauncher
 
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
-                SaveXmlFile();
                 RefreshPresetModsList();
             }
         }
@@ -995,8 +992,6 @@ namespace MurshunLauncher
                 if (!item.Checked)
                     item.Remove();
             }
-
-            SaveXmlFile();
         }
 
         private void removeUncheckedServerMod_button_Click(object sender, EventArgs e)
@@ -1010,21 +1005,16 @@ namespace MurshunLauncher
                 if (!item.Checked)
                     item.Remove();
             }
-
-            SaveXmlFile();
         }
 
         private void serverCustomMods_listView_MouseDown(object sender, MouseEventArgs e)
         {
-            isCustomModsMouseButtonDown = true;
+
         }
 
         private void serverCustomMods_listView_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (isCustomModsMouseButtonDown)
-                SaveXmlFile();
 
-            isCustomModsMouseButtonDown = false;
         }
 
         private void closeServer_button_Click(object sender, EventArgs e)
@@ -1046,12 +1036,60 @@ namespace MurshunLauncher
 
         private void hideWindow_checkBox_Click(object sender, EventArgs e)
         {
-            SaveXmlFile();
+
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher/releases");
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveXmlFile();
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://community.bistudio.com/wiki/Arma_3_Startup_Parameters");
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (defaultStartLine_textBox.Text.Contains("-showscripterrors"))
+            {
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace(" -showscripterrors", "");
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace("-showscripterrors", "");
+            }
+            else
+            {
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text + " -showscripterrors";
+            }
+        }
+
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (defaultStartLine_textBox.Text.Contains("-nologs"))
+            {
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace(" -nologs", "");
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace("-nologs", "");
+            }
+            else
+            {
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text + " -nologs";
+            }
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            Thread NewThread = new Thread(() => GetWebModLine());
+            NewThread.Start();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Thread NewThread = new Thread(() => GetWebModLine());
+            NewThread.Start();
         }
     }
 }

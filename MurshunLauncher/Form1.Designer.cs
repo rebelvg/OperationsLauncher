@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.linkLabel7 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.removeUncheckedMod_button = new System.Windows.Forms.Button();
             this.changePathToArma3ClientMods_button = new System.Windows.Forms.Button();
@@ -52,7 +55,6 @@
             this.defaultStartLine_textBox = new System.Windows.Forms.TextBox();
             this.joinTheServer_checkBox = new System.Windows.Forms.CheckBox();
             this.addCustomMod_button = new System.Windows.Forms.Button();
-            this.showScriptErrors_checkBox = new System.Windows.Forms.CheckBox();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
             this.launch_button = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -103,6 +105,8 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView13 = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -128,6 +132,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button4);
+            this.tabPage1.Controls.Add(this.linkLabel7);
+            this.tabPage1.Controls.Add(this.linkLabel6);
+            this.tabPage1.Controls.Add(this.linkLabel5);
             this.tabPage1.Controls.Add(this.linkLabel4);
             this.tabPage1.Controls.Add(this.removeUncheckedMod_button);
             this.tabPage1.Controls.Add(this.changePathToArma3ClientMods_button);
@@ -147,7 +155,6 @@
             this.tabPage1.Controls.Add(this.defaultStartLine_textBox);
             this.tabPage1.Controls.Add(this.joinTheServer_checkBox);
             this.tabPage1.Controls.Add(this.addCustomMod_button);
-            this.tabPage1.Controls.Add(this.showScriptErrors_checkBox);
             this.tabPage1.Controls.Add(this.xmlPath_textBox);
             this.tabPage1.Controls.Add(this.launch_button);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -157,6 +164,39 @@
             this.tabPage1.Size = new System.Drawing.Size(1044, 714);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Client";
+            // 
+            // linkLabel7
+            // 
+            this.linkLabel7.AutoSize = true;
+            this.linkLabel7.Location = new System.Drawing.Point(401, 420);
+            this.linkLabel7.Name = "linkLabel7";
+            this.linkLabel7.Size = new System.Drawing.Size(45, 13);
+            this.linkLabel7.TabIndex = 32;
+            this.linkLabel7.TabStop = true;
+            this.linkLabel7.Text = "-noLogs";
+            this.linkLabel7.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel7_LinkClicked);
+            // 
+            // linkLabel6
+            // 
+            this.linkLabel6.AutoSize = true;
+            this.linkLabel6.Location = new System.Drawing.Point(306, 420);
+            this.linkLabel6.Name = "linkLabel6";
+            this.linkLabel6.Size = new System.Drawing.Size(89, 13);
+            this.linkLabel6.TabIndex = 31;
+            this.linkLabel6.TabStop = true;
+            this.linkLabel6.Text = "-showScriptErrors";
+            this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Location = new System.Drawing.Point(6, 483);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(87, 13);
+            this.linkLabel5.TabIndex = 30;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "More Parameters";
+            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
             // 
             // linkLabel4
             // 
@@ -220,7 +260,7 @@
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(4, 420);
+            this.linkLabel3.Location = new System.Drawing.Point(6, 420);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(73, 13);
             this.linkLabel3.TabIndex = 22;
@@ -339,8 +379,10 @@
             // 
             // defaultStartLine_textBox
             // 
+            this.defaultStartLine_textBox.Enabled = false;
             this.defaultStartLine_textBox.Location = new System.Drawing.Point(8, 397);
             this.defaultStartLine_textBox.Name = "defaultStartLine_textBox";
+            this.defaultStartLine_textBox.ReadOnly = true;
             this.defaultStartLine_textBox.Size = new System.Drawing.Size(438, 20);
             this.defaultStartLine_textBox.TabIndex = 11;
             this.defaultStartLine_textBox.Leave += new System.EventHandler(this.defaultStartLine_textBox_Leave);
@@ -365,17 +407,6 @@
             this.addCustomMod_button.Text = "Add Custom Mod";
             this.addCustomMod_button.UseVisualStyleBackColor = true;
             this.addCustomMod_button.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // showScriptErrors_checkBox
-            // 
-            this.showScriptErrors_checkBox.AutoSize = true;
-            this.showScriptErrors_checkBox.Location = new System.Drawing.Point(333, 374);
-            this.showScriptErrors_checkBox.Name = "showScriptErrors_checkBox";
-            this.showScriptErrors_checkBox.Size = new System.Drawing.Size(113, 17);
-            this.showScriptErrors_checkBox.TabIndex = 5;
-            this.showScriptErrors_checkBox.Text = "Show Script Errors";
-            this.showScriptErrors_checkBox.UseVisualStyleBackColor = true;
-            this.showScriptErrors_checkBox.Click += new System.EventHandler(this.checkBox1_Click);
             // 
             // xmlPath_textBox
             // 
@@ -543,6 +574,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button5);
             this.tabPage3.Controls.Add(this.closeServer_button);
             this.tabPage3.Controls.Add(this.hideWindow_checkBox);
             this.tabPage3.Controls.Add(this.removeUncheckedServerMod_button);
@@ -581,11 +613,11 @@
             // hideWindow_checkBox
             // 
             this.hideWindow_checkBox.AutoSize = true;
-            this.hideWindow_checkBox.Location = new System.Drawing.Point(806, 653);
+            this.hideWindow_checkBox.Location = new System.Drawing.Point(814, 653);
             this.hideWindow_checkBox.Name = "hideWindow_checkBox";
-            this.hideWindow_checkBox.Size = new System.Drawing.Size(90, 17);
+            this.hideWindow_checkBox.Size = new System.Drawing.Size(82, 17);
             this.hideWindow_checkBox.TabIndex = 34;
-            this.hideWindow_checkBox.Text = "Hide Window";
+            this.hideWindow_checkBox.Text = "Hide Server";
             this.hideWindow_checkBox.UseVisualStyleBackColor = true;
             this.hideWindow_checkBox.Click += new System.EventHandler(this.hideWindow_checkBox_Click);
             // 
@@ -895,6 +927,26 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(660, 556);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(82, 23);
+            this.button4.TabIndex = 33;
+            this.button4.Text = "Refresh";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(660, 556);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(82, 23);
+            this.button5.TabIndex = 36;
+            this.button5.Text = "Refresh";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -907,6 +959,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Murshun Launcher";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -927,7 +980,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button launch_button;
         private System.Windows.Forms.TextBox xmlPath_textBox;
-        private System.Windows.Forms.CheckBox showScriptErrors_checkBox;
         private System.Windows.Forms.Button addCustomMod_button;
         private System.Windows.Forms.CheckBox joinTheServer_checkBox;
         private System.Windows.Forms.TextBox defaultStartLine_textBox;
@@ -996,6 +1048,11 @@
         private System.Windows.Forms.CheckBox hideWindow_checkBox;
         private System.Windows.Forms.Button closeServer_button;
         private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.LinkLabel linkLabel5;
+        private System.Windows.Forms.LinkLabel linkLabel6;
+        private System.Windows.Forms.LinkLabel linkLabel7;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 
