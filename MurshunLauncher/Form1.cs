@@ -32,15 +32,7 @@ namespace MurshunLauncher
             xmlFilePath = iniDirectoryPath + "\\MurshunLauncher.xml";
             xmlPath_textBox.Text = xmlFilePath;
 
-            pathToArma3Client_textBox.Text = Directory.GetCurrentDirectory() + "\\arma3.exe";
-            pathToArma3ClientMods_textBox.Text = Directory.GetCurrentDirectory();
-            defaultStartLine_textBox.Text = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
-            lastSelectedFolder = Directory.GetCurrentDirectory();
-
-            pathToArma3Server_textBox.Text = Directory.GetCurrentDirectory() + "\\arma3server.exe";
-            pathToArma3ServerMods_textBox.Text = Directory.GetCurrentDirectory();
-            
-            launcherVersion = 0.234;
+            string launcherVersion = "0.234";
             
             if (!Directory.Exists(iniDirectoryPath))
             {
@@ -60,7 +52,22 @@ namespace MurshunLauncher
             }
             else
             {
-                SaveXmlFile();
+                try
+                {
+                    LauncherSettings = new MurshunLauncherXmlSettings();
+
+                    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+
+                    System.IO.FileStream writer = System.IO.File.Create(xmlFilePath);
+                    serializer.Serialize(writer, LauncherSettings);
+                    writer.Close();
+
+                    ReadXmlFile();
+                }
+                catch
+                {
+                    MessageBox.Show("Saving xml settings failed.");
+                }
             }
 
             ReadPresetFile();
@@ -79,8 +86,6 @@ namespace MurshunLauncher
         string[] excessFilesArray;
 
         List<string> presetModsList;
-
-        double launcherVersion;
 
         MurshunLauncherXmlSettings LauncherSettings;
 
@@ -403,7 +408,13 @@ namespace MurshunLauncher
             {
                 if (!InvokeRequired)
                 {
-                    MessageBox.Show("Couldn't retrieve preset list from Poddy. Restart the launcher to try again.");
+                    MessageBox.Show("Couldn't retrieve preset list from Poddy. Press Refresh to try again.");
+                }
+                else
+                {
+                    this.Invoke(new Action(() => MessageBox.Show("Couldn't retrieve preset list from Poddy. Press Refresh to try again.")));
+
+                    this.Invoke(new Action(() => RefreshPresetModsList()));
                 }
             }
         }
