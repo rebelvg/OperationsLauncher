@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
@@ -72,6 +73,7 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
             this.closeServer_button = new System.Windows.Forms.Button();
             this.hideWindow_checkBox = new System.Windows.Forms.CheckBox();
             this.removeUncheckedServerMod_button = new System.Windows.Forms.Button();
@@ -105,8 +107,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView13 = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -116,6 +116,7 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -157,13 +158,23 @@
             this.tabPage1.Controls.Add(this.addCustomMod_button);
             this.tabPage1.Controls.Add(this.xmlPath_textBox);
             this.tabPage1.Controls.Add(this.launch_button);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabPage1.Size = new System.Drawing.Size(1044, 714);
+            this.tabPage1.Size = new System.Drawing.Size(1044, 711);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Client";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(660, 556);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(82, 23);
+            this.button4.TabIndex = 33;
+            this.button4.Text = "Refresh";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // linkLabel7
             // 
@@ -439,10 +450,10 @@
             this.tabPage2.Controls.Add(this.listView2);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.listView1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1044, 714);
+            this.tabPage2.Size = new System.Drawing.Size(1041, 711);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Client Verify";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -593,12 +604,22 @@
             this.tabPage3.Controls.Add(this.serverConfig_textBox);
             this.tabPage3.Controls.Add(this.pathToArma3ServerMods_textBox);
             this.tabPage3.Controls.Add(this.pathToArma3Server_textBox);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1044, 714);
+            this.tabPage3.Size = new System.Drawing.Size(1041, 711);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(660, 556);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(82, 23);
+            this.button5.TabIndex = 36;
+            this.button5.Text = "Refresh";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // closeServer_button
             // 
@@ -807,9 +828,9 @@
             this.tabPage4.Controls.Add(this.listView11);
             this.tabPage4.Controls.Add(this.listView12);
             this.tabPage4.Controls.Add(this.listView13);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1044, 714);
+            this.tabPage4.Size = new System.Drawing.Size(1041, 711);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Server Verify";
             // 
@@ -926,26 +947,6 @@
             // 
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(660, 556);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(82, 23);
-            this.button4.TabIndex = 33;
-            this.button4.Text = "Refresh";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click_1);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(660, 556);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(82, 23);
-            this.button5.TabIndex = 36;
-            this.button5.Text = "Refresh";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
