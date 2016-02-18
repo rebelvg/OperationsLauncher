@@ -60,9 +60,9 @@
             this.launch_button = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.verifyFilePath_textBox = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.verifyModsFolder_textBox = new System.Windows.Forms.TextBox();
             this.listView3 = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView4 = new System.Windows.Forms.ListView();
@@ -107,6 +107,7 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView13 = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -441,10 +442,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button7);
             this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.verifyFilePath_textBox);
             this.tabPage2.Controls.Add(this.button3);
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.verifyModsFolder_textBox);
             this.tabPage2.Controls.Add(this.listView3);
             this.tabPage2.Controls.Add(this.listView4);
             this.tabPage2.Controls.Add(this.listView2);
@@ -453,7 +455,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1041, 711);
+            this.tabPage2.Size = new System.Drawing.Size(1044, 711);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Client Verify";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -468,14 +470,14 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
-            // textBox2
+            // verifyFilePath_textBox
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(534, 36);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(505, 20);
-            this.textBox2.TabIndex = 8;
+            this.verifyFilePath_textBox.Enabled = false;
+            this.verifyFilePath_textBox.Location = new System.Drawing.Point(534, 36);
+            this.verifyFilePath_textBox.Name = "verifyFilePath_textBox";
+            this.verifyFilePath_textBox.ReadOnly = true;
+            this.verifyFilePath_textBox.Size = new System.Drawing.Size(472, 20);
+            this.verifyFilePath_textBox.TabIndex = 8;
             // 
             // button3
             // 
@@ -487,14 +489,14 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // textBox1
+            // verifyModsFolder_textBox
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(9, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(507, 20);
-            this.textBox1.TabIndex = 0;
+            this.verifyModsFolder_textBox.Enabled = false;
+            this.verifyModsFolder_textBox.Location = new System.Drawing.Point(9, 36);
+            this.verifyModsFolder_textBox.Name = "verifyModsFolder_textBox";
+            this.verifyModsFolder_textBox.ReadOnly = true;
+            this.verifyModsFolder_textBox.Size = new System.Drawing.Size(507, 20);
+            this.verifyModsFolder_textBox.TabIndex = 0;
             // 
             // listView3
             // 
@@ -606,7 +608,7 @@
             this.tabPage3.Controls.Add(this.pathToArma3Server_textBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1041, 711);
+            this.tabPage3.Size = new System.Drawing.Size(1044, 711);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -830,7 +832,7 @@
             this.tabPage4.Controls.Add(this.listView13);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1041, 711);
+            this.tabPage4.Size = new System.Drawing.Size(1044, 711);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Server Verify";
             // 
@@ -948,6 +950,16 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(1012, 35);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(26, 20);
+            this.button7.TabIndex = 27;
+            this.button7.Text = "...";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1031,13 +1043,13 @@
         private System.Windows.Forms.Button changePathToArma3Server_button;
         private System.Windows.Forms.TextBox serverProfileName_textBox;
         private System.Windows.Forms.Button addCustomServerMod;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox verifyFilePath_textBox;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ListView listView4;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox verifyModsFolder_textBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -1054,6 +1066,7 @@
         private System.Windows.Forms.LinkLabel linkLabel7;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button7;
     }
 }
 

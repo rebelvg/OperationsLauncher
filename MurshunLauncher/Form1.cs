@@ -32,7 +32,7 @@ namespace MurshunLauncher
             xmlFilePath = iniDirectoryPath + "\\MurshunLauncher.xml";
             xmlPath_textBox.Text = xmlFilePath;
 
-            string launcherVersion = "0.234";
+            string launcherVersion = "0.235";
             
             if (!Directory.Exists(iniDirectoryPath))
             {
@@ -73,12 +73,15 @@ namespace MurshunLauncher
             ReadPresetFile();
 
             label3.Text = "Version " + launcherVersion;
+
+            CheckSyncFolderSize();
         }
 
         string pathToTheLauncher;
         string iniDirectoryPath;
         string xmlFilePath;
         string lastSelectedFolder;
+        string verifyFilePath;
 
         bool serverTabEnabled;
 
@@ -101,6 +104,7 @@ namespace MurshunLauncher
             public bool verifyBeforeLaunch_checkBox;
             public string lastSelectedFolder = Directory.GetCurrentDirectory();
             public bool serverTabEnabled;
+            public string verifyFilePath = Directory.GetCurrentDirectory() + "\\MurshunLauncherFiles.txt";
 
             public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server.exe";
             public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
@@ -149,6 +153,7 @@ namespace MurshunLauncher
                 verifyBeforeLaunch_checkBox.Checked = LauncherSettings.verifyBeforeLaunch_checkBox;
                 lastSelectedFolder = LauncherSettings.lastSelectedFolder;
                 serverTabEnabled = LauncherSettings.serverTabEnabled;
+                verifyFilePath = LauncherSettings.verifyFilePath;
 
                 if (serverTabEnabled)
                 {
@@ -214,6 +219,7 @@ namespace MurshunLauncher
                 LauncherSettings.verifyBeforeLaunch_checkBox = verifyBeforeLaunch_checkBox.Checked;
                 LauncherSettings.lastSelectedFolder = lastSelectedFolder;
                 LauncherSettings.serverTabEnabled = serverTabEnabled;
+                LauncherSettings.verifyFilePath = verifyFilePath;
 
                 LauncherSettings.pathToArma3Server_textBox = pathToArma3Server_textBox.Text;
                 LauncherSettings.pathToArma3ServerMods_textBox = pathToArma3ServerMods_textBox.Text;
@@ -255,19 +261,34 @@ namespace MurshunLauncher
             }
             else
             {
-                MessageBox.Show(pathToArma3ClientMods_textBox.Text + "\\arma3_murshun_preset.txt not found. Trying to get it from Poddy...");
-
                 GetWebModLine();
             }
         }
 
         public void VerifyMods()
         {
-            if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt"))
-            {
-                textBox2.Text = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt";
+            verifyModsFolder_textBox.Text = pathToArma3ClientMods_textBox.Text;
 
-                string[] btsync_fileLinesArray = File.ReadAllLines(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt");
+            if (File.Exists(verifyFilePath))
+            {
+                verifyFilePath_textBox.Text = verifyFilePath;
+            }
+            else
+            {
+                if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt"))
+                {
+                    verifyFilePath_textBox.Text = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt";
+                }
+                else
+                {
+                    button7_Click(null, null);
+                }
+                
+            }
+
+            if (File.Exists(verifyFilePath))
+            {
+                string[] btsync_fileLinesArray = File.ReadAllLines(verifyFilePath);
 
                 List<string> btsync_fileLinesList = new List<string>();
 
@@ -299,9 +320,7 @@ namespace MurshunLauncher
                 foreach (string X in btsync_filesList)
                 {
                     listView4.Items.Add(X);
-                }
-
-                textBox1.Text = pathToArma3ClientMods_textBox.Text;
+                }                
 
                 string[] folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToArray();
                 string[] folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
@@ -432,7 +451,7 @@ namespace MurshunLauncher
 
             foreach (string X in presetModsList)
             {
-                serverPresetMods_listView.Items.Add(X.Replace("@allinarmaterrainpack", "@allinarmaterrainpacklite"));
+                serverPresetMods_listView.Items.Add(X);
             }
 
             foreach (ListViewItem X in clientPresetMods_listView.Items)
@@ -496,53 +515,68 @@ namespace MurshunLauncher
             columnHeader9.Width = -2;
         }
 
+        public void CheckSyncFolderSize()
+        {
+            string path = pathToArma3ClientMods_textBox.Text + "\\.sync\\Archive";
+
+            if (Directory.Exists(path))
+            {
+                string[] a = Directory.GetFiles(path, "*", SearchOption.AllDirectories).ToArray();
+
+                long b = 0;
+                foreach (string name in a)
+                {
+                    FileInfo info = new FileInfo(name);
+                    b += info.Length;
+                }
+
+                if ((b / 1024 / 1024 / 1024) >= 1)
+                {
+                    MessageBox.Show("Your btsync archive folder is too large. It's size is over " + (b / 1024 / 1024 / 1024) + " GB. You can clear it and disable archiving in the btsync client.");
+                    System.Diagnostics.Process.Start(path);
+                }
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog chosenFolder = new FolderBrowserDialog();
-            chosenFolder.Description = "Select client mods folder.";
-            chosenFolder.SelectedPath = pathToArma3ClientMods_textBox.Text;
+            verifyModsFolder_textBox.Text = pathToArma3ClientMods_textBox.Text;
 
-            if (chosenFolder.ShowDialog() == DialogResult.OK)
+            string[] folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToArray();
+            string[] folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
+
+            folder_foldersArray = folder_foldersArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).ToArray();
+            folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).ToArray();
+
+            listView1.Items.Clear();
+
+            foreach (string X in folder_foldersArray)
             {
-                textBox1.Text = chosenFolder.SelectedPath;
-
-                string[] folder_foldersArray = Directory.GetDirectories(chosenFolder.SelectedPath, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToArray();
-                string[] folder_filesArray = Directory.GetFiles(chosenFolder.SelectedPath, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
-
-                folder_foldersArray = folder_foldersArray.Select(s => s.Replace(chosenFolder.SelectedPath, "")).ToArray();
-                folder_filesArray = folder_filesArray.Select(s => s.Replace(chosenFolder.SelectedPath, "")).ToArray();
-
-                listView1.Items.Clear();
-
-                foreach (string X in folder_foldersArray)
+                if (X.Substring(0, 2) == "\\@" && presetModsList.Any(X.Contains))
                 {
-                    if (X.Substring(0, 2) == "\\@")
-                    {
-                        listView1.Items.Add(X);
-                    }
+                    listView1.Items.Add(X);
                 }
+            }
 
-                foreach (string X in folder_filesArray)
+            foreach (string X in folder_filesArray)
+            {
+                if (X.Substring(0, 2) == "\\@" && presetModsList.Any(X.Contains))
                 {
-                    if (X.Substring(0, 2) == "\\@")
-                    {
-                        FileInfo F = new FileInfo(chosenFolder.SelectedPath + X);
-                        listView1.Items.Add(X + ":" + F.Length);
-                    }
+                    FileInfo F = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
+                    listView1.Items.Add(X + ":" + F.Length);
                 }
+            }
 
-                SaveFileDialog saveFile = new SaveFileDialog();
+            SaveFileDialog saveFile = new SaveFileDialog();
 
-                saveFile.Title = "Save File Dialog";
-                saveFile.Filter = "Text File (.txt) | *.txt";
-                saveFile.FileName = "MurshunLauncherFiles.txt";
-                saveFile.InitialDirectory = pathToArma3ClientMods_textBox.Text;
-                saveFile.RestoreDirectory = true;
+            saveFile.Title = "Save File Dialog";
+            saveFile.Filter = "Text File (.txt) | *.txt";
+            saveFile.FileName = "MurshunLauncherFiles.txt";
+            saveFile.RestoreDirectory = true;
 
-                if (saveFile.ShowDialog() == DialogResult.OK)
-                {
-                    File.WriteAllLines(saveFile.FileName.ToString(), listView1.Items.Cast<ListViewItem>().Select(X => X.Text));
-                }
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllLines(saveFile.FileName, listView1.Items.Cast<ListViewItem>().Select(X => X.Text));
             }
         }
 
@@ -790,7 +824,7 @@ namespace MurshunLauncher
 
             foreach (string X in missingFilesList)
             {
-                if (!X.Contains("@allinarmaterrainpack"))
+                if (presetModsList.Any(X.Contains))
                 {
                     listView12.Items.Add(X);
                 }
@@ -798,9 +832,25 @@ namespace MurshunLauncher
 
             foreach (string X in excessFilesList)
             {
-                if (!X.Contains("@allinarmaterrainpack"))
+                if (presetModsList.Any(X.Contains))
                 {
                     listView10.Items.Add(X);
+                }
+            }
+        }
+
+        private void CheckPath(string path)
+        {
+            string[] paths = Path.GetDirectoryName(path).Split(Path.DirectorySeparatorChar);
+
+            string fullpath = paths[0];
+
+            foreach (string X in paths) {
+                if (X != paths[0])
+                {
+                    fullpath = fullpath + "\\" + X;
+                    if (!Directory.Exists(fullpath))
+                        Directory.CreateDirectory(fullpath);
                 }
             }
         }
@@ -818,6 +868,8 @@ namespace MurshunLauncher
 
             foreach (ListViewItem item in listView12.Items)
             {
+                CheckPath(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
+
                 File.Copy(pathToArma3ClientMods_textBox.Text + item.Text.Split(':')[0], pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0], true);
             }
 
@@ -1101,6 +1153,20 @@ namespace MurshunLauncher
         {
             Thread NewThread = new Thread(() => GetWebModLine());
             NewThread.Start();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog selectFile = new OpenFileDialog();
+
+            selectFile.Title = "Select MurshunLauncherFiles.txt";
+            selectFile.Filter = "Text File (.txt) | *.txt";
+            selectFile.RestoreDirectory = true;
+
+            if (selectFile.ShowDialog() == DialogResult.OK)
+            {
+                verifyFilePath = selectFile.FileName;
+            }
         }
     }
 }
