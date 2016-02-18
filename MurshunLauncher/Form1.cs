@@ -804,13 +804,13 @@ namespace MurshunLauncher
             foreach (string X in folder_clientFilesList)
             {
                 FileInfo F = new FileInfo(X);
-                listView13.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "") + ":" + F.Length);
+                listView13.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "") + ":" + F.Length + ":" + F.LastWriteTimeUtc);
             }
 
             foreach (string X in folder_serverFilesList)
             {
                 FileInfo F = new FileInfo(X);
-                listView11.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "") + ":" + F.Length);
+                listView11.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "") + ":" + F.Length + ":" + F.LastWriteTimeUtc);
             }
 
             folder_clientFilesList = listView13.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
