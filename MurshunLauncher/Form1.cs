@@ -717,15 +717,13 @@ namespace MurshunLauncher
             try
             {
                 List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.Replace("arma3.exe", "MPMissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
-
-                MessageBox.Show("Copying " + clientMissionlist.Count + " missions.");
-
+                
                 foreach (string X in clientMissionlist)
                 {
                     File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.Replace("arma3.exe", "MPMissions"), pathToArma3Server_textBox.Text.Replace("arma3server.exe", "mpmissions")), true);
                 }
 
-                MessageBox.Show("Done.");
+                MessageBox.Show("Copied " + clientMissionlist.Count + " missions.");
             }
             catch
             {
