@@ -107,7 +107,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView13 = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -442,7 +441,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button7);
             this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.verifyFilePath_textBox);
             this.tabPage2.Controls.Add(this.button3);
@@ -476,7 +474,7 @@
             this.verifyFilePath_textBox.Location = new System.Drawing.Point(534, 36);
             this.verifyFilePath_textBox.Name = "verifyFilePath_textBox";
             this.verifyFilePath_textBox.ReadOnly = true;
-            this.verifyFilePath_textBox.Size = new System.Drawing.Size(472, 20);
+            this.verifyFilePath_textBox.Size = new System.Drawing.Size(504, 20);
             this.verifyFilePath_textBox.TabIndex = 8;
             // 
             // button3
@@ -950,16 +948,6 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(1012, 35);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(26, 20);
-            this.button7.TabIndex = 27;
-            this.button7.Text = "...";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1066,7 +1054,6 @@
         private System.Windows.Forms.LinkLabel linkLabel7;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button7;
     }
 }
 

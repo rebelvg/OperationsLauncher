@@ -720,14 +720,12 @@ namespace MurshunLauncher
                 
                 foreach (string X in clientMissionlist)
                 {
-                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.Replace("arma3.exe", "MPMissions"), pathToArma3Server_textBox.Text.Replace("arma3server.exe", "mpmissions")), true);
+                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.Replace("arma3server.exe", "mpmissions")), true);
                 }
-
-                MessageBox.Show("Copied " + clientMissionlist.Count + " missions.");
             }
             catch
             {
-                MessageBox.Show("Can't find the mission folder.");
+                MessageBox.Show("Error copying missions.");
                 return;
             }
 
