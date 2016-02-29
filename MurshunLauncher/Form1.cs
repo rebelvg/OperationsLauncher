@@ -159,6 +159,9 @@ namespace MurshunLauncher
                 {
                     button1.Enabled = true;
                     button2.Enabled = false;
+
+                    panel1.Enabled = false;
+                    panel1.Visible = false;
                 }
 
                 pathToArma3Server_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
@@ -1031,13 +1034,7 @@ namespace MurshunLauncher
 
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (e.TabPage == tabPage3 || e.TabPage == tabPage4)
-            {
-                if (!serverTabEnabled)
-                {
-                    e.Cancel = true;
-                }
-            }
+
         }
 
         private void removeUncheckedMod_button_Click(object sender, EventArgs e)
