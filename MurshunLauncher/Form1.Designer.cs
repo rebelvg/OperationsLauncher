@@ -42,7 +42,6 @@
             this.pathToArma3ClientMods_textBox = new System.Windows.Forms.TextBox();
             this.pathToArma3Client_textBox = new System.Windows.Forms.TextBox();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.verifyBeforeLaunch_checkBox = new System.Windows.Forms.CheckBox();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -145,7 +144,6 @@
             this.tabPage1.Controls.Add(this.pathToArma3ClientMods_textBox);
             this.tabPage1.Controls.Add(this.pathToArma3Client_textBox);
             this.tabPage1.Controls.Add(this.linkLabel3);
-            this.tabPage1.Controls.Add(this.verifyBeforeLaunch_checkBox);
             this.tabPage1.Controls.Add(this.linkLabel2);
             this.tabPage1.Controls.Add(this.linkLabel1);
             this.tabPage1.Controls.Add(this.label3);
@@ -280,17 +278,6 @@
             this.linkLabel3.Text = "Load Defaults";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
-            // verifyBeforeLaunch_checkBox
-            // 
-            this.verifyBeforeLaunch_checkBox.AutoSize = true;
-            this.verifyBeforeLaunch_checkBox.Location = new System.Drawing.Point(790, 653);
-            this.verifyBeforeLaunch_checkBox.Name = "verifyBeforeLaunch_checkBox";
-            this.verifyBeforeLaunch_checkBox.Size = new System.Drawing.Size(106, 17);
-            this.verifyBeforeLaunch_checkBox.TabIndex = 21;
-            this.verifyBeforeLaunch_checkBox.Text = "Verify on Launch";
-            this.verifyBeforeLaunch_checkBox.UseVisualStyleBackColor = true;
-            this.verifyBeforeLaunch_checkBox.Click += new System.EventHandler(this.checkBox3_Click);
-            // 
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
@@ -402,11 +389,11 @@
             // joinTheServer_checkBox
             // 
             this.joinTheServer_checkBox.AutoSize = true;
-            this.joinTheServer_checkBox.Location = new System.Drawing.Point(790, 673);
+            this.joinTheServer_checkBox.Location = new System.Drawing.Point(797, 653);
             this.joinTheServer_checkBox.Name = "joinTheServer_checkBox";
-            this.joinTheServer_checkBox.Size = new System.Drawing.Size(97, 17);
+            this.joinTheServer_checkBox.Size = new System.Drawing.Size(99, 17);
             this.joinTheServer_checkBox.TabIndex = 9;
-            this.joinTheServer_checkBox.Text = "Join the Server";
+            this.joinTheServer_checkBox.Text = "Join on Launch";
             this.joinTheServer_checkBox.UseVisualStyleBackColor = true;
             this.joinTheServer_checkBox.Click += new System.EventHandler(this.checkBox2_Click);
             // 
@@ -635,11 +622,11 @@
             // hideWindow_checkBox
             // 
             this.hideWindow_checkBox.AutoSize = true;
-            this.hideWindow_checkBox.Location = new System.Drawing.Point(814, 653);
+            this.hideWindow_checkBox.Location = new System.Drawing.Point(806, 653);
             this.hideWindow_checkBox.Name = "hideWindow_checkBox";
-            this.hideWindow_checkBox.Size = new System.Drawing.Size(82, 17);
+            this.hideWindow_checkBox.Size = new System.Drawing.Size(90, 17);
             this.hideWindow_checkBox.TabIndex = 34;
-            this.hideWindow_checkBox.Text = "Hide Server";
+            this.hideWindow_checkBox.Text = "Hide Window";
             this.hideWindow_checkBox.UseVisualStyleBackColor = true;
             this.hideWindow_checkBox.Click += new System.EventHandler(this.hideWindow_checkBox_Click);
             // 
@@ -970,6 +957,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Murshun Launcher";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1003,7 +991,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.CheckBox verifyBeforeLaunch_checkBox;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListView serverPresetMods_listView;

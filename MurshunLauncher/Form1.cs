@@ -32,7 +32,7 @@ namespace MurshunLauncher
             xmlFilePath = iniDirectoryPath + "\\MurshunLauncher.xml";
             xmlPath_textBox.Text = xmlFilePath;
 
-            string launcherVersion = "0.235";
+            string launcherVersion = "0.236";
             
             if (!Directory.Exists(iniDirectoryPath))
             {
@@ -72,9 +72,7 @@ namespace MurshunLauncher
 
             ReadPresetFile();
 
-            label3.Text = "Version " + launcherVersion;
-
-            CheckSyncFolderSize();
+            label3.Text = "Version " + launcherVersion;            
         }
 
         string pathToTheLauncher;
@@ -85,8 +83,8 @@ namespace MurshunLauncher
 
         bool serverTabEnabled;
 
-        string[] missingFilesArray;
-        string[] excessFilesArray;
+        string[] missingFilesArray = {};
+        string[] excessFilesArray = {};
 
         List<string> presetModsList;
 
@@ -101,7 +99,6 @@ namespace MurshunLauncher
             public List<string> clientCheckedModsList_listView;
             public string defaultStartLine_textBox = "-world=empty -nosplash -skipintro -nologs -nofilepatching";
             public string advancedStartLine_textBox;
-            public bool verifyBeforeLaunch_checkBox;
             public string lastSelectedFolder = Directory.GetCurrentDirectory();
             public bool serverTabEnabled;
             public string verifyFilePath = Directory.GetCurrentDirectory() + "\\MurshunLauncherFiles.txt";
@@ -150,7 +147,6 @@ namespace MurshunLauncher
 
                 defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
                 advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
-                verifyBeforeLaunch_checkBox.Checked = LauncherSettings.verifyBeforeLaunch_checkBox;
                 lastSelectedFolder = LauncherSettings.lastSelectedFolder;
                 serverTabEnabled = LauncherSettings.serverTabEnabled;
                 verifyFilePath = LauncherSettings.verifyFilePath;
@@ -219,7 +215,6 @@ namespace MurshunLauncher
                 LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
                 LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
-                LauncherSettings.verifyBeforeLaunch_checkBox = verifyBeforeLaunch_checkBox.Checked;
                 LauncherSettings.lastSelectedFolder = lastSelectedFolder;
                 LauncherSettings.serverTabEnabled = serverTabEnabled;
                 LauncherSettings.verifyFilePath = verifyFilePath;
@@ -365,36 +360,19 @@ namespace MurshunLauncher
                 folder_filesArray = folder_filesList.ToArray();
 
                 excessFilesArray = folder_filesArray.Where(x => !btsync_fileLinesArray.Contains(x)).ToArray();
-
-                missingFilesArray = btsync_fileLinesArray.Where(x => !folder_filesArray.Contains(x)).ToArray();
-                missingFilesArray = missingFilesArray.Where(x => !folder_foldersArray.Contains(x)).ToArray();
+                missingFilesArray = btsync_fileLinesArray.Where(x => !folder_filesArray.Contains(x)).Where(x => !folder_foldersArray.Contains(x)).ToArray();
 
                 listView2.Items.Clear();
-
                 listView3.Items.Clear();
 
-                if (missingFilesArray.Length == 0)
+                foreach (string X in missingFilesArray)
                 {
-                    listView2.Items.Add("No missing files.");
-                }
-                else
-                {
-                    foreach (string X in missingFilesArray)
-                    {
-                        listView2.Items.Add(X);
-                    }
+                    listView2.Items.Add(X);
                 }
 
-                if (excessFilesArray.Length == 0)
+                foreach (string X in excessFilesArray)
                 {
-                    listView3.Items.Add("No excess files.");
-                }
-                else
-                {
-                    foreach (string X in excessFilesArray)
-                    {
-                        listView3.Items.Add(X);
-                    }
+                    listView3.Items.Add(X);
                 }
             }
             else
@@ -444,7 +422,6 @@ namespace MurshunLauncher
         public void RefreshPresetModsList()
         {
             clientPresetMods_listView.Items.Clear();
-
             serverPresetMods_listView.Items.Clear();
 
             foreach (string X in presetModsList)
@@ -592,19 +569,13 @@ namespace MurshunLauncher
         {
             RefreshPresetModsList();
 
-            if (verifyBeforeLaunch_checkBox.Checked)
-            {
-                VerifyMods();
+            VerifyMods();
 
-                if (missingFilesArray.Length == 0 && excessFilesArray.Length == 0)
-                {
-                    MessageBox.Show("No missing or excess files.");
-                }
-                else
-                {
-                    tabControl1.SelectedTab = tabPage2;
-                    return;
-                }
+            if (missingFilesArray.Length != 0 || excessFilesArray.Length != 0)
+            {
+                MessageBox.Show("You have missing or excess files.");
+                tabControl1.SelectedTab = tabPage2;
+                return;
             }
 
             string modLine;
@@ -1159,6 +1130,20 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 verifyFilePath = selectFile.FileName;
+            }
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            CheckSyncFolderSize();
+
+            VerifyMods();
+
+            if (missingFilesArray.Length != 0 || excessFilesArray.Length != 0)
+            {
+                MessageBox.Show("You have missing or excess files.");
+                tabControl1.SelectedTab = tabPage2;
+                return;
             }
         }
     }
