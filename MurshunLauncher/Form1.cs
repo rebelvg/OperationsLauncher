@@ -573,9 +573,13 @@ namespace MurshunLauncher
 
             if (missingFilesArray.Length != 0 || excessFilesArray.Length != 0)
             {
-                MessageBox.Show("You have missing or excess files.");
-                tabControl1.SelectedTab = tabPage2;
-                return;
+                DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.No)
+                {
+                    tabControl1.SelectedTab = tabPage2;
+                    return;
+                }
             }
 
             string modLine;
