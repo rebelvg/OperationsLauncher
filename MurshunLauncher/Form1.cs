@@ -68,7 +68,7 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.237";
+                string launcherVersion = "0.238";
                 label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
@@ -227,7 +227,7 @@ namespace MurshunLauncher
             }
             else
             {
-                MessageBox.Show("MurshunLauncherFiles.txt not found.");
+                MessageBox.Show("MurshunLauncherFiles.txt not found. Select your BTsync folder as Arma 3 Mods folder.");
             }
         }
 
