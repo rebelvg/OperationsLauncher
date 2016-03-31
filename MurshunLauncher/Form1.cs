@@ -11,6 +11,7 @@ using System.Net;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace MurshunLauncher
 {
@@ -68,12 +69,12 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.238";
+                string launcherVersion = "0.239";
                 label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {
-                MessageBox.Show("Launcher crashed while initializing.\n\n" + e);
+                MessageBox.Show("Launcher crashed while initializing. Try running it as administrator.\n\n" + e);
                 System.Environment.Exit(1);
             }
         }
@@ -223,11 +224,39 @@ namespace MurshunLauncher
             {
                 string[] btsync_fileLinesArray = File.ReadAllLines(murshunLauncherFilesPath);
 
-                presetModsList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).Select(s => s.Replace("\\", "")).ToList();                
+                presetModsList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).Select(s => s.Replace("\\", "")).ToList();
+
+                RefreshPresetModsList();
             }
             else
             {
-                MessageBox.Show("MurshunLauncherFiles.txt not found. Select your BTsync folder as Arma 3 Mods folder.");
+                Thread GetModsThread = new Thread(() => GetWebModLineNewThread());
+                GetModsThread.Start();
+            }
+        }
+
+        public void GetWebModLineNewThread()
+        {
+            WebClient client = new WebClient();
+
+            try
+            {
+                string modLineString = client.DownloadString("http://dedick.podkolpakom.net/arma/mods.php?json");
+
+                dynamic modLineJson = JsonConvert.DeserializeObject(modLineString);
+
+                presetModsList.Clear();
+
+                foreach (string X in modLineJson)
+                {
+                    presetModsList.Add(X);
+                }
+                
+                this.Invoke(new Action(() => RefreshPresetModsList()));
+            }
+            catch
+            {
+
             }
         }
 
@@ -240,7 +269,7 @@ namespace MurshunLauncher
                 string[] btsync_fileLinesArray = File.ReadAllLines(murshunLauncherFilesPath);
 
                 List<string> btsync_foldersList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).ToList();
-                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).ToList();                             
+                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).ToList();
 
                 string[] folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToArray();
                 string[] folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
@@ -279,7 +308,11 @@ namespace MurshunLauncher
                 {
                     clientExcessFiles_listView.Items.Add(X);
                 }
-            }            
+            }
+            else
+            {
+                MessageBox.Show("MurshunLauncherFiles.txt not found. Select your BTsync folder as Arma 3 Mods folder.");
+            }
         }
 
         public void RefreshPresetModsList()
@@ -424,7 +457,6 @@ namespace MurshunLauncher
         private void launch_button_Click(object sender, EventArgs e)
         {
             ReadPresetFile();
-            RefreshPresetModsList();
 
             VerifyMods();
 
@@ -491,7 +523,6 @@ namespace MurshunLauncher
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -512,8 +543,7 @@ namespace MurshunLauncher
 
         private void button8_Click(object sender, EventArgs e)
         {
-            ReadPresetFile();
-            RefreshPresetModsList();
+            GetWebModLineNewThread();
 
             button9_Click(null, null);
 
@@ -584,6 +614,8 @@ namespace MurshunLauncher
 
         private void button9_Click(object sender, EventArgs e)
         {
+            GetWebModLineNewThread();
+
             List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
             List<string> folder_serverFilesList = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
 
@@ -646,23 +678,28 @@ namespace MurshunLauncher
 
         private void button10_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Removing " + compareExcessFiles_listView.Items.Count + " files.");
+            DialogResult dialogResult = MessageBox.Show("Sync " + (compareExcessFiles_listView.Items.Count + compareMissingFiles_listView.Items.Count) + " files?", "", MessageBoxButtons.YesNo);
 
-            foreach (ListViewItem item in compareExcessFiles_listView.Items)
+            if (dialogResult == DialogResult.Yes)
             {
-                File.Delete(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
+                MessageBox.Show("Removing " + compareExcessFiles_listView.Items.Count + " files.");
+
+                foreach (ListViewItem item in compareExcessFiles_listView.Items)
+                {
+                    File.Delete(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
+                }
+
+                MessageBox.Show("Copying " + compareMissingFiles_listView.Items.Count + " files.");
+
+                foreach (ListViewItem item in compareMissingFiles_listView.Items)
+                {
+                    CheckPath(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
+
+                    File.Copy(pathToArma3ClientMods_textBox.Text + item.Text.Split(':')[0], pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0], true);
+                }
+
+                MessageBox.Show("Done.");
             }
-
-            MessageBox.Show("Copying " + compareMissingFiles_listView.Items.Count + " files.");
-
-            foreach (ListViewItem item in compareMissingFiles_listView.Items)
-            {
-                CheckPath(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
-
-                File.Copy(pathToArma3ClientMods_textBox.Text + item.Text.Split(':')[0], pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0], true);
-            }
-
-            MessageBox.Show("Done.");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -678,7 +715,6 @@ namespace MurshunLauncher
                 pathToArma3Client_textBox.Text = selectFile.FileName;
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -692,7 +728,6 @@ namespace MurshunLauncher
                 pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
                 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -709,7 +744,6 @@ namespace MurshunLauncher
                 pathToArma3Server_textBox.Text = selectFile.FileName;
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -723,7 +757,6 @@ namespace MurshunLauncher
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -740,7 +773,6 @@ namespace MurshunLauncher
                 serverConfig_textBox.Text = selectFile.FileName;
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -757,7 +789,6 @@ namespace MurshunLauncher
                 serverCfg_textBox.Text = selectFile.FileName;
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -771,7 +802,6 @@ namespace MurshunLauncher
                 serverProfiles_textBox.Text = chosenFolder.SelectedPath;
 
                 ReadPresetFile();
-                RefreshPresetModsList();
             }
         }
 
@@ -784,21 +814,23 @@ namespace MurshunLauncher
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
-                ReadPresetFile();
-                RefreshPresetModsList();
+                GetWebModLineNewThread();
             }
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("Removing " + clientExcessFiles_listView.Items.Count + " files.");
+            DialogResult dialogResult = MessageBox.Show("Remove " + clientExcessFiles_listView.Items.Count + " excess files?", "", MessageBoxButtons.YesNo);
 
-            foreach (ListViewItem X in clientExcessFiles_listView.Items)
+            if (dialogResult == DialogResult.Yes)
             {
-                File.Delete(pathToArma3ClientMods_textBox.Text + X.Text.Split(':')[0]);
-            }
+                foreach (ListViewItem X in clientExcessFiles_listView.Items)
+                {
+                    File.Delete(pathToArma3ClientMods_textBox.Text + X.Text.Split(':')[0]);
+                }
 
-            MessageBox.Show("Done.");
+                MessageBox.Show("Done.");
+            }
         }
 
         private void removeUncheckedMod_button_Click(object sender, EventArgs e)
@@ -880,7 +912,6 @@ namespace MurshunLauncher
         private void Form1_Shown(object sender, EventArgs e)
         {
             ReadPresetFile();
-            RefreshPresetModsList();
 
             CheckSyncFolderSize();
 
@@ -896,6 +927,8 @@ namespace MurshunLauncher
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)
         {
+            GetWebModLineNewThread();
+
             string[] folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
 
             folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).ToArray();
@@ -928,13 +961,11 @@ namespace MurshunLauncher
         private void refreshClient_button_Click(object sender, EventArgs e)
         {
             ReadPresetFile();
-            RefreshPresetModsList();
         }
 
         private void refreshServer_button_Click(object sender, EventArgs e)
         {
-            ReadPresetFile();
-            RefreshPresetModsList();
+            GetWebModLineNewThread();
         }
     }
 }
