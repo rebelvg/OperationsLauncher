@@ -69,8 +69,8 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.239";
-                label3.Text = "Version " + launcherVersion;
+                string launcherVersion = "0.24";
+                label3.Text = "Version " + launcherVersion;                
             }
             catch (Exception e)
             {
@@ -92,6 +92,7 @@ namespace MurshunLauncher
             public List<string> clientCheckedModsList_listView;
             public string defaultStartLine_textBox = "-world=empty -nosplash -skipintro -nofilepatching -nologs";
             public string advancedStartLine_textBox;
+            public bool showServerTabs_checkBox;
 
             public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server.exe";
             public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
@@ -118,6 +119,17 @@ namespace MurshunLauncher
                 pathToArma3Client_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
                 pathToArma3ClientMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
                 joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
+                defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
+                advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
+                showServerTabs_checkBox.Checked = LauncherSettings.showServerTabs_checkBox;
+
+                pathToArma3Server_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
+                pathToArma3ServerMods_textBox.Text = LauncherSettings.pathToArma3ServerMods_textBox;
+                serverConfig_textBox.Text = LauncherSettings.serverConfig_textBox;
+                serverCfg_textBox.Text = LauncherSettings.serverCfg_textBox;
+                serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
+                serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
+                hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -135,12 +147,6 @@ namespace MurshunLauncher
                     }
                 }
 
-                defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
-                advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
-
-                pathToArma3Server_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
-                pathToArma3ServerMods_textBox.Text = LauncherSettings.pathToArma3ServerMods_textBox;
-
                 foreach (string X in LauncherSettings.serverCustomMods_listView)
                 {
                     if (!serverCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).Contains(X))
@@ -157,11 +163,11 @@ namespace MurshunLauncher
                     }
                 }
 
-                serverConfig_textBox.Text = LauncherSettings.serverConfig_textBox;
-                serverCfg_textBox.Text = LauncherSettings.serverCfg_textBox;
-                serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
-                serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
-                hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
+                if (!LauncherSettings.showServerTabs_checkBox)
+                {
+                    tabControl1.Controls.Remove(tabPage3);
+                    tabControl1.Controls.Remove(tabPage4);
+                }
             }
             catch
             {
@@ -193,6 +199,7 @@ namespace MurshunLauncher
                 LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
                 LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
+                LauncherSettings.showServerTabs_checkBox = showServerTabs_checkBox.Checked;
 
                 LauncherSettings.pathToArma3Server_textBox = pathToArma3Server_textBox.Text;
                 LauncherSettings.pathToArma3ServerMods_textBox = pathToArma3ServerMods_textBox.Text;
@@ -282,7 +289,7 @@ namespace MurshunLauncher
 
                 foreach (string X in folder_filesArray)
                 {
-                    if (btsync_foldersList.Any(X.Contains))
+                    if (btsync_foldersList.Select(x => x + "\\").Any(X.Contains))
                     {
                         FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
                         clientModsFiles_listView.Items.Add(X + ":" + file.Length);
@@ -367,7 +374,7 @@ namespace MurshunLauncher
 
             foreach (ListViewItem X in clientPresetMods_listView.Items)
             {
-                if (Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text))
+                if (Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text + "\\addons"))
                 {
                     if (X.BackColor != Color.Green)
                         X.BackColor = Color.Green;
@@ -381,7 +388,7 @@ namespace MurshunLauncher
 
             foreach (ListViewItem X in clientCustomMods_listView.Items)
             {
-                if (Directory.Exists(X.Text))
+                if (Directory.Exists(X.Text + "\\addons"))
                 {
                     if (X.BackColor != Color.Green)
                         X.BackColor = Color.Green;
@@ -397,7 +404,7 @@ namespace MurshunLauncher
 
             foreach (ListViewItem X in serverPresetMods_listView.Items)
             {
-                if (Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text))
+                if (Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text + "\\addons"))
                 {
                     if (X.BackColor != Color.Green)
                         X.BackColor = Color.Green;
@@ -411,7 +418,7 @@ namespace MurshunLauncher
 
             foreach (ListViewItem X in serverCustomMods_listView.Items)
             {
-                if (Directory.Exists(X.Text))
+                if (Directory.Exists(X.Text + "\\addons"))
                 {
                     if (X.BackColor != Color.Green)
                         X.BackColor = Color.Green;
@@ -555,11 +562,11 @@ namespace MurshunLauncher
 
             try
             {
-                List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.Replace("arma3.exe", "mpmissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
+                List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
                 
                 foreach (string X in clientMissionlist)
                 {
-                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.Replace("arma3server.exe", "mpmissions")), true);
+                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions")), true);
                 }
             }
             catch
@@ -935,17 +942,14 @@ namespace MurshunLauncher
 
             List<string> infoToWrite = new List<string>();
 
-            foreach (string X in clientPresetMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text))
+            foreach (string X in presetModsList)
             {
-                if (presetModsList.Any(X.Contains))
-                {
-                    infoToWrite.Add("\\" + X);
-                }
+                infoToWrite.Add("\\" + X);
             }
 
             foreach (string X in folder_filesArray)
             {
-                if (presetModsList.Any(X.Contains))
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
                 {
                     FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
                     infoToWrite.Add(X + ":" + file.Length);
@@ -955,7 +959,7 @@ namespace MurshunLauncher
             File.WriteAllLines(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
             File.WriteAllLines(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
 
-            MessageBox.Show("MurshunLauncherFiles.txt saved.");
+            MessageBox.Show("MurshunLauncherFiles.txt was saved to client and server mods folder.");
         }
 
         private void refreshClient_button_Click(object sender, EventArgs e)
@@ -966,6 +970,20 @@ namespace MurshunLauncher
         private void refreshServer_button_Click(object sender, EventArgs e)
         {
             GetWebModLineNewThread();
+        }
+
+        private void showServerTabs_checkBox_Click(object sender, EventArgs e)
+        {
+            if (showServerTabs_checkBox.Checked)
+            {
+                tabControl1.Controls.Add(tabPage3);
+                tabControl1.Controls.Add(tabPage4);
+            }
+            else
+            {
+                tabControl1.Controls.Remove(tabPage3);
+                tabControl1.Controls.Remove(tabPage4);
+            }
         }
     }
 }

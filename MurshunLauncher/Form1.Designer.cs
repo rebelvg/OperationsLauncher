@@ -117,6 +117,7 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -142,6 +143,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
@@ -1040,6 +1042,17 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // showServerTabs_checkBox
+            // 
+            this.showServerTabs_checkBox.AutoSize = true;
+            this.showServerTabs_checkBox.Location = new System.Drawing.Point(902, 627);
+            this.showServerTabs_checkBox.Name = "showServerTabs_checkBox";
+            this.showServerTabs_checkBox.Size = new System.Drawing.Size(114, 17);
+            this.showServerTabs_checkBox.TabIndex = 37;
+            this.showServerTabs_checkBox.Text = "Show Server Tabs";
+            this.showServerTabs_checkBox.UseVisualStyleBackColor = true;
+            this.showServerTabs_checkBox.Click += new System.EventHandler(this.showServerTabs_checkBox_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1157,6 +1170,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox defaultStartLineServer_textBox;
+        private System.Windows.Forms.CheckBox showServerTabs_checkBox;
     }
 }
 
