@@ -69,7 +69,7 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.24";
+                string launcherVersion = "0.241";
                 label3.Text = "Version " + launcherVersion;                
             }
             catch (Exception e)
@@ -469,11 +469,12 @@ namespace MurshunLauncher
 
             if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
             {
+                tabControl1.SelectedTab = tabPage2;
+
                 DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.No)
                 {
-                    tabControl1.SelectedTab = tabPage2;
                     return;
                 }
             }
@@ -557,7 +558,13 @@ namespace MurshunLauncher
             if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
             {
                 tabControl1.SelectedTab = tabPage4;
-                return;
+
+                DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
             }
 
             try
@@ -652,7 +659,7 @@ namespace MurshunLauncher
 
             foreach (string X in missingFilesList)
             {
-                if (presetModsList.Any(X.Contains))
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
                 {
                     compareMissingFiles_listView.Items.Add(X);
                 }
@@ -660,7 +667,7 @@ namespace MurshunLauncher
 
             foreach (string X in excessFilesList)
             {
-                if (presetModsList.Any(X.Contains))
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
                 {
                     compareExcessFiles_listView.Items.Add(X);
                 }
