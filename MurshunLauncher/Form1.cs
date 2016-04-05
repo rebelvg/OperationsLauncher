@@ -473,6 +473,10 @@ namespace MurshunLauncher
 
                 DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
 
+                if (dialogResult == DialogResult.Yes)
+                {
+                    tabControl1.SelectedTab = tabPage1;
+                }
                 if (dialogResult == DialogResult.No)
                 {
                     return;
@@ -561,6 +565,10 @@ namespace MurshunLauncher
 
                 DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
 
+                if (dialogResult == DialogResult.Yes)
+                {
+                    tabControl1.SelectedTab = tabPage3;
+                }
                 if (dialogResult == DialogResult.No)
                 {
                     return;
