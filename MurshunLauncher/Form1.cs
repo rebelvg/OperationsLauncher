@@ -883,10 +883,15 @@ namespace MurshunLauncher
                 {
                     process.Kill();
                 }
+
+                if (processes.Count() > 0)
+                    MessageBox.Show("Server process closed.");
+                else
+                    MessageBox.Show("Server process not found.");
             }
             catch
             {
-
+                
             }
         }
 
