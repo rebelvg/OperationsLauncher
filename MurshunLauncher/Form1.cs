@@ -69,7 +69,7 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.241";
+                string launcherVersion = "0.242";
                 label3.Text = "Version " + launcherVersion;                
             }
             catch (Exception e)
@@ -492,19 +492,22 @@ namespace MurshunLauncher
                 modLine = modLine + " " + advancedStartLine_textBox.Text;
             }
 
-            modLine = modLine + " \"-mod=";
-
-            foreach (ListViewItem X in clientPresetMods_listView.Items)
+            if (clientPresetMods_listView.Items.Count > 0 || clientCustomMods_listView.CheckedItems.Count > 0)
             {
-                modLine = modLine + pathToArma3ClientMods_textBox.Text + "\\" + X.Text + ";";
-            }
+                modLine = modLine + " \"-mod=";
 
-            foreach (ListViewItem X in clientCustomMods_listView.CheckedItems)
-            {
-                modLine = modLine + X.Text + ";";
-            }
+                foreach (ListViewItem X in clientPresetMods_listView.Items)
+                {
+                    modLine = modLine + pathToArma3ClientMods_textBox.Text + "\\" + X.Text + ";";
+                }
 
-            modLine = modLine + "\"";
+                foreach (ListViewItem X in clientCustomMods_listView.CheckedItems)
+                {
+                    modLine = modLine + X.Text + ";";
+                }
+
+                modLine = modLine + "\"";
+            }
 
             if (joinTheServer_checkBox.Checked)
             {
@@ -578,7 +581,7 @@ namespace MurshunLauncher
             try
             {
                 List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
-                
+
                 foreach (string X in clientMissionlist)
                 {
                     File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions")), true);
@@ -602,19 +605,29 @@ namespace MurshunLauncher
 
             modLine = modLine + " -name=" + serverProfileName_textBox.Text;
 
-            modLine = modLine + " \"-mod=";
-
-            foreach (ListViewItem X in serverPresetMods_listView.Items)
+            if (serverPresetMods_listView.Items.Count > 0)
             {
-                modLine = modLine + pathToArma3ServerMods_textBox.Text + "\\" + X.Text + ";";
+                modLine = modLine + " \"-mod=";
+
+                foreach (ListViewItem X in serverPresetMods_listView.Items)
+                {
+                    modLine = modLine + pathToArma3ServerMods_textBox.Text + "\\" + X.Text + ";";
+                }
+
+                modLine = modLine + "\"";
             }
 
-            foreach (ListViewItem X in serverCustomMods_listView.CheckedItems)
+            if (serverCustomMods_listView.CheckedItems.Count > 0)
             {
-                modLine = modLine + X.Text + ";";
-            }
+                modLine = modLine + " \"-servermod=";
 
-            modLine = modLine + "\"";
+                foreach (ListViewItem X in serverCustomMods_listView.CheckedItems)
+                {
+                    modLine = modLine + X.Text + ";";
+                }
+
+                modLine = modLine + "\"";
+            }
 
             if (File.Exists(pathToArma3Server_textBox.Text))
             {
