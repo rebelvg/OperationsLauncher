@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -117,7 +119,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -143,6 +144,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
@@ -178,6 +180,26 @@
             this.tabPage1.Size = new System.Drawing.Size(1044, 711);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Client";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(7, 507);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(439, 80);
+            this.richTextBox1.TabIndex = 38;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            // 
+            // showServerTabs_checkBox
+            // 
+            this.showServerTabs_checkBox.AutoSize = true;
+            this.showServerTabs_checkBox.Location = new System.Drawing.Point(902, 627);
+            this.showServerTabs_checkBox.Name = "showServerTabs_checkBox";
+            this.showServerTabs_checkBox.Size = new System.Drawing.Size(114, 17);
+            this.showServerTabs_checkBox.TabIndex = 37;
+            this.showServerTabs_checkBox.Text = "Show Server Tabs";
+            this.showServerTabs_checkBox.UseVisualStyleBackColor = true;
+            this.showServerTabs_checkBox.Click += new System.EventHandler(this.showServerTabs_checkBox_Click);
             // 
             // label6
             // 
@@ -489,7 +511,6 @@
             // 
             // murshunLauncherFiles_textBox
             // 
-            this.murshunLauncherFiles_textBox.Enabled = false;
             this.murshunLauncherFiles_textBox.Location = new System.Drawing.Point(534, 36);
             this.murshunLauncherFiles_textBox.Name = "murshunLauncherFiles_textBox";
             this.murshunLauncherFiles_textBox.ReadOnly = true;
@@ -509,7 +530,6 @@
             // 
             // clientMods_textBox
             // 
-            this.clientMods_textBox.Enabled = false;
             this.clientMods_textBox.Location = new System.Drawing.Point(9, 36);
             this.clientMods_textBox.Name = "clientMods_textBox";
             this.clientMods_textBox.ReadOnly = true;
@@ -938,7 +958,6 @@
             // 
             // compareServerMods_textBox
             // 
-            this.compareServerMods_textBox.Enabled = false;
             this.compareServerMods_textBox.Location = new System.Drawing.Point(534, 36);
             this.compareServerMods_textBox.Name = "compareServerMods_textBox";
             this.compareServerMods_textBox.ReadOnly = true;
@@ -958,7 +977,6 @@
             // 
             // compareClientMods_textBox
             // 
-            this.compareClientMods_textBox.Enabled = false;
             this.compareClientMods_textBox.Location = new System.Drawing.Point(9, 36);
             this.compareClientMods_textBox.Name = "compareClientMods_textBox";
             this.compareClientMods_textBox.ReadOnly = true;
@@ -1041,17 +1059,6 @@
             // 
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
-            // 
-            // showServerTabs_checkBox
-            // 
-            this.showServerTabs_checkBox.AutoSize = true;
-            this.showServerTabs_checkBox.Location = new System.Drawing.Point(902, 627);
-            this.showServerTabs_checkBox.Name = "showServerTabs_checkBox";
-            this.showServerTabs_checkBox.Size = new System.Drawing.Size(114, 17);
-            this.showServerTabs_checkBox.TabIndex = 37;
-            this.showServerTabs_checkBox.Text = "Show Server Tabs";
-            this.showServerTabs_checkBox.UseVisualStyleBackColor = true;
-            this.showServerTabs_checkBox.Click += new System.EventHandler(this.showServerTabs_checkBox_Click);
             // 
             // Form1
             // 
@@ -1171,6 +1178,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox defaultStartLineServer_textBox;
         private System.Windows.Forms.CheckBox showServerTabs_checkBox;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

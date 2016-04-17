@@ -275,14 +275,14 @@ namespace MurshunLauncher
             {
                 string[] btsync_fileLinesArray = File.ReadAllLines(murshunLauncherFilesPath);
 
-                List<string> btsync_foldersList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).ToList();
-                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).ToList();
+                List<string> btsync_foldersList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).Select(s => s.ToLower()).ToList();
+                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).Select(s => s.ToLower()).Where(x => x.Split(':')[0].EndsWith(".pbo")).ToList();
 
-                string[] folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToArray();
-                string[] folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
+                List<string> folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToList();
+                List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*.pbo", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
 
-                folder_foldersArray = folder_foldersArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).ToArray();
-                folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).ToArray();
+                folder_foldersArray = folder_foldersArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(s => s.ToLower()).ToList();
+                folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(s => s.ToLower()).Where(x => x.StartsWith("\\@")).ToList();
                 
                 clientModsFiles_listView.Items.Clear();
                 murshunLauncherFiles_listView.Items.Clear();
@@ -301,7 +301,7 @@ namespace MurshunLauncher
                     murshunLauncherFiles_listView.Items.Add(X);
                 }
 
-                folder_filesArray = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+                folder_filesArray = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
                 clientMissingFiles_listView.Items.Clear();
                 clientExcessFiles_listView.Items.Clear();
@@ -315,6 +315,9 @@ namespace MurshunLauncher
                 {
                     clientExcessFiles_listView.Items.Add(X);
                 }
+
+                clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " pbos / " + clientMissingFiles_listView.Items.Count + " missing)";
+                murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt (" + murshunLauncherFiles_listView.Items.Count + " pbos / " + clientExcessFiles_listView.Items.Count + " excess)";
             }
             else
             {
@@ -660,13 +663,13 @@ namespace MurshunLauncher
             foreach (string X in folder_clientFilesList)
             {
                 FileInfo file = new FileInfo(X);
-                compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "") + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
             }
 
             foreach (string X in folder_serverFilesList)
             {
                 FileInfo file = new FileInfo(X);
-                compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "") + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
             }
 
             folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
@@ -693,6 +696,9 @@ namespace MurshunLauncher
                     compareExcessFiles_listView.Items.Add(X);
                 }
             }
+
+            compareClientMods_textBox.Text = "Client Mods (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
+            compareServerMods_textBox.Text = "Server Mods (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
         }
 
         private void CheckPath(string path)
@@ -969,9 +975,9 @@ namespace MurshunLauncher
         {
             GetWebModLineNewThread();
 
-            string[] folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToArray();
+            List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*.pbo", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
 
-            folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).ToArray();
+            folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(x => x.ToLower()).ToList();
 
             List<string> infoToWrite = new List<string>();
 
