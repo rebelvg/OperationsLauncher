@@ -662,14 +662,20 @@ namespace MurshunLauncher
 
             foreach (string X in folder_clientFilesList)
             {
-                FileInfo file = new FileInfo(X);
-                compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
+                {
+                    FileInfo file = new FileInfo(X);
+                    compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                }
             }
 
             foreach (string X in folder_serverFilesList)
             {
-                FileInfo file = new FileInfo(X);
-                compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
+                {
+                    FileInfo file = new FileInfo(X);
+                    compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                }
             }
 
             folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
@@ -683,18 +689,12 @@ namespace MurshunLauncher
 
             foreach (string X in missingFilesList)
             {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
-                {
-                    compareMissingFiles_listView.Items.Add(X);
-                }
+                compareMissingFiles_listView.Items.Add(X);
             }
 
             foreach (string X in excessFilesList)
             {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
-                {
-                    compareExcessFiles_listView.Items.Add(X);
-                }
+                compareExcessFiles_listView.Items.Add(X);
             }
 
             compareClientMods_textBox.Text = "Client Mods (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
