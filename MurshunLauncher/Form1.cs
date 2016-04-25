@@ -69,7 +69,7 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.242";
+                string launcherVersion = "0.243";
                 label3.Text = "Version " + launcherVersion;                
             }
             catch (Exception e)
@@ -1022,6 +1022,19 @@ namespace MurshunLauncher
             {
                 tabControl1.Controls.Remove(tabPage3);
                 tabControl1.Controls.Remove(tabPage4);
+            }
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (defaultStartLineServer_textBox.Text.Contains("-nologs"))
+            {
+                defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text.Replace(" -nologs", "");
+                defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text.Replace("-nologs", "");
+            }
+            else
+            {
+                defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text + " -nologs";
             }
         }
     }

@@ -119,6 +119,7 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -615,6 +616,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.linkLabel8);
             this.tabPage3.Controls.Add(this.label13);
             this.tabPage3.Controls.Add(this.defaultStartLineServer_textBox);
             this.tabPage3.Controls.Add(this.label12);
@@ -690,18 +692,18 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(8, 123);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 13);
+            this.label10.Size = new System.Drawing.Size(93, 13);
             this.label10.TabIndex = 40;
-            this.label10.Text = "Cfg (.cfg)";
+            this.label10.Text = "Basic Config (.cfg)";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(8, 84);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(64, 13);
+            this.label9.Size = new System.Drawing.Size(98, 13);
             this.label9.TabIndex = 39;
-            this.label9.Text = "Config (.cfg)";
+            this.label9.Text = "Server Config (.cfg)";
             // 
             // label8
             // 
@@ -1060,6 +1062,17 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // linkLabel8
+            // 
+            this.linkLabel8.AutoSize = true;
+            this.linkLabel8.Location = new System.Drawing.Point(401, 420);
+            this.linkLabel8.Name = "linkLabel8";
+            this.linkLabel8.Size = new System.Drawing.Size(45, 13);
+            this.linkLabel8.TabIndex = 45;
+            this.linkLabel8.TabStop = true;
+            this.linkLabel8.Text = "-noLogs";
+            this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1179,6 +1192,7 @@
         private System.Windows.Forms.TextBox defaultStartLineServer_textBox;
         private System.Windows.Forms.CheckBox showServerTabs_checkBox;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.LinkLabel linkLabel8;
     }
 }
 
