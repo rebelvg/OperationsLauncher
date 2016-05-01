@@ -12,6 +12,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using Newtonsoft.Json;
+using Ookii.Dialogs.Wpf;
 
 namespace MurshunLauncher
 {
@@ -69,8 +70,8 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.243";
-                label3.Text = "Version " + launcherVersion;                
+                string launcherVersion = "0.244";
+                label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {
@@ -533,10 +534,11 @@ namespace MurshunLauncher
 
         private void button6_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog chosenFolder = new FolderBrowserDialog();
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select custom mod folder.";
+            chosenFolder.UseDescriptionForTitle = true;
 
-            if (chosenFolder.ShowDialog() == DialogResult.OK)
+            if (chosenFolder.ShowDialog().Value)
             {
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
@@ -761,13 +763,14 @@ namespace MurshunLauncher
 
         private void button4_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog chosenFolder = new FolderBrowserDialog();
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select client mods folder.";
+            chosenFolder.UseDescriptionForTitle = true;
 
-            if (chosenFolder.ShowDialog() == DialogResult.OK)
+            if (chosenFolder.ShowDialog().Value)
             {
                 pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
-                
+
                 ReadPresetFile();
             }
         }
@@ -790,10 +793,11 @@ namespace MurshunLauncher
 
         private void changePathToArma3ServerMods_button_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog chosenFolder = new FolderBrowserDialog();
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select server mods folder.";
+            chosenFolder.UseDescriptionForTitle = true;
 
-            if (chosenFolder.ShowDialog() == DialogResult.OK)
+            if (chosenFolder.ShowDialog().Value)
             {
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
 
@@ -834,11 +838,12 @@ namespace MurshunLauncher
         }
 
         private void changeServerProfiles_button_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog chosenFolder = new FolderBrowserDialog();
+        {            
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select profiles folder.";
+            chosenFolder.UseDescriptionForTitle = true;
 
-            if (chosenFolder.ShowDialog() == DialogResult.OK)
+            if (chosenFolder.ShowDialog().Value)
             {
                 serverProfiles_textBox.Text = chosenFolder.SelectedPath;
 
@@ -848,10 +853,11 @@ namespace MurshunLauncher
 
         private void addCustomServerMod_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog chosenFolder = new FolderBrowserDialog();
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select custom mod folder.";
+            chosenFolder.UseDescriptionForTitle = true;
 
-            if (chosenFolder.ShowDialog() == DialogResult.OK)
+            if (chosenFolder.ShowDialog().Value)
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
