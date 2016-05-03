@@ -1038,7 +1038,7 @@ namespace MurshunLauncher
             }
             catch
             {
-
+                MessageBox.Show("There was an error on accessing the vps.");
             }
 
             MessageBox.Show("MurshunLauncherFiles.txt was saved to client and server mods folder.");
