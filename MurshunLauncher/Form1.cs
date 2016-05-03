@@ -70,7 +70,7 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.244";
+                string launcherVersion = "0.245";
                 label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
@@ -297,9 +297,13 @@ namespace MurshunLauncher
                     }
                 }
 
+                long totalSizeLocal = 0;
+
                 foreach (string X in btsync_filesList)
                 {
                     murshunLauncherFiles_listView.Items.Add(X);
+
+                    totalSizeLocal = totalSizeLocal + Convert.ToInt64(X.Split(':')[1]);
                 }
 
                 folder_filesArray = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
@@ -319,6 +323,24 @@ namespace MurshunLauncher
 
                 clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " pbos / " + clientMissingFiles_listView.Items.Count + " missing)";
                 murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt (" + murshunLauncherFiles_listView.Items.Count + " pbos / " + clientExcessFiles_listView.Items.Count + " excess)";
+
+                WebClient client = new WebClient();
+
+                try
+                {
+                    string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php");
+
+                    long totalSizeWeb = Convert.ToInt64(modLineString);
+
+                    if (totalSizeWeb != totalSizeLocal)
+                    {
+                        MessageBox.Show("Your MurshunLauncherFiles.txt is not up-to-date. Launch BTsync to update.");
+                    }
+                }
+                catch
+                {
+
+                }
             }
             else
             {
@@ -992,17 +1014,32 @@ namespace MurshunLauncher
                 infoToWrite.Add("\\" + X);
             }
 
+            long totalSize = 0;
+
             foreach (string X in folder_filesArray)
             {
                 if (presetModsList.Select(x => x + "\\").Any(X.Contains))
                 {
                     FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
                     infoToWrite.Add(X + ":" + file.Length);
+
+                    totalSize = totalSize + file.Length;
                 }
             }
 
             File.WriteAllLines(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
             File.WriteAllLines(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
+
+            WebClient client = new WebClient();
+
+            try
+            {
+                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php?size=" + totalSize);
+            }
+            catch
+            {
+
+            }
 
             MessageBox.Show("MurshunLauncherFiles.txt was saved to client and server mods folder.");
         }
