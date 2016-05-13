@@ -257,9 +257,9 @@ namespace MurshunLauncher
                 myProcess.StartInfo.Arguments = modLine;
                 if (hideWindow_checkBox.Checked)
                     myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                //myProcess.Start();
-                //myProcess.ProcessorAffinity = (System.IntPtr)12;
-                //myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
+                myProcess.Start();
+                myProcess.ProcessorAffinity = (System.IntPtr)12;
+                myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
             }
             else
             {
