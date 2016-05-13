@@ -472,13 +472,19 @@ namespace MurshunLauncher
         {
             bool copySuccess = true;
 
+            string arma3ClientMissionFolder = pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions");
+            string arma3ServerMissionFolder = pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions");
+
+            if (arma3ClientMissionFolder == arma3ServerMissionFolder)
+                return true;
+
             try
             {
-                List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
+                List<string> clientMissionlist = Directory.GetFiles(arma3ClientMissionFolder, "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
 
                 foreach (string X in clientMissionlist)
                 {
-                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions")), true);
+                    File.Copy(X, X.Replace(arma3ClientMissionFolder, arma3ServerMissionFolder), true);
                 }
             }
             catch
@@ -488,6 +494,23 @@ namespace MurshunLauncher
             }
 
             return copySuccess;
+        }
+
+        private void CheckPath(string filePath)
+        {
+            List<string> pathList = Path.GetDirectoryName(filePath).Split(Path.DirectorySeparatorChar).ToList();
+
+            string fullpath = pathList[0];
+
+            pathList.RemoveAt(0);
+
+            foreach (string X in pathList)
+            {
+                fullpath += "\\" + X;
+
+                if (!Directory.Exists(fullpath))
+                    Directory.CreateDirectory(fullpath);
+            }
         }
     }
 }

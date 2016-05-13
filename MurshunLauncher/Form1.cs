@@ -257,9 +257,9 @@ namespace MurshunLauncher
                 myProcess.StartInfo.Arguments = modLine;
                 if (hideWindow_checkBox.Checked)
                     myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                myProcess.Start();
-                myProcess.ProcessorAffinity = (System.IntPtr)12;
-                myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
+                //myProcess.Start();
+                //myProcess.ProcessorAffinity = (System.IntPtr)12;
+                //myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
             }
             else
             {
@@ -270,22 +270,6 @@ namespace MurshunLauncher
         private void button9_Click(object sender, EventArgs e)
         {
             CompareFolders();
-        }
-
-        private void CheckPath(string path)
-        {
-            string[] paths = Path.GetDirectoryName(path).Split(Path.DirectorySeparatorChar);
-
-            string fullpath = paths[0];
-
-            foreach (string X in paths) {
-                if (X != paths[0])
-                {
-                    fullpath = fullpath + "\\" + X;
-                    if (!Directory.Exists(fullpath))
-                        Directory.CreateDirectory(fullpath);
-                }
-            }
         }
 
         private void button10_Click(object sender, EventArgs e)
