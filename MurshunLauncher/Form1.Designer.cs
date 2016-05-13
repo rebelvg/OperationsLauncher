@@ -76,6 +76,7 @@
             this.clientModsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.label13 = new System.Windows.Forms.Label();
             this.defaultStartLineServer_textBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -119,7 +120,7 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.linkLabel8 = new System.Windows.Forms.LinkLabel();
+            this.checkTFAR_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -145,6 +146,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.checkTFAR_button);
             this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
             this.tabPage1.Controls.Add(this.label6);
@@ -194,7 +196,7 @@
             // showServerTabs_checkBox
             // 
             this.showServerTabs_checkBox.AutoSize = true;
-            this.showServerTabs_checkBox.Location = new System.Drawing.Point(902, 627);
+            this.showServerTabs_checkBox.Location = new System.Drawing.Point(782, 621);
             this.showServerTabs_checkBox.Name = "showServerTabs_checkBox";
             this.showServerTabs_checkBox.Size = new System.Drawing.Size(114, 17);
             this.showServerTabs_checkBox.TabIndex = 37;
@@ -446,7 +448,7 @@
             // joinTheServer_checkBox
             // 
             this.joinTheServer_checkBox.AutoSize = true;
-            this.joinTheServer_checkBox.Location = new System.Drawing.Point(797, 650);
+            this.joinTheServer_checkBox.Location = new System.Drawing.Point(782, 650);
             this.joinTheServer_checkBox.Name = "joinTheServer_checkBox";
             this.joinTheServer_checkBox.Size = new System.Drawing.Size(99, 17);
             this.joinTheServer_checkBox.TabIndex = 9;
@@ -650,6 +652,17 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel8
+            // 
+            this.linkLabel8.AutoSize = true;
+            this.linkLabel8.Location = new System.Drawing.Point(401, 420);
+            this.linkLabel8.Name = "linkLabel8";
+            this.linkLabel8.Size = new System.Drawing.Size(45, 13);
+            this.linkLabel8.TabIndex = 45;
+            this.linkLabel8.TabStop = true;
+            this.linkLabel8.Text = "-noLogs";
+            this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
             // 
             // label13
             // 
@@ -1062,16 +1075,15 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
-            // linkLabel8
+            // checkTFAR_button
             // 
-            this.linkLabel8.AutoSize = true;
-            this.linkLabel8.Location = new System.Drawing.Point(401, 420);
-            this.linkLabel8.Name = "linkLabel8";
-            this.linkLabel8.Size = new System.Drawing.Size(45, 13);
-            this.linkLabel8.TabIndex = 45;
-            this.linkLabel8.TabStop = true;
-            this.linkLabel8.Text = "-noLogs";
-            this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
+            this.checkTFAR_button.Location = new System.Drawing.Point(902, 621);
+            this.checkTFAR_button.Name = "checkTFAR_button";
+            this.checkTFAR_button.Size = new System.Drawing.Size(136, 23);
+            this.checkTFAR_button.TabIndex = 39;
+            this.checkTFAR_button.Text = "Check TFAR";
+            this.checkTFAR_button.UseVisualStyleBackColor = true;
+            this.checkTFAR_button.Click += new System.EventHandler(this.checkTFAR_button_Click);
             // 
             // Form1
             // 
@@ -1193,6 +1205,7 @@
         private System.Windows.Forms.CheckBox showServerTabs_checkBox;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.LinkLabel linkLabel8;
+        private System.Windows.Forms.Button checkTFAR_button;
     }
 }
 
