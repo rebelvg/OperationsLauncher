@@ -111,13 +111,11 @@ namespace MurshunLauncher
         {
             ReadPresetFile();
 
-            VerifyMods();
+            bool verifySuccess = VerifyMods();
 
-            if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
+            if (!verifySuccess)
             {
-                tabControl1.SelectedTab = tabPage2;
-
-                DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -138,22 +136,19 @@ namespace MurshunLauncher
                 modLine = modLine + " " + advancedStartLine_textBox.Text;
             }
 
-            if (clientPresetMods_listView.Items.Count > 0 || clientCustomMods_listView.CheckedItems.Count > 0)
+            modLine = modLine + " \"-mod=";
+
+            foreach (ListViewItem X in clientPresetMods_listView.Items)
             {
-                modLine = modLine + " \"-mod=";
-
-                foreach (ListViewItem X in clientPresetMods_listView.Items)
-                {
-                    modLine = modLine + pathToArma3ClientMods_textBox.Text + "\\" + X.Text + ";";
-                }
-
-                foreach (ListViewItem X in clientCustomMods_listView.CheckedItems)
-                {
-                    modLine = modLine + X.Text + ";";
-                }
-
-                modLine = modLine + "\"";
+                modLine = modLine + pathToArma3ClientMods_textBox.Text + "\\" + X.Text + ";";
             }
+
+            foreach (ListViewItem X in clientCustomMods_listView.CheckedItems)
+            {
+                modLine = modLine + X.Text + ";";
+            }
+
+            modLine = modLine + "\"";
 
             if (joinTheServer_checkBox.Checked)
             {
@@ -207,13 +202,12 @@ namespace MurshunLauncher
         {
             GetWebModLineNewThread();
 
-            button9_Click(null, null);
+            bool compareSuccess = CompareFolders();
+            bool copySuccess = CopyMissions();
 
-            if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
+            if (!compareSuccess || !copySuccess)
             {
-                tabControl1.SelectedTab = tabPage4;
-
-                DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "You have missing or excess files.", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -223,21 +217,6 @@ namespace MurshunLauncher
                 {
                     return;
                 }
-            }
-
-            try
-            {
-                List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
-
-                foreach (string X in clientMissionlist)
-                {
-                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions")), true);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error copying missions.");
-                return;
             }
 
             string modLine;
@@ -252,29 +231,23 @@ namespace MurshunLauncher
 
             modLine = modLine + " -name=" + serverProfileName_textBox.Text;
 
-            if (serverPresetMods_listView.Items.Count > 0)
+            modLine = modLine + " \"-mod=";
+
+            foreach (ListViewItem X in serverPresetMods_listView.Items)
             {
-                modLine = modLine + " \"-mod=";
-
-                foreach (ListViewItem X in serverPresetMods_listView.Items)
-                {
-                    modLine = modLine + pathToArma3ServerMods_textBox.Text + "\\" + X.Text + ";";
-                }
-
-                modLine = modLine + "\"";
+                modLine = modLine + pathToArma3ServerMods_textBox.Text + "\\" + X.Text + ";";
             }
 
-            if (serverCustomMods_listView.CheckedItems.Count > 0)
+            modLine = modLine + "\"";
+
+            modLine = modLine + " \"-servermod=";
+
+            foreach (ListViewItem X in serverCustomMods_listView.CheckedItems)
             {
-                modLine = modLine + " \"-servermod=";
-
-                foreach (ListViewItem X in serverCustomMods_listView.CheckedItems)
-                {
-                    modLine = modLine + X.Text + ";";
-                }
-
-                modLine = modLine + "\"";
+                modLine = modLine + X.Text + ";";
             }
+
+            modLine = modLine + "\"";
 
             if (File.Exists(pathToArma3Server_textBox.Text))
             {
@@ -296,53 +269,7 @@ namespace MurshunLauncher
 
         private void button9_Click(object sender, EventArgs e)
         {
-            GetWebModLineNewThread();
-
-            List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
-            List<string> folder_serverFilesList = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
-
-            compareClientFiles_listView.Items.Clear();
-            compareServerFiles_listView.Items.Clear();
-
-            foreach (string X in folder_clientFilesList)
-            {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
-                {
-                    FileInfo file = new FileInfo(X);
-                    compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
-                }
-            }
-
-            foreach (string X in folder_serverFilesList)
-            {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
-                {
-                    FileInfo file = new FileInfo(X);
-                    compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
-                }
-            }
-
-            folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-            folder_serverFilesList = compareServerFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-
-            List<string> missingFilesList = folder_clientFilesList.Where(x => !folder_serverFilesList.Contains(x)).ToList();
-            List<string> excessFilesList = folder_serverFilesList.Where(x => !folder_clientFilesList.Contains(x)).ToList();
-
-            compareMissingFiles_listView.Items.Clear();
-            compareExcessFiles_listView.Items.Clear();
-
-            foreach (string X in missingFilesList)
-            {
-                compareMissingFiles_listView.Items.Add(X);
-            }
-
-            foreach (string X in excessFilesList)
-            {
-                compareExcessFiles_listView.Items.Add(X);
-            }
-
-            compareClientMods_textBox.Text = "Client Mods (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
-            compareServerMods_textBox.Text = "Server Mods (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
+            CompareFolders();
         }
 
         private void CheckPath(string path)
@@ -610,13 +537,6 @@ namespace MurshunLauncher
             CheckSyncFolderSize();
 
             VerifyMods();
-
-            if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
-            {
-                MessageBox.Show("You have missing or excess files.");
-                tabControl1.SelectedTab = tabPage2;
-                return;
-            }
         }
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)

@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkTFAR_button = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -120,7 +121,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.checkTFAR_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -183,6 +183,16 @@
             this.tabPage1.Size = new System.Drawing.Size(1044, 711);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Client";
+            // 
+            // checkTFAR_button
+            // 
+            this.checkTFAR_button.Location = new System.Drawing.Point(902, 621);
+            this.checkTFAR_button.Name = "checkTFAR_button";
+            this.checkTFAR_button.Size = new System.Drawing.Size(136, 25);
+            this.checkTFAR_button.TabIndex = 39;
+            this.checkTFAR_button.Text = "Check TFAR";
+            this.checkTFAR_button.UseVisualStyleBackColor = true;
+            this.checkTFAR_button.Click += new System.EventHandler(this.checkTFAR_button_Click);
             // 
             // richTextBox1
             // 
@@ -1074,16 +1084,6 @@
             // 
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
-            // 
-            // checkTFAR_button
-            // 
-            this.checkTFAR_button.Location = new System.Drawing.Point(902, 621);
-            this.checkTFAR_button.Name = "checkTFAR_button";
-            this.checkTFAR_button.Size = new System.Drawing.Size(136, 23);
-            this.checkTFAR_button.TabIndex = 39;
-            this.checkTFAR_button.Text = "Check TFAR";
-            this.checkTFAR_button.UseVisualStyleBackColor = true;
-            this.checkTFAR_button.Click += new System.EventHandler(this.checkTFAR_button_Click);
             // 
             // Form1
             // 

@@ -161,8 +161,9 @@ namespace MurshunLauncher
             }
         }
 
-        public void VerifyMods()
+        public bool VerifyMods()
         {
+            bool verifySuccess = true;
             string murshunLauncherFilesPath = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt";
 
             if (File.Exists(murshunLauncherFilesPath))
@@ -217,6 +218,13 @@ namespace MurshunLauncher
                 clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " pbos / " + clientMissingFiles_listView.Items.Count + " missing)";
                 murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt (" + murshunLauncherFiles_listView.Items.Count + " pbos / " + clientExcessFiles_listView.Items.Count + " excess)";
 
+                if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
+                {
+                    MessageBox.Show("You have missing or excess files.");
+                    tabControl1.SelectedTab = tabPage2;
+                    verifySuccess = false;
+                }
+
                 WebClient client = new WebClient();
 
                 try
@@ -228,6 +236,7 @@ namespace MurshunLauncher
                     if (totalSizeWeb != totalSizeLocal)
                     {
                         MessageBox.Show("Your MurshunLauncherFiles.txt is not up-to-date. Launch BTsync to update.");
+                        verifySuccess = false;
                     }
                 }
                 catch
@@ -238,7 +247,10 @@ namespace MurshunLauncher
             else
             {
                 MessageBox.Show("MurshunLauncherFiles.txt not found. Select your BTsync folder as Arma 3 Mods folder.");
+                verifySuccess = false;
             }
+
+            return verifySuccess;
         }
 
         public void RefreshPresetModsList()
@@ -392,6 +404,90 @@ namespace MurshunLauncher
                 Thread GetModsThread = new Thread(() => GetWebModLineNewThread());
                 GetModsThread.Start();
             }
+        }
+
+        public bool CompareFolders()
+        {
+            bool compareSuccess = true;
+
+            GetWebModLineNewThread();
+
+            List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+            List<string> folder_serverFilesList = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+
+            compareClientFiles_listView.Items.Clear();
+            compareServerFiles_listView.Items.Clear();
+
+            foreach (string X in folder_clientFilesList)
+            {
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
+                {
+                    FileInfo file = new FileInfo(X);
+                    compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                }
+            }
+
+            foreach (string X in folder_serverFilesList)
+            {
+                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
+                {
+                    FileInfo file = new FileInfo(X);
+                    compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+                }
+            }
+
+            folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+            folder_serverFilesList = compareServerFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+
+            List<string> missingFilesList = folder_clientFilesList.Where(x => !folder_serverFilesList.Contains(x)).ToList();
+            List<string> excessFilesList = folder_serverFilesList.Where(x => !folder_clientFilesList.Contains(x)).ToList();
+
+            compareMissingFiles_listView.Items.Clear();
+            compareExcessFiles_listView.Items.Clear();
+
+            foreach (string X in missingFilesList)
+            {
+                compareMissingFiles_listView.Items.Add(X);
+            }
+
+            foreach (string X in excessFilesList)
+            {
+                compareExcessFiles_listView.Items.Add(X);
+            }
+
+            compareClientMods_textBox.Text = "Client Mods (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
+            compareServerMods_textBox.Text = "Server Mods (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
+
+            if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
+            {
+                MessageBox.Show("You have missing or excess files.");
+                tabControl1.SelectedTab = tabPage4;
+                compareSuccess = false;
+            }            
+
+            return compareSuccess;
+        }
+
+        public bool CopyMissions()
+        {
+            bool copySuccess = true;
+
+            try
+            {
+                List<string> clientMissionlist = Directory.GetFiles(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
+
+                foreach (string X in clientMissionlist)
+                {
+                    File.Copy(X, X.Replace(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions"), pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions")), true);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error copying missions.");
+                copySuccess = false;
+            }
+
+            return copySuccess;
         }
     }
 }
