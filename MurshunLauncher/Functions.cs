@@ -171,10 +171,10 @@ namespace MurshunLauncher
                 string[] btsync_fileLinesArray = File.ReadAllLines(murshunLauncherFilesPath);
 
                 List<string> btsync_foldersList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).Select(s => s.ToLower()).ToList();
-                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).Select(s => s.ToLower()).Where(x => x.Split(':')[0].EndsWith(".pbo")).ToList();
+                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).Select(s => s.ToLower()).ToList();
 
                 List<string> folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToList();
-                List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*.pbo", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+                List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
 
                 folder_foldersArray = folder_foldersArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(s => s.ToLower()).ToList();
                 folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(s => s.ToLower()).Where(x => x.StartsWith("\\@")).ToList();
@@ -215,8 +215,8 @@ namespace MurshunLauncher
                     clientExcessFiles_listView.Items.Add(X);
                 }
 
-                clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " pbos / " + clientMissingFiles_listView.Items.Count + " missing)";
-                murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt (" + murshunLauncherFiles_listView.Items.Count + " pbos / " + clientExcessFiles_listView.Items.Count + " excess)";
+                clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
+                murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
 
                 if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
                 {

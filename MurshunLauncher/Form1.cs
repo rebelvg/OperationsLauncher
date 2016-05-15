@@ -70,7 +70,7 @@ namespace MurshunLauncher
                     }
                 }
 
-                string launcherVersion = "0.246";
+                string launcherVersion = "0.247";
                 label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
@@ -527,7 +527,7 @@ namespace MurshunLauncher
         {
             GetWebModLineNewThread();
 
-            List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*.pbo", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+            List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
 
             folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(x => x.ToLower()).ToList();
 
