@@ -121,6 +121,8 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.copyMissions_button = new System.Windows.Forms.Button();
+            this.checkACRE2_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -146,6 +148,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.checkACRE2_button);
             this.tabPage1.Controls.Add(this.checkTFAR_button);
             this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
@@ -190,7 +193,7 @@
             this.checkTFAR_button.Name = "checkTFAR_button";
             this.checkTFAR_button.Size = new System.Drawing.Size(136, 25);
             this.checkTFAR_button.TabIndex = 39;
-            this.checkTFAR_button.Text = "Check TFAR";
+            this.checkTFAR_button.Text = "CHECK TFAR";
             this.checkTFAR_button.UseVisualStyleBackColor = true;
             this.checkTFAR_button.Click += new System.EventHandler(this.checkTFAR_button_Click);
             // 
@@ -628,6 +631,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.copyMissions_button);
             this.tabPage3.Controls.Add(this.linkLabel8);
             this.tabPage3.Controls.Add(this.label13);
             this.tabPage3.Controls.Add(this.defaultStartLineServer_textBox);
@@ -1085,6 +1089,26 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // copyMissions_button
+            // 
+            this.copyMissions_button.Location = new System.Drawing.Point(902, 588);
+            this.copyMissions_button.Name = "copyMissions_button";
+            this.copyMissions_button.Size = new System.Drawing.Size(136, 25);
+            this.copyMissions_button.TabIndex = 46;
+            this.copyMissions_button.Text = "COPY MISSIONS";
+            this.copyMissions_button.UseVisualStyleBackColor = true;
+            this.copyMissions_button.Click += new System.EventHandler(this.copyMissions_button_Click);
+            // 
+            // checkACRE2_button
+            // 
+            this.checkACRE2_button.Location = new System.Drawing.Point(902, 590);
+            this.checkACRE2_button.Name = "checkACRE2_button";
+            this.checkACRE2_button.Size = new System.Drawing.Size(136, 25);
+            this.checkACRE2_button.TabIndex = 40;
+            this.checkACRE2_button.Text = "CHECK ACRE2";
+            this.checkACRE2_button.UseVisualStyleBackColor = true;
+            this.checkACRE2_button.Click += new System.EventHandler(this.checkACRE2_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1206,6 +1230,8 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.Button checkTFAR_button;
+        private System.Windows.Forms.Button checkACRE2_button;
+        private System.Windows.Forms.Button copyMissions_button;
     }
 }
 
