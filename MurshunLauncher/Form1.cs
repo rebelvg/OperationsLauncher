@@ -551,20 +551,12 @@ namespace MurshunLauncher
             }
 
             File.WriteAllLines(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
-            File.WriteAllLines(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
-
-            WebClient client = new WebClient();
-
-            try
-            {
-                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php?size=" + totalSize);
-            }
-            catch
-            {
-                MessageBox.Show("There was an error on accessing the vps.");
-            }
+            File.WriteAllLines(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);           
 
             MessageBox.Show("MurshunLauncherFiles.txt was saved to client and server mods folder.");
+
+            Thread NewThread = new Thread(() => SetLauncherFiles(totalSize));
+            NewThread.Start();
         }
 
         private void refreshClient_button_Click(object sender, EventArgs e)

@@ -225,24 +225,8 @@ namespace MurshunLauncher
                     verifySuccess = false;
                 }
 
-                WebClient client = new WebClient();
-
-                try
-                {
-                    string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php");
-
-                    long totalSizeWeb = Convert.ToInt64(modLineString);
-
-                    if (totalSizeWeb != totalSizeLocal)
-                    {
-                        MessageBox.Show("Your MurshunLauncherFiles.txt is not up-to-date. Launch BTsync to update.");
-                        verifySuccess = false;
-                    }
-                }
-                catch
-                {
-
-                }
+                Thread NewThread = new Thread(() => CheckLauncherFiles(totalSizeLocal));
+                NewThread.Start();
             }
             else
             {
@@ -251,6 +235,41 @@ namespace MurshunLauncher
             }
 
             return verifySuccess;
+        }
+
+        public void CheckLauncherFiles(long totalSizeLocal)
+        {
+            WebClient client = new WebClient();
+
+            try
+            {
+                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php");
+
+                long totalSizeWeb = Convert.ToInt64(modLineString);
+
+                if (totalSizeWeb != totalSizeLocal)
+                {
+                    this.Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.txt is not up-to-date. Launch BTsync to update.")));
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void SetLauncherFiles(long totalSize)
+        {
+            WebClient client = new WebClient();
+
+            try
+            {
+                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php?size=" + totalSize);
+            }
+            catch
+            {
+                this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the vps.")));
+            }
         }
 
         public void RefreshPresetModsList()
