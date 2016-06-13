@@ -647,5 +647,10 @@ namespace MurshunLauncher
                 MessageBox.Show("Couldn't find plugin in the default ts installation folder.");
             }
         }
+
+        private void save_button_Click(object sender, EventArgs e)
+        {
+            SaveXmlFile();
+        }
     }
 }
