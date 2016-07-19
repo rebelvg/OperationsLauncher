@@ -439,7 +439,7 @@ namespace MurshunLauncher
 
             foreach (string X in folder_clientFilesList)
             {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
+                if (presetModsList.Select(x => x + "\\").Any(X.ToLower().Contains))
                 {
                     FileInfo file = new FileInfo(X);
                     compareClientFiles_listView.Items.Add(X.Replace(pathToArma3ClientMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
@@ -448,7 +448,7 @@ namespace MurshunLauncher
 
             foreach (string X in folder_serverFilesList)
             {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
+                if (presetModsList.Select(x => x + "\\").Any(X.ToLower().Contains))
                 {
                     FileInfo file = new FileInfo(X);
                     compareServerFiles_listView.Items.Add(X.Replace(pathToArma3ServerMods_textBox.Text, "").ToLower() + ":" + file.Length + ":" + file.LastWriteTimeUtc);
