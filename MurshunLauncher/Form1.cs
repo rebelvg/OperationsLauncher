@@ -596,56 +596,9 @@ namespace MurshunLauncher
             }
         }
 
-        private void checkTFAR_button_Click(object sender, EventArgs e)
-        {
-            string ts32path = @"C:\Program Files (x86)\TeamSpeak 3 Client\plugins";
-            string ts64path = @"C:\Program Files\TeamSpeak 3 Client\plugins";
-
-            string tfar32plugin = @"\task_force_radio_win32.dll";
-            string tfar64plugin = @"\task_force_radio_win64.dll";
-
-
-            if (File.Exists(ts32path + tfar32plugin) || File.Exists(ts32path + tfar64plugin) || File.Exists(ts64path + tfar32plugin) || File.Exists(ts64path + tfar64plugin))
-            {
-                MessageBox.Show("Plugin appears to be installed correctly.");
-            }
-            else
-            {
-                MessageBox.Show("Couldn't find plugin in the default ts installation folder.");
-            }
-
-            if (File.Exists(pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "") + @"Userconfig\task_force_radio\radio_settings.hpp"))
-            {
-                MessageBox.Show("Configuration file appears to be placed correctly into the Arma 3 folder.");
-            }
-            else
-            {
-                MessageBox.Show("Couldn't find tfar configuration file in the Arma 3 folder. File radio_settings.hpp should be located in Arma 3\\Userconfig\\task_force_radio.");
-            }
-        }
-
         private void copyMissions_button_Click(object sender, EventArgs e)
         {
             CopyMissions();
-        }
-
-        private void checkACRE2_button_Click(object sender, EventArgs e)
-        {
-            string ts32path = @"C:\Program Files (x86)\TeamSpeak 3 Client\plugins";
-            string ts64path = @"C:\Program Files\TeamSpeak 3 Client\plugins";
-
-            string acre32plugin = @"\acre2_win32.dll";
-            string acre64plugin = @"\acre2_win64.dll";
-
-
-            if (File.Exists(ts32path + acre32plugin) || File.Exists(ts32path + acre64plugin) || File.Exists(ts64path + acre32plugin) || File.Exists(ts64path + acre64plugin))
-            {
-                MessageBox.Show("Plugin appears to be installed correctly.");
-            }
-            else
-            {
-                MessageBox.Show("Couldn't find plugin in the default ts installation folder.");
-            }
         }
 
         private void save_button_Click(object sender, EventArgs e)

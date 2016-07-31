@@ -32,8 +32,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.save_button = new System.Windows.Forms.Button();
-            this.checkACRE2_button = new System.Windows.Forms.Button();
-            this.checkTFAR_button = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -150,8 +148,6 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.save_button);
-            this.tabPage1.Controls.Add(this.checkACRE2_button);
-            this.tabPage1.Controls.Add(this.checkTFAR_button);
             this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
             this.tabPage1.Controls.Add(this.label6);
@@ -191,33 +187,13 @@
             // 
             // save_button
             // 
-            this.save_button.Location = new System.Drawing.Point(821, 682);
+            this.save_button.Location = new System.Drawing.Point(945, 623);
             this.save_button.Name = "save_button";
-            this.save_button.Size = new System.Drawing.Size(75, 23);
+            this.save_button.Size = new System.Drawing.Size(93, 23);
             this.save_button.TabIndex = 41;
-            this.save_button.Text = "Save";
+            this.save_button.Text = "Save Settings";
             this.save_button.UseVisualStyleBackColor = true;
             this.save_button.Click += new System.EventHandler(this.save_button_Click);
-            // 
-            // checkACRE2_button
-            // 
-            this.checkACRE2_button.Location = new System.Drawing.Point(902, 590);
-            this.checkACRE2_button.Name = "checkACRE2_button";
-            this.checkACRE2_button.Size = new System.Drawing.Size(136, 25);
-            this.checkACRE2_button.TabIndex = 40;
-            this.checkACRE2_button.Text = "CHECK ACRE2";
-            this.checkACRE2_button.UseVisualStyleBackColor = true;
-            this.checkACRE2_button.Click += new System.EventHandler(this.checkACRE2_button_Click);
-            // 
-            // checkTFAR_button
-            // 
-            this.checkTFAR_button.Location = new System.Drawing.Point(902, 621);
-            this.checkTFAR_button.Name = "checkTFAR_button";
-            this.checkTFAR_button.Size = new System.Drawing.Size(136, 25);
-            this.checkTFAR_button.TabIndex = 39;
-            this.checkTFAR_button.Text = "CHECK TFAR";
-            this.checkTFAR_button.UseVisualStyleBackColor = true;
-            this.checkTFAR_button.Click += new System.EventHandler(this.checkTFAR_button_Click);
             // 
             // richTextBox1
             // 
@@ -231,7 +207,7 @@
             // showServerTabs_checkBox
             // 
             this.showServerTabs_checkBox.AutoSize = true;
-            this.showServerTabs_checkBox.Location = new System.Drawing.Point(782, 621);
+            this.showServerTabs_checkBox.Location = new System.Drawing.Point(782, 665);
             this.showServerTabs_checkBox.Name = "showServerTabs_checkBox";
             this.showServerTabs_checkBox.Size = new System.Drawing.Size(114, 17);
             this.showServerTabs_checkBox.TabIndex = 37;
@@ -483,7 +459,7 @@
             // joinTheServer_checkBox
             // 
             this.joinTheServer_checkBox.AutoSize = true;
-            this.joinTheServer_checkBox.Location = new System.Drawing.Point(782, 650);
+            this.joinTheServer_checkBox.Location = new System.Drawing.Point(782, 688);
             this.joinTheServer_checkBox.Name = "joinTheServer_checkBox";
             this.joinTheServer_checkBox.Size = new System.Drawing.Size(99, 17);
             this.joinTheServer_checkBox.TabIndex = 9;
@@ -1241,8 +1217,6 @@
         private System.Windows.Forms.CheckBox showServerTabs_checkBox;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.LinkLabel linkLabel8;
-        private System.Windows.Forms.Button checkTFAR_button;
-        private System.Windows.Forms.Button checkACRE2_button;
         private System.Windows.Forms.Button copyMissions_button;
         private System.Windows.Forms.Button save_button;
     }

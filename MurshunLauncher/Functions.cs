@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
+using System.Security.Cryptography;
 
 namespace MurshunLauncher
 {
@@ -233,6 +234,8 @@ namespace MurshunLauncher
                 MessageBox.Show("MurshunLauncherFiles.txt not found. Select your BTsync folder as Arma 3 Mods folder.");
                 verifySuccess = false;
             }
+
+            CheckACRE2();
 
             return verifySuccess;
         }
@@ -529,6 +532,78 @@ namespace MurshunLauncher
 
                 if (!Directory.Exists(fullpath))
                     Directory.CreateDirectory(fullpath);
+            }
+        }
+
+        public string GetMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                }
+            }
+        }
+
+        private void CopyPlugins(string tspath)
+        {
+            string acre32plugin = @"\acre2_win32.dll";
+            string acre64plugin = @"\acre2_win64.dll";
+
+            string acre32mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
+            string acre64mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
+
+            if (File.Exists(tspath + acre32plugin) && File.Exists(tspath + acre64plugin))
+            {
+                if (!(GetMD5(tspath + acre32plugin) == GetMD5(acre32mods) && GetMD5(tspath + acre64plugin) == GetMD5(acre64mods)))
+                {
+                    try
+                    {
+                        File.Copy(acre32mods, tspath + acre32plugin, true);
+                        File.Copy(acre64mods, tspath + acre64plugin, true);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Can't overwrite acre2 plugins. TS is probably running.");
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    File.Copy(acre32mods, tspath + acre32plugin, true);
+                    File.Copy(acre64mods, tspath + acre64plugin, true);
+                }
+                catch
+                {
+                    MessageBox.Show("Can't overwrite acre2 plugins. TS is probably running.");
+                }
+            }
+        }
+
+        public void CheckACRE2()
+        {
+            string acre32plugin = @"\acre2_win32.dll";
+            string acre64plugin = @"\acre2_win64.dll";
+
+            string ts32path = @"C:\Program Files (x86)\TeamSpeak 3 Client\plugins";
+            string ts64path = @"C:\Program Files\TeamSpeak 3 Client\plugins";
+
+            string acre32mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
+            string acre64mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
+
+            if (File.Exists(acre32mods) && File.Exists(acre64mods))
+            {
+                if (!Directory.Exists(ts32path) && !Directory.Exists(ts64path))
+                    MessageBox.Show("Can't find default TS folder to automaticly copy ACRE2 plugins in.");
+
+                if (Directory.Exists(ts32path))
+                    CopyPlugins(ts32path);
+
+                if (Directory.Exists(ts64path))
+                    CopyPlugins(ts64path);
             }
         }
     }
