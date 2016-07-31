@@ -562,11 +562,15 @@ namespace MurshunLauncher
         private void refreshClient_button_Click(object sender, EventArgs e)
         {
             ReadPresetFile();
+
+            VerifyMods();
         }
 
         private void refreshServer_button_Click(object sender, EventArgs e)
         {
             GetWebModLineNewThread();
+
+            CompareFolders();
         }
 
         private void showServerTabs_checkBox_Click(object sender, EventArgs e)

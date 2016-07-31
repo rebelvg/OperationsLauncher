@@ -248,7 +248,7 @@
             this.refreshClient_button.Name = "refreshClient_button";
             this.refreshClient_button.Size = new System.Drawing.Size(82, 23);
             this.refreshClient_button.TabIndex = 33;
-            this.refreshClient_button.Text = "Refresh";
+            this.refreshClient_button.Text = "Verify";
             this.refreshClient_button.UseVisualStyleBackColor = true;
             this.refreshClient_button.Click += new System.EventHandler(this.refreshClient_button_Click);
             // 
@@ -764,7 +764,7 @@
             this.refreshServer_button.Name = "refreshServer_button";
             this.refreshServer_button.Size = new System.Drawing.Size(82, 23);
             this.refreshServer_button.TabIndex = 36;
-            this.refreshServer_button.Text = "Refresh";
+            this.refreshServer_button.Text = "Compare";
             this.refreshServer_button.UseVisualStyleBackColor = true;
             this.refreshServer_button.Click += new System.EventHandler(this.refreshServer_button_Click);
             // 

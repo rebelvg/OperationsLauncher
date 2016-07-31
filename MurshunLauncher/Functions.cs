@@ -562,10 +562,12 @@ namespace MurshunLauncher
                     {
                         File.Copy(acre32mods, tspath + acre32plugin, true);
                         File.Copy(acre64mods, tspath + acre64plugin, true);
+
+                        MessageBox.Show("New ACRE2 plugins successfully copied into your TS folder.");
                     }
-                    catch
+                    catch (Exception e)
                     {
-                        MessageBox.Show("Can't overwrite acre2 plugins. TS is probably running.");
+                        MessageBox.Show("Can't overwrite ACRE2 plugins.\n" + e.Message);
                     }
                 }
             }
@@ -575,10 +577,12 @@ namespace MurshunLauncher
                 {
                     File.Copy(acre32mods, tspath + acre32plugin, true);
                     File.Copy(acre64mods, tspath + acre64plugin, true);
+
+                    MessageBox.Show("New ACRE2 plugins successfully copied into your TS folder.");
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show("Can't overwrite acre2 plugins. TS is probably running.");
+                    MessageBox.Show("Can't overwrite ACRE2 plugins.\n" + e.Message);
                 }
             }
         }
