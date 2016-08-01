@@ -207,7 +207,7 @@
             // showServerTabs_checkBox
             // 
             this.showServerTabs_checkBox.AutoSize = true;
-            this.showServerTabs_checkBox.Location = new System.Drawing.Point(782, 665);
+            this.showServerTabs_checkBox.Location = new System.Drawing.Point(782, 650);
             this.showServerTabs_checkBox.Name = "showServerTabs_checkBox";
             this.showServerTabs_checkBox.Size = new System.Drawing.Size(114, 17);
             this.showServerTabs_checkBox.TabIndex = 37;
@@ -459,7 +459,7 @@
             // joinTheServer_checkBox
             // 
             this.joinTheServer_checkBox.AutoSize = true;
-            this.joinTheServer_checkBox.Location = new System.Drawing.Point(782, 688);
+            this.joinTheServer_checkBox.Location = new System.Drawing.Point(782, 670);
             this.joinTheServer_checkBox.Name = "joinTheServer_checkBox";
             this.joinTheServer_checkBox.Size = new System.Drawing.Size(99, 17);
             this.joinTheServer_checkBox.TabIndex = 9;
