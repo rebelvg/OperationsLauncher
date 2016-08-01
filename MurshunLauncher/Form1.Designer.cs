@@ -32,7 +32,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.save_button = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -148,7 +147,6 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.save_button);
-            this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
@@ -194,15 +192,6 @@
             this.save_button.Text = "Save Settings";
             this.save_button.UseVisualStyleBackColor = true;
             this.save_button.Click += new System.EventHandler(this.save_button_Click);
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(7, 507);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(439, 80);
-            this.richTextBox1.TabIndex = 38;
-            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // showServerTabs_checkBox
             // 
@@ -1215,7 +1204,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox defaultStartLineServer_textBox;
         private System.Windows.Forms.CheckBox showServerTabs_checkBox;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.Button copyMissions_button;
         private System.Windows.Forms.Button save_button;
