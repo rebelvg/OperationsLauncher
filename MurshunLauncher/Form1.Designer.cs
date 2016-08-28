@@ -121,6 +121,9 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.fullVerify_button = new System.Windows.Forms.Button();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -486,6 +489,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.progressBar2);
+            this.tabPage2.Controls.Add(this.fullVerify_button);
             this.tabPage2.Controls.Add(this.removeExcess_button);
             this.tabPage2.Controls.Add(this.murshunLauncherFiles_textBox);
             this.tabPage2.Controls.Add(this.verifyMods_button);
@@ -947,6 +952,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.progressBar1);
             this.tabPage4.Controls.Add(this.createVerifyFile_button);
             this.tabPage4.Controls.Add(this.syncFolders_button);
             this.tabPage4.Controls.Add(this.compareServerMods_textBox);
@@ -1086,6 +1092,30 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(567, 6);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(472, 23);
+            this.progressBar1.TabIndex = 19;
+            // 
+            // fullVerify_button
+            // 
+            this.fullVerify_button.Location = new System.Drawing.Point(381, 6);
+            this.fullVerify_button.Name = "fullVerify_button";
+            this.fullVerify_button.Size = new System.Drawing.Size(180, 23);
+            this.fullVerify_button.TabIndex = 10;
+            this.fullVerify_button.Text = "Full Verify";
+            this.fullVerify_button.UseVisualStyleBackColor = true;
+            this.fullVerify_button.Click += new System.EventHandler(this.fullVerify_button_Click);
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(567, 6);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(471, 23);
+            this.progressBar2.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1207,6 +1237,9 @@
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.Button copyMissions_button;
         private System.Windows.Forms.Button save_button;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button fullVerify_button;
+        private System.Windows.Forms.ProgressBar progressBar2;
     }
 }
 

@@ -277,14 +277,14 @@ namespace MurshunLauncher
 
             if (dialogResult == DialogResult.Yes)
             {
-                MessageBox.Show("Removing " + compareExcessFiles_listView.Items.Count + " files.");
+                //MessageBox.Show("Removing " + compareExcessFiles_listView.Items.Count + " files.");
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
                 {
                     File.Delete(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
                 }
 
-                MessageBox.Show("Copying " + compareMissingFiles_listView.Items.Count + " files.");
+                //MessageBox.Show("Copying " + compareMissingFiles_listView.Items.Count + " files.");
 
                 foreach (ListViewItem item in compareMissingFiles_listView.Items)
                 {
@@ -526,7 +526,7 @@ namespace MurshunLauncher
         {
             GetWebModLineNewThread();
 
-            List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+            List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).Where(x => presetModsList.Select(X => X + "\\").Any(x.Contains)).ToList();
 
             folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(x => x.ToLower()).ToList();
 
@@ -537,17 +537,22 @@ namespace MurshunLauncher
                 infoToWrite.Add("\\" + X);
             }
 
+            progressBar1.Visible = true;
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = folder_filesArray.Count();
+            progressBar1.Value = 0;
+            progressBar1.Step = 1;
+
             long totalSize = 0;
 
             foreach (string X in folder_filesArray)
             {
-                if (presetModsList.Select(x => x + "\\").Any(X.Contains))
-                {
-                    FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
-                    infoToWrite.Add(X + ":" + file.Length);
+                FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
+                infoToWrite.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
-                    totalSize = totalSize + file.Length;
-                }
+                totalSize = totalSize + file.Length;
+
+                progressBar1.PerformStep();
             }
 
             File.WriteAllLines(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
@@ -606,6 +611,11 @@ namespace MurshunLauncher
         private void save_button_Click(object sender, EventArgs e)
         {
             SaveXmlFile();
+        }
+
+        private void fullVerify_button_Click(object sender, EventArgs e)
+        {
+            FullVerify();
         }
     }
 }

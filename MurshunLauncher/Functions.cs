@@ -196,7 +196,10 @@ namespace MurshunLauncher
 
                 foreach (string X in btsync_filesList)
                 {
-                    murshunLauncherFiles_listView.Items.Add(X);
+                    string file = X.Split(':')[0];
+                    string size = X.Split(':')[1];
+
+                    murshunLauncherFiles_listView.Items.Add(file + ":" + size);
 
                     totalSizeLocal = totalSizeLocal + Convert.ToInt64(X.Split(':')[1]);
                 }
@@ -205,6 +208,8 @@ namespace MurshunLauncher
 
                 clientMissingFiles_listView.Items.Clear();
                 clientExcessFiles_listView.Items.Clear();
+
+                btsync_filesList = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
                 foreach (string X in btsync_filesList.Where(x => !folder_filesArray.Contains(x)))
                 {
@@ -238,6 +243,91 @@ namespace MurshunLauncher
             CheckACRE2();
 
             return verifySuccess;
+        }
+
+        public void FullVerify()
+        {
+            string murshunLauncherFilesPath = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt";
+
+            if (File.Exists(murshunLauncherFilesPath))
+            {
+                string[] btsync_fileLinesArray = File.ReadAllLines(murshunLauncherFilesPath);
+
+                List<string> btsync_foldersList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') == 1).Select(s => s.ToLower()).ToList();
+                List<string> btsync_filesList = btsync_fileLinesArray.Where(x => x.Count(f => f == '\\') > 1).Select(s => s.ToLower()).ToList();
+
+                List<string> folder_foldersArray = Directory.GetDirectories(pathToArma3ClientMods_textBox.Text, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains("@")).ToList();
+                List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).ToList();
+
+                folder_foldersArray = folder_foldersArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(s => s.ToLower()).ToList();
+                folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(s => s.ToLower()).Where(x => x.StartsWith("\\@")).ToList();
+
+                clientModsFiles_listView.Items.Clear();
+                murshunLauncherFiles_listView.Items.Clear();
+
+                progressBar2.Visible = true;
+                progressBar2.Minimum = 0;
+                progressBar2.Maximum = folder_filesArray.Where(x => btsync_foldersList.Select(X => X + "\\").Any(x.Contains)).Count();
+                progressBar2.Value = 0;
+                progressBar2.Step = 1;
+
+                foreach (string X in folder_filesArray)
+                {
+                    if (btsync_foldersList.Select(x => x + "\\").Any(X.Contains))
+                    {
+                        FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
+                        clientModsFiles_listView.Items.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
+
+                        progressBar2.PerformStep();
+                    }
+                }
+
+                long totalSizeLocal = 0;
+
+                foreach (string X in btsync_filesList)
+                {
+                    string file = X.Split(':')[0];
+                    string size = X.Split(':')[1];
+                    string md5 = X.Split(':')[2];
+
+                    murshunLauncherFiles_listView.Items.Add(file + ":" + size + ":" + md5);
+
+                    totalSizeLocal = totalSizeLocal + Convert.ToInt64(X.Split(':')[1]);
+                }
+
+                folder_filesArray = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+
+                clientMissingFiles_listView.Items.Clear();
+                clientExcessFiles_listView.Items.Clear();
+
+                btsync_filesList = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+
+                foreach (string X in btsync_filesList.Where(x => !folder_filesArray.Contains(x)))
+                {
+                    clientMissingFiles_listView.Items.Add(X);
+                }
+
+                foreach (string X in folder_filesArray.Where(x => !btsync_filesList.Contains(x)))
+                {
+                    clientExcessFiles_listView.Items.Add(X);
+                }
+
+                clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
+                murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
+
+                if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
+                {
+                    MessageBox.Show("You have missing or excess files.");
+                    tabControl1.SelectedTab = tabPage2;
+                }
+
+                Thread NewThread = new Thread(() => CheckLauncherFiles(totalSizeLocal));
+                NewThread.Start();
+            }
+            else
+            {
+                MessageBox.Show("MurshunLauncherFiles.txt not found. Select your BTsync folder as Arma 3 Mods folder.");
+            }
         }
 
         public void CheckLauncherFiles(long totalSizeLocal)
