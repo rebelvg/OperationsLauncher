@@ -276,7 +276,8 @@ namespace MurshunLauncher
                     if (btsync_foldersList.Select(x => x + "\\").Any(X.Contains))
                     {
                         FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
-                        clientModsFiles_listView.Items.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
+                        clientModsFiles_listView.Items.Add(X + ":" + file.Length);
+                        //clientModsFiles_listView.Items.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
                         progressBar2.PerformStep();
                     }
@@ -288,9 +289,9 @@ namespace MurshunLauncher
                 {
                     string file = X.Split(':')[0];
                     string size = X.Split(':')[1];
-                    string md5 = X.Split(':')[2];
+                    //string md5 = X.Split(':')[2];
 
-                    murshunLauncherFiles_listView.Items.Add(file + ":" + size + ":" + md5);
+                    murshunLauncherFiles_listView.Items.Add(file + ":" + size);
 
                     totalSizeLocal = totalSizeLocal + Convert.ToInt64(X.Split(':')[1]);
                 }
@@ -575,7 +576,7 @@ namespace MurshunLauncher
                 MessageBox.Show("You have missing or excess files.");
                 tabControl1.SelectedTab = tabPage4;
                 compareSuccess = false;
-            }            
+            }
 
             return compareSuccess;
         }

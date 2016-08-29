@@ -548,7 +548,8 @@ namespace MurshunLauncher
             foreach (string X in folder_filesArray)
             {
                 FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
-                infoToWrite.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
+                infoToWrite.Add(X + ":" + file.Length);
+                //infoToWrite.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
                 totalSize = totalSize + file.Length;
 

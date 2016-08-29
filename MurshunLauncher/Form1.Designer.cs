@@ -63,6 +63,8 @@
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
             this.launch_button = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.fullVerify_button = new System.Windows.Forms.Button();
             this.removeExcess_button = new System.Windows.Forms.Button();
             this.murshunLauncherFiles_textBox = new System.Windows.Forms.TextBox();
             this.verifyMods_button = new System.Windows.Forms.Button();
@@ -108,6 +110,7 @@
             this.pathToArma3ServerMods_textBox = new System.Windows.Forms.TextBox();
             this.pathToArma3Server_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.createVerifyFile_button = new System.Windows.Forms.Button();
             this.syncFolders_button = new System.Windows.Forms.Button();
             this.compareServerMods_textBox = new System.Windows.Forms.TextBox();
@@ -121,9 +124,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.fullVerify_button = new System.Windows.Forms.Button();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -506,6 +506,24 @@
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Client Verify";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(567, 6);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(471, 23);
+            this.progressBar2.TabIndex = 11;
+            // 
+            // fullVerify_button
+            // 
+            this.fullVerify_button.Enabled = false;
+            this.fullVerify_button.Location = new System.Drawing.Point(381, 6);
+            this.fullVerify_button.Name = "fullVerify_button";
+            this.fullVerify_button.Size = new System.Drawing.Size(180, 23);
+            this.fullVerify_button.TabIndex = 10;
+            this.fullVerify_button.Text = "Full Verify";
+            this.fullVerify_button.UseVisualStyleBackColor = true;
+            this.fullVerify_button.Click += new System.EventHandler(this.fullVerify_button_Click);
             // 
             // removeExcess_button
             // 
@@ -968,6 +986,13 @@
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Server Tools";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(567, 6);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(472, 23);
+            this.progressBar1.TabIndex = 19;
+            // 
             // createVerifyFile_button
             // 
             this.createVerifyFile_button.Location = new System.Drawing.Point(381, 6);
@@ -1091,30 +1116,6 @@
             // 
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(567, 6);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(472, 23);
-            this.progressBar1.TabIndex = 19;
-            // 
-            // fullVerify_button
-            // 
-            this.fullVerify_button.Location = new System.Drawing.Point(381, 6);
-            this.fullVerify_button.Name = "fullVerify_button";
-            this.fullVerify_button.Size = new System.Drawing.Size(180, 23);
-            this.fullVerify_button.TabIndex = 10;
-            this.fullVerify_button.Text = "Full Verify";
-            this.fullVerify_button.UseVisualStyleBackColor = true;
-            this.fullVerify_button.Click += new System.EventHandler(this.fullVerify_button_Click);
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.Location = new System.Drawing.Point(567, 6);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(471, 23);
-            this.progressBar2.TabIndex = 11;
             // 
             // Form1
             // 
