@@ -499,9 +499,12 @@ namespace MurshunLauncher
 
             if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
             {
-                MessageBox.Show("You have missing or excess files.");
-                tabControl1.SelectedTab = tabPage4;
-                compareSuccess = false;
+                if (tabControl1.SelectedTab != tabPage4)
+                {
+                    MessageBox.Show("You have missing or excess files.");
+                    tabControl1.SelectedTab = tabPage4;
+                    compareSuccess = false;
+                }
             }
 
             return compareSuccess;
