@@ -277,6 +277,11 @@ namespace MurshunLauncher
 
             if (dialogResult == DialogResult.Yes)
             {
+                progressBar2.Minimum = 0;
+                progressBar2.Maximum = compareMissingFiles_listView.Items.Count;
+                progressBar2.Value = 0;
+                progressBar2.Step = 1;
+
                 //MessageBox.Show("Removing " + compareExcessFiles_listView.Items.Count + " files.");
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
@@ -291,6 +296,8 @@ namespace MurshunLauncher
                     CheckPath(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
 
                     File.Copy(pathToArma3ClientMods_textBox.Text + item.Text.Split(':')[0], pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0], true);
+
+                    progressBar2.PerformStep();
                 }
 
                 MessageBox.Show("Done.");
