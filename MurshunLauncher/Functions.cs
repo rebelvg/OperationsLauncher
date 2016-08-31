@@ -198,6 +198,8 @@ namespace MurshunLauncher
 
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
 
+                long totalSizeLocal = 0;
+
                 foreach (dynamic X in json.files)
                 {
                     dynamic size = X.First.size;
@@ -208,7 +210,12 @@ namespace MurshunLauncher
                         murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
                     else
                         murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
+
+                    totalSizeLocal += Convert.ToInt64(size);
                 }
+
+                Thread NewThread = new Thread(() => CheckLauncherFiles(totalSizeLocal));
+                NewThread.Start();
 
                 folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
