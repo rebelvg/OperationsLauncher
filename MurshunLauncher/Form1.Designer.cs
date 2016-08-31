@@ -63,7 +63,7 @@
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
             this.launch_button = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.fullVerify_button = new System.Windows.Forms.Button();
             this.removeExcess_button = new System.Windows.Forms.Button();
             this.murshunLauncherFiles_textBox = new System.Windows.Forms.TextBox();
@@ -110,7 +110,7 @@
             this.pathToArma3ServerMods_textBox = new System.Windows.Forms.TextBox();
             this.pathToArma3Server_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.createVerifyFile_button = new System.Windows.Forms.Button();
             this.syncFolders_button = new System.Windows.Forms.Button();
             this.compareServerMods_textBox = new System.Windows.Forms.TextBox();
@@ -489,7 +489,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.progressBar2);
+            this.tabPage2.Controls.Add(this.progressBar1);
             this.tabPage2.Controls.Add(this.fullVerify_button);
             this.tabPage2.Controls.Add(this.removeExcess_button);
             this.tabPage2.Controls.Add(this.murshunLauncherFiles_textBox);
@@ -507,16 +507,15 @@
             this.tabPage2.Text = "Client Verify";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // progressBar2
+            // progressBar1
             // 
-            this.progressBar2.Location = new System.Drawing.Point(567, 6);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(471, 23);
-            this.progressBar2.TabIndex = 11;
+            this.progressBar1.Location = new System.Drawing.Point(567, 6);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(471, 23);
+            this.progressBar1.TabIndex = 11;
             // 
             // fullVerify_button
             // 
-            this.fullVerify_button.Enabled = false;
             this.fullVerify_button.Location = new System.Drawing.Point(381, 6);
             this.fullVerify_button.Name = "fullVerify_button";
             this.fullVerify_button.Size = new System.Drawing.Size(180, 23);
@@ -970,7 +969,7 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.progressBar1);
+            this.tabPage4.Controls.Add(this.progressBar2);
             this.tabPage4.Controls.Add(this.createVerifyFile_button);
             this.tabPage4.Controls.Add(this.syncFolders_button);
             this.tabPage4.Controls.Add(this.compareServerMods_textBox);
@@ -986,12 +985,12 @@
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Server Tools";
             // 
-            // progressBar1
+            // progressBar2
             // 
-            this.progressBar1.Location = new System.Drawing.Point(567, 6);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(472, 23);
-            this.progressBar1.TabIndex = 19;
+            this.progressBar2.Location = new System.Drawing.Point(567, 6);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(472, 23);
+            this.progressBar2.TabIndex = 19;
             // 
             // createVerifyFile_button
             // 
@@ -1238,9 +1237,9 @@
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.Button copyMissions_button;
         private System.Windows.Forms.Button save_button;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button fullVerify_button;
         private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.Button fullVerify_button;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

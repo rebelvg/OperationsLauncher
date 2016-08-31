@@ -69,7 +69,7 @@ namespace MurshunLauncher
                         MessageBox.Show("Saving xml settings failed.");
                     }
                 }
-                                
+
                 label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
@@ -103,14 +103,14 @@ namespace MurshunLauncher
 
         private void button3_Click(object sender, EventArgs e)
         {
-            VerifyMods();
+            VerifyMods(false);
         }
 
         private void launch_button_Click(object sender, EventArgs e)
         {
             ReadPresetFile();
 
-            bool verifySuccess = VerifyMods();
+            bool verifySuccess = VerifyMods(false);
 
             if (!verifySuccess)
             {
@@ -390,7 +390,7 @@ namespace MurshunLauncher
         }
 
         private void changeServerProfiles_button_Click(object sender, EventArgs e)
-        {            
+        {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select profiles folder.";
             chosenFolder.UseDescriptionForTitle = true;
@@ -468,7 +468,7 @@ namespace MurshunLauncher
             }
             catch
             {
-                
+
             }
         }
 
@@ -519,57 +519,73 @@ namespace MurshunLauncher
 
             CheckSyncFolderSize();
 
-            VerifyMods();
+            VerifyMods(false);
         }
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)
         {
             GetWebModLineNewThread();
 
-            List<string> folder_filesArray = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).Where(s => s.Contains("@")).Where(x => presetModsList.Select(X => X + "\\").Any(x.Contains)).ToList();
+            List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
-            folder_filesArray = folder_filesArray.Select(s => s.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(x => x.ToLower()).ToList();
+            folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
-            List<string> infoToWrite = new List<string>();
+            folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
 
-            foreach (string X in presetModsList)
-            {
-                infoToWrite.Add("\\" + X);
-            }
+            Dictionary<string, dynamic> files = new Dictionary<string, dynamic>();
 
-            progressBar1.Visible = true;
-            progressBar1.Minimum = 0;
-            progressBar1.Maximum = folder_filesArray.Count();
-            progressBar1.Value = 0;
-            progressBar1.Step = 1;
+            files["mods"] = presetModsList;
+            files["files"] = new Dictionary<string, dynamic>();
 
-            long totalSize = 0;
+            Dictionary<string, dynamic> json_old = new Dictionary<string, dynamic>();
 
-            foreach (string X in folder_filesArray)
+            if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"))
+                json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"));
+
+            progressBar2.Minimum = 0;
+            progressBar2.Maximum = folderFiles.Count();
+            progressBar2.Value = 0;
+            progressBar2.Step = 1;
+
+            foreach (string X in folderFiles)
             {
                 FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
-                infoToWrite.Add(X + ":" + file.Length);
-                //infoToWrite.Add(X + ":" + file.Length + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
-                totalSize = totalSize + file.Length;
+                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
 
-                progressBar1.PerformStep();
+                data["size"] = file.Length;
+                data["date"] = file.LastWriteTimeUtc;
+
+                try
+                {
+                    if (json_old["files"][X].date == file.LastWriteTimeUtc)
+                        data["md5"] = json_old["files"][X].md5;
+                    else
+                        data["md5"] = GetMD5(pathToArma3ClientMods_textBox.Text + X);
+                }
+                catch
+                {
+                    data["md5"] = GetMD5(pathToArma3ClientMods_textBox.Text + X);
+                }
+
+                files["files"][X] = data;
+
+                progressBar2.PerformStep();
             }
 
-            File.WriteAllLines(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);
-            File.WriteAllLines(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.txt", infoToWrite);           
+            string json_new = JsonConvert.SerializeObject(files, Formatting.Indented);
 
-            MessageBox.Show("MurshunLauncherFiles.txt was saved to client and server mods folder.");
+            File.WriteAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+            File.WriteAllText(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
 
-            Thread NewThread = new Thread(() => SetLauncherFiles(totalSize));
-            NewThread.Start();
+            MessageBox.Show("MurshunLauncherFiles.json was saved to client and server mods folder.");
         }
 
         private void refreshClient_button_Click(object sender, EventArgs e)
         {
             ReadPresetFile();
 
-            VerifyMods();
+            VerifyMods(false);
         }
 
         private void refreshServer_button_Click(object sender, EventArgs e)
@@ -616,7 +632,7 @@ namespace MurshunLauncher
 
         private void fullVerify_button_Click(object sender, EventArgs e)
         {
-            FullVerify();
+            VerifyMods(true);
         }
     }
 }
