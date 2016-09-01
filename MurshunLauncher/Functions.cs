@@ -170,6 +170,9 @@ namespace MurshunLauncher
 
             if (File.Exists(murshunLauncherFilesPath))
             {
+                if (fullVerify)
+                    MessageBox.Show("Full verify will take some time.");
+
                 List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
                 folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
@@ -184,16 +187,23 @@ namespace MurshunLauncher
                 progressBar1.Value = 0;
                 progressBar1.Step = 1;
 
+                List<string> clientFiles = new List<string>();
+
                 foreach (string X in folderFiles)
                 {
                     FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
 
                     if (!fullVerify)
-                        clientModsFiles_listView.Items.Add(X + ":" + file.Length);
+                        clientFiles.Add(X + ":" + file.Length);
                     else
-                        clientModsFiles_listView.Items.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
+                        clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
                     progressBar1.PerformStep();
+                }
+
+                foreach (string X in clientFiles)
+                {
+                    clientModsFiles_listView.Items.Add(X);
                 }
 
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
@@ -249,6 +259,9 @@ namespace MurshunLauncher
                         verifySuccess = false;
                     }
                 }
+
+                if (fullVerify)
+                    MessageBox.Show("Full verify is done.");
             }
             else
             {
