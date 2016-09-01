@@ -539,7 +539,7 @@
             this.murshunLauncherFiles_textBox.Location = new System.Drawing.Point(534, 36);
             this.murshunLauncherFiles_textBox.Name = "murshunLauncherFiles_textBox";
             this.murshunLauncherFiles_textBox.ReadOnly = true;
-            this.murshunLauncherFiles_textBox.Size = new System.Drawing.Size(504, 20);
+            this.murshunLauncherFiles_textBox.Size = new System.Drawing.Size(507, 20);
             this.murshunLauncherFiles_textBox.TabIndex = 8;
             this.murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt";
             // 
@@ -989,7 +989,7 @@
             // 
             this.progressBar2.Location = new System.Drawing.Point(567, 6);
             this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(472, 23);
+            this.progressBar2.Size = new System.Drawing.Size(471, 23);
             this.progressBar2.TabIndex = 19;
             // 
             // createVerifyFile_button
@@ -1017,7 +1017,7 @@
             this.compareServerMods_textBox.Location = new System.Drawing.Point(534, 36);
             this.compareServerMods_textBox.Name = "compareServerMods_textBox";
             this.compareServerMods_textBox.ReadOnly = true;
-            this.compareServerMods_textBox.Size = new System.Drawing.Size(505, 20);
+            this.compareServerMods_textBox.Size = new System.Drawing.Size(507, 20);
             this.compareServerMods_textBox.TabIndex = 16;
             this.compareServerMods_textBox.Text = "Server Mods";
             // 

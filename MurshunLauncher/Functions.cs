@@ -483,16 +483,25 @@ namespace MurshunLauncher
             compareClientFiles_listView.Items.Clear();
             compareServerFiles_listView.Items.Clear();
 
+            progressBar2.Minimum = 0;
+            progressBar2.Maximum = folder_clientFilesList.Count() + folder_serverFilesList.Count();
+            progressBar2.Value = 0;
+            progressBar2.Step = 1;
+
             foreach (string X in folder_clientFilesList)
             {
                 FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
                 compareClientFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+
+                progressBar2.PerformStep();
             }
 
             foreach (string X in folder_serverFilesList)
             {
                 FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
                 compareServerFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
+
+                progressBar2.PerformStep();
             }
 
             folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
