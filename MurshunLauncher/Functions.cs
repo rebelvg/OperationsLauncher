@@ -170,22 +170,28 @@ namespace MurshunLauncher
 
             if (File.Exists(murshunLauncherFilesPath))
             {
-                if (fullVerify)
-                    MessageBox.Show("Full verify will take some time.");
-
                 List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
                 folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
                 folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
 
-                clientModsFiles_listView.Items.Clear();
-                murshunLauncherFiles_listView.Items.Clear();
+                this.Invoke(new Action(() =>
+                {
+                    if (fullVerify)
+                    {
+                        this.Enabled = false;
+                        MessageBox.Show("Full verify will take some time.");
+                    }
 
-                progressBar1.Minimum = 0;
-                progressBar1.Maximum = folderFiles.Count();
-                progressBar1.Value = 0;
-                progressBar1.Step = 1;
+                    clientModsFiles_listView.Items.Clear();
+                    murshunLauncherFiles_listView.Items.Clear();
+
+                    progressBar1.Minimum = 0;
+                    progressBar1.Maximum = folderFiles.Count();
+                    progressBar1.Value = 0;
+                    progressBar1.Step = 1;
+                }));
 
                 List<string> clientFiles = new List<string>();
 
@@ -198,70 +204,76 @@ namespace MurshunLauncher
                     else
                         clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
-                    progressBar1.PerformStep();
+                    this.Invoke(new Action(() => progressBar1.PerformStep()));
                 }
 
-                foreach (string X in clientFiles)
+                this.Invoke(new Action(() =>
                 {
-                    clientModsFiles_listView.Items.Add(X);
-                }
-
-                dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
-
-                long totalSizeLocal = 0;
-
-                foreach (dynamic X in json.files)
-                {
-                    dynamic size = X.First.size;
-                    dynamic date = X.First.date;
-                    dynamic md5 = X.First.md5;
-
-                    if (!fullVerify)
-                        murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
-                    else
-                        murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
-
-                    totalSizeLocal += Convert.ToInt64(size);
-                }
-
-                Thread NewThread = new Thread(() => CheckLauncherFiles(totalSizeLocal));
-                NewThread.Start();
-
-                folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-
-                List<string> jsonFiles = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-
-                List<string> missingFilesList = jsonFiles.Where(x => !folderFiles.Contains(x)).ToList();
-                List<string> excessFilesList = folderFiles.Where(x => !jsonFiles.Contains(x)).ToList();
-
-                clientMissingFiles_listView.Items.Clear();
-                clientExcessFiles_listView.Items.Clear();
-
-                foreach (string X in missingFilesList)
-                {
-                    clientMissingFiles_listView.Items.Add(X);
-                }
-
-                foreach (string X in excessFilesList)
-                {
-                    clientExcessFiles_listView.Items.Add(X);
-                }
-
-                clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
-                murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
-
-                if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
-                {
-                    if (tabControl1.SelectedTab != tabPage2)
+                    foreach (string X in clientFiles)
                     {
-                        MessageBox.Show("You have missing or excess files.");
-                        tabControl1.SelectedTab = tabPage2;
-                        verifySuccess = false;
+                        clientModsFiles_listView.Items.Add(X);
                     }
-                }
 
-                if (fullVerify)
-                    MessageBox.Show("Full verify is done.");
+                    dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
+
+                    long totalSizeLocal = 0;
+
+                    foreach (dynamic X in json.files)
+                    {
+                        dynamic size = X.First.size;
+                        dynamic date = X.First.date;
+                        dynamic md5 = X.First.md5;
+
+                        if (!fullVerify)
+                            murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
+                        else
+                            murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
+
+                        totalSizeLocal += Convert.ToInt64(size);
+                    }
+
+                    Thread NewThread = new Thread(() => CheckLauncherFiles(totalSizeLocal));
+                    NewThread.Start();
+
+                    folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+
+                    List<string> jsonFiles = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+
+                    List<string> missingFilesList = jsonFiles.Where(x => !folderFiles.Contains(x)).ToList();
+                    List<string> excessFilesList = folderFiles.Where(x => !jsonFiles.Contains(x)).ToList();
+
+                    clientMissingFiles_listView.Items.Clear();
+                    clientExcessFiles_listView.Items.Clear();
+
+                    foreach (string X in missingFilesList)
+                    {
+                        clientMissingFiles_listView.Items.Add(X);
+                    }
+
+                    foreach (string X in excessFilesList)
+                    {
+                        clientExcessFiles_listView.Items.Add(X);
+                    }
+
+                    clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
+                    murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
+
+                    if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
+                    {
+                        if (tabControl1.SelectedTab != tabPage2)
+                        {
+                            MessageBox.Show("You have missing or excess files.");
+                            tabControl1.SelectedTab = tabPage2;
+                            verifySuccess = false;
+                        }
+                    }
+
+                    if (fullVerify)
+                    {
+                        MessageBox.Show("Full verify is done.");
+                        this.Enabled = true;
+                    }
+                }));
             }
             else
             {

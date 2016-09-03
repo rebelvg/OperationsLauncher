@@ -646,7 +646,8 @@ namespace MurshunLauncher
 
         private void fullVerify_button_Click(object sender, EventArgs e)
         {
-            VerifyMods(true);
+            Thread NewThread = new Thread(() => VerifyMods(true));
+            NewThread.Start();
         }
     }
 }
