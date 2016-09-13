@@ -216,8 +216,6 @@ namespace MurshunLauncher
 
                     dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
 
-                    long totalSizeLocal = 0;
-
                     foreach (dynamic X in json.files)
                     {
                         dynamic size = X.First.size;
@@ -228,11 +226,11 @@ namespace MurshunLauncher
                             murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
                         else
                             murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
-
-                        totalSizeLocal += Convert.ToInt64(size);
                     }
 
-                    Thread NewThread = new Thread(() => CheckLauncherFiles(totalSizeLocal));
+                    string localJsonMD5 = GetMD5(murshunLauncherFilesPath);
+
+                    Thread NewThread = new Thread(() => CheckLauncherFiles(localJsonMD5));
                     NewThread.Start();
 
                     folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
@@ -286,7 +284,7 @@ namespace MurshunLauncher
             return verifySuccess;
         }
 
-        public void CheckLauncherFiles(long totalSizeLocal)
+        public void CheckLauncherFiles(string localJsonMD5)
         {
             WebClient client = new WebClient();
 
@@ -294,9 +292,9 @@ namespace MurshunLauncher
             {
                 string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php");
 
-                long totalSizeWeb = Convert.ToInt64(modLineString);
+                string webJsonMD5 = modLineString;
 
-                if (totalSizeWeb != totalSizeLocal)
+                if (webJsonMD5 != localJsonMD5)
                 {
                     this.Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
                 }
@@ -307,13 +305,13 @@ namespace MurshunLauncher
             }
         }
 
-        public void SetLauncherFiles(long totalSize)
+        public void SetLauncherFiles(string localJsonMD5)
         {
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php?size=" + totalSize);
+                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php?size=" + localJsonMD5);
             }
             catch
             {

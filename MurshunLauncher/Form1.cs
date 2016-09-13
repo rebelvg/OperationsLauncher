@@ -554,8 +554,6 @@ namespace MurshunLauncher
             progressBar2.Value = 0;
             progressBar2.Step = 1;
 
-            long totalSize = 0;
-
             foreach (string X in folderFiles)
             {
                 FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
@@ -579,8 +577,6 @@ namespace MurshunLauncher
 
                 files["files"][X] = data;
 
-                totalSize += file.Length;
-
                 progressBar2.PerformStep();
             }
 
@@ -591,7 +587,9 @@ namespace MurshunLauncher
 
             MessageBox.Show("MurshunLauncherFiles.json was saved to client and server mods folder.");
 
-            Thread NewThread = new Thread(() => SetLauncherFiles(totalSize));
+            string localJsonMD5 = GetMD5(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json");
+
+            Thread NewThread = new Thread(() => SetLauncherFiles(localJsonMD5));
             NewThread.Start();
         }
 
