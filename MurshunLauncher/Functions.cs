@@ -137,8 +137,10 @@ namespace MurshunLauncher
             }
         }
 
-        public void GetWebModLineNewThread()
+        public void GetWebModLine()
         {
+            LockInterface("Getting the modline from the poddy main server...");
+
             WebClient client = new WebClient();
 
             try
@@ -154,22 +156,28 @@ namespace MurshunLauncher
                     presetModsList.Add(X);
                 }
 
-                this.Invoke(new Action(() => RefreshPresetModsList()));
+                RefreshPresetModsList();
             }
             catch
             {
-
+                MessageBox.Show("Couldn't connect to the server to get the modline.");
             }
+
+            UnlockInterface();
         }
 
         public bool VerifyMods(bool fullVerify)
         {
             bool verifySuccess = true;
 
+            LockInterface("Verifying...");
+
             string murshunLauncherFilesPath = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
             if (File.Exists(murshunLauncherFilesPath))
             {
+                verifySuccess = CheckLauncherFiles(GetMD5(murshunLauncherFilesPath));
+
                 List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
                 folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
@@ -178,12 +186,6 @@ namespace MurshunLauncher
 
                 this.Invoke(new Action(() =>
                 {
-                    if (fullVerify)
-                    {
-                        this.Enabled = false;
-                        MessageBox.Show("Full verify will take some time.");
-                    }
-
                     clientModsFiles_listView.Items.Clear();
                     murshunLauncherFiles_listView.Items.Clear();
 
@@ -203,6 +205,8 @@ namespace MurshunLauncher
                         clientFiles.Add(X + ":" + file.Length);
                     else
                         clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
+
+                    ChangeHeader("Verifying... (" + progressBar1.Value + " / " + progressBar1.Maximum + ")");
 
                     this.Invoke(new Action(() => progressBar1.PerformStep()));
                 }
@@ -227,11 +231,6 @@ namespace MurshunLauncher
                         else
                             murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
                     }
-
-                    string localJsonMD5 = GetMD5(murshunLauncherFilesPath);
-
-                    Thread NewThread = new Thread(() => CheckLauncherFiles(localJsonMD5));
-                    NewThread.Start();
 
                     folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
@@ -265,12 +264,6 @@ namespace MurshunLauncher
                             verifySuccess = false;
                         }
                     }
-
-                    if (fullVerify)
-                    {
-                        MessageBox.Show("Full verify is done.");
-                        this.Enabled = true;
-                    }
                 }));
             }
             else
@@ -281,97 +274,102 @@ namespace MurshunLauncher
 
             CheckACRE2();
 
+            UnlockInterface();
+
             return verifySuccess;
         }
 
-        public void CheckLauncherFiles(string localJsonMD5)
+        public bool CheckLauncherFiles(string localJsonMD5)
         {
+            bool success = false;
+
+            LockInterface("Connecting to the poddy vps...");
+
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php");
+                string modLineString = client.DownloadString("http://vps.podkolpakom.net/murshun_mods.php");
 
-                string webJsonMD5 = modLineString;
-
-                if (webJsonMD5 != localJsonMD5)
+                if (modLineString != localJsonMD5)
                 {
                     this.Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
+                }
+                else
+                {
+                    success = true;
                 }
             }
             catch
             {
-
+                this.Invoke(new Action(() => MessageBox.Show("Couldn't connect to the poddy vps to check the integrity of your files.")));
             }
+
+            UnlockInterface();
+
+            return success;
         }
 
-        public void SetLauncherFiles(string localJsonMD5)
+        public bool SetLauncherFiles(string localJsonMD5)
         {
+            bool success = false;
+
+            LockInterface("Writing md5 to vps...");
+
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString("http://vps.podkolpakom.net/launcher_files.php?size=" + localJsonMD5);
+                string modLineString = client.DownloadString("http://vps.podkolpakom.net/murshun_mods.php?md5=" + localJsonMD5);
+                success = true;
             }
             catch
             {
                 this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the vps.")));
             }
+
+            UnlockInterface();
+
+            return success;
         }
 
         public void RefreshPresetModsList()
         {
-            if (File.Exists(pathToArma3Client_textBox.Text))
-                pathToArma3Client_textBox.BackColor = Color.Green;
-            else
-                pathToArma3Client_textBox.BackColor = Color.Red;
+            SetColorOnText(pathToArma3Client_textBox);
+            SetColorOnText(pathToArma3ClientMods_textBox);
+            SetColorOnText(pathToArma3Server_textBox);
+            SetColorOnText(pathToArma3ServerMods_textBox);
+            SetColorOnText(serverConfig_textBox);
+            SetColorOnText(serverCfg_textBox);
+            SetColorOnText(serverProfiles_textBox);
 
-            if (Directory.Exists(pathToArma3ClientMods_textBox.Text))
-                pathToArma3ClientMods_textBox.BackColor = Color.Green;
-            else
-                pathToArma3ClientMods_textBox.BackColor = Color.Red;
+            SetColorOnPresetList(clientPresetMods_listView, pathToArma3ClientMods_textBox.Text);
+            SetColorOnPresetList(serverPresetMods_listView, pathToArma3ServerMods_textBox.Text);
 
-            if (File.Exists(pathToArma3Server_textBox.Text))
-                pathToArma3Server_textBox.BackColor = Color.Green;
-            else
-                pathToArma3Server_textBox.BackColor = Color.Red;
+            SetColorOnCustomList(clientCustomMods_listView, columnHeader7);
+            SetColorOnCustomList(serverCustomMods_listView, columnHeader9);
+        }
 
-            if (Directory.Exists(pathToArma3ServerMods_textBox.Text))
-                pathToArma3ServerMods_textBox.BackColor = Color.Green;
+        public void SetColorOnText(TextBox box)
+        {
+            if (Directory.Exists(box.Text) || File.Exists(box.Text))
+                box.BackColor = Color.Green;
             else
-                pathToArma3ServerMods_textBox.BackColor = Color.Red;
+                box.BackColor = Color.Red;
+        }
 
-            if (File.Exists(serverConfig_textBox.Text))
-                serverConfig_textBox.BackColor = Color.Green;
-            else
-                serverConfig_textBox.BackColor = Color.Red;
-
-            if (File.Exists(serverCfg_textBox.Text))
-                serverCfg_textBox.BackColor = Color.Green;
-            else
-                serverCfg_textBox.BackColor = Color.Red;
-
-            if (Directory.Exists(serverProfiles_textBox.Text))
-                serverProfiles_textBox.BackColor = Color.Green;
-            else
-                serverProfiles_textBox.BackColor = Color.Red;
-
-            clientPresetMods_listView.Items.Clear();
-            serverPresetMods_listView.Items.Clear();
+        public void SetColorOnPresetList(ListView list, string path)
+        {
+            list.Items.Clear();
 
             foreach (string X in presetModsList)
             {
-                clientPresetMods_listView.Items.Add(X);
+                list.Items.Add(X);
             }
 
-            foreach (string X in presetModsList)
+            foreach (ListViewItem X in list.Items)
             {
-                serverPresetMods_listView.Items.Add(X);
-            }
-
-            foreach (ListViewItem X in clientPresetMods_listView.Items)
-            {
-                if (Directory.Exists(pathToArma3ClientMods_textBox.Text + "\\" + X.Text + "\\addons"))
+                if (Directory.Exists(path + "\\" + X.Text + "\\addons"))
                 {
                     if (X.BackColor != Color.Green)
                         X.BackColor = Color.Green;
@@ -382,8 +380,11 @@ namespace MurshunLauncher
                         X.BackColor = Color.Red;
                 }
             }
+        }
 
-            foreach (ListViewItem X in clientCustomMods_listView.Items)
+        public void SetColorOnCustomList(ListView list, ColumnHeader header)
+        {
+            foreach (ListViewItem X in list.Items)
             {
                 if (Directory.Exists(X.Text + "\\addons"))
                 {
@@ -397,37 +398,7 @@ namespace MurshunLauncher
                 }
             }
 
-            columnHeader7.Width = -2;
-
-            foreach (ListViewItem X in serverPresetMods_listView.Items)
-            {
-                if (Directory.Exists(pathToArma3ServerMods_textBox.Text + "\\" + X.Text + "\\addons"))
-                {
-                    if (X.BackColor != Color.Green)
-                        X.BackColor = Color.Green;
-                }
-                else
-                {
-                    if (X.BackColor != Color.Red)
-                        X.BackColor = Color.Red;
-                }
-            }
-
-            foreach (ListViewItem X in serverCustomMods_listView.Items)
-            {
-                if (Directory.Exists(X.Text + "\\addons"))
-                {
-                    if (X.BackColor != Color.Green)
-                        X.BackColor = Color.Green;
-                }
-                else
-                {
-                    if (X.BackColor != Color.Red)
-                        X.BackColor = Color.Red;
-                }
-            }
-
-            columnHeader9.Width = -2;
+            header.Width = -2;
         }
 
         public void CheckSyncFolderSize()
@@ -467,8 +438,7 @@ namespace MurshunLauncher
             }
             else
             {
-                Thread GetModsThread = new Thread(() => GetWebModLineNewThread());
-                GetModsThread.Start();
+                GetWebModLine();
             }
         }
 
@@ -476,7 +446,7 @@ namespace MurshunLauncher
         {
             bool compareSuccess = true;
 
-            GetWebModLineNewThread();
+            GetWebModLine();
 
             List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
@@ -605,6 +575,15 @@ namespace MurshunLauncher
             }
         }
 
+        public string GetMD5String(string text)
+        {
+            using (var md5 = MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.Default.GetBytes(text);
+                return BitConverter.ToString(md5.ComputeHash(inputBytes)).Replace("-", "").ToLower();
+            }
+        }
+
         private void CopyPlugins(string tspath)
         {
             string acre32plugin = @"\acre2_win32.dll";
@@ -668,6 +647,32 @@ namespace MurshunLauncher
                 if (Directory.Exists(ts64path))
                     CopyPlugins(ts64path);
             }
+        }
+
+        public void LockInterface(string text)
+        {
+            this.Invoke(new Action(() =>
+            {
+                this.Enabled = false;
+                ChangeHeader(text);
+            }));
+        }
+
+        public void UnlockInterface()
+        {
+            this.Invoke(new Action(() =>
+            {
+                this.Enabled = true;
+                ChangeHeader("Murshun Launcher");
+            }));
+        }
+
+        public void ChangeHeader(string text)
+        {
+            this.Invoke(new Action(() =>
+            {
+                this.Text = text;
+            }));
         }
     }
 }

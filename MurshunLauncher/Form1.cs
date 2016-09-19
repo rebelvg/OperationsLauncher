@@ -110,9 +110,7 @@ namespace MurshunLauncher
         {
             ReadPresetFile();
 
-            bool verifySuccess = VerifyMods(false);
-
-            if (!verifySuccess)
+            if (!VerifyMods(false))
             {
                 DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "", MessageBoxButtons.YesNo);
 
@@ -199,12 +197,7 @@ namespace MurshunLauncher
 
         private void button8_Click(object sender, EventArgs e)
         {
-            GetWebModLineNewThread();
-
-            bool compareSuccess = CompareFolders();
-            bool copySuccess = CopyMissions();
-
-            if (!compareSuccess || !copySuccess)
+            if (!CompareFolders() || !CopyMissions())
             {
                 DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "", MessageBoxButtons.YesNo);
 
@@ -420,7 +413,7 @@ namespace MurshunLauncher
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
-                GetWebModLineNewThread();
+                GetWebModLine();
             }
         }
 
@@ -531,7 +524,7 @@ namespace MurshunLauncher
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)
         {
-            GetWebModLineNewThread();
+            GetWebModLine();
 
             List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
@@ -582,15 +575,13 @@ namespace MurshunLauncher
 
             string json_new = JsonConvert.SerializeObject(files, Formatting.Indented);
 
-            File.WriteAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
-            File.WriteAllText(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+            if (SetLauncherFiles(GetMD5String(json_new)))
+            {
+                File.WriteAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+                File.WriteAllText(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
 
-            MessageBox.Show("MurshunLauncherFiles.json was saved to client and server mods folder.");
-
-            string localJsonMD5 = GetMD5(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json");
-
-            Thread NewThread = new Thread(() => SetLauncherFiles(localJsonMD5));
-            NewThread.Start();
+                MessageBox.Show("MurshunLauncherFiles.json was saved to client and server mods folder.");
+            }
         }
 
         private void refreshClient_button_Click(object sender, EventArgs e)
@@ -602,7 +593,7 @@ namespace MurshunLauncher
 
         private void refreshServer_button_Click(object sender, EventArgs e)
         {
-            GetWebModLineNewThread();
+            CompareFolders();
         }
 
         private void showServerTabs_checkBox_Click(object sender, EventArgs e)
