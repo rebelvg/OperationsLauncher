@@ -283,7 +283,7 @@ namespace MurshunLauncher
         {
             bool success = false;
 
-            LockInterface("Connecting to the poddy vps...");
+            ChangeHeader("Connecting to the poddy vps...");
 
             WebClient client = new WebClient();
 
@@ -304,8 +304,6 @@ namespace MurshunLauncher
             {
                 this.Invoke(new Action(() => MessageBox.Show("Couldn't connect to the poddy vps to check the integrity of your files.")));
             }
-
-            UnlockInterface();
 
             return success;
         }
