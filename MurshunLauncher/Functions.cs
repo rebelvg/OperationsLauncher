@@ -201,12 +201,12 @@ namespace MurshunLauncher
                 {
                     FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
 
+                    ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+
                     if (!fullVerify)
                         clientFiles.Add(X + ":" + file.Length);
                     else
-                        clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
-
-                    ChangeHeader("Verifying... (" + progressBar1.Value + " / " + progressBar1.Maximum + ")");
+                        clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));                    
 
                     this.Invoke(new Action(() => progressBar1.PerformStep()));
                 }
