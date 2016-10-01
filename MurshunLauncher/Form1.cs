@@ -521,9 +521,9 @@ namespace MurshunLauncher
         {
             GetWebModLine();
 
-            List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folderFiles = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
-            folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ServerMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
             folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
 
@@ -537,8 +537,8 @@ namespace MurshunLauncher
 
             Dictionary<string, dynamic> json_old = new Dictionary<string, dynamic>();
 
-            if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"))
-                json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"));
+            if (File.Exists(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json"))
+                json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json"));
 
             progressBar2.Minimum = 0;
             progressBar2.Maximum = folderFiles.Count();
@@ -547,7 +547,7 @@ namespace MurshunLauncher
 
             foreach (string X in folderFiles)
             {
-                FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
+                FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
 
                 Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
 
@@ -559,11 +559,11 @@ namespace MurshunLauncher
                     if (json_old["files"][X].date == file.LastWriteTimeUtc)
                         data["md5"] = json_old["files"][X].md5;
                     else
-                        data["md5"] = GetMD5(pathToArma3ClientMods_textBox.Text + X);
+                        data["md5"] = GetMD5(pathToArma3ServerMods_textBox.Text + X);
                 }
                 catch
                 {
-                    data["md5"] = GetMD5(pathToArma3ClientMods_textBox.Text + X);
+                    data["md5"] = GetMD5(pathToArma3ServerMods_textBox.Text + X);
                 }
 
                 files["files"][X] = data;
