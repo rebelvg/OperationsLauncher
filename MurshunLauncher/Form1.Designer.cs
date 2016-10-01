@@ -77,6 +77,9 @@
             this.clientModsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.saveSettingsServer_button = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.modListLink_textBox = new System.Windows.Forms.TextBox();
             this.copyMissions_button = new System.Windows.Forms.Button();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.label13 = new System.Windows.Forms.Label();
@@ -123,11 +126,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.modVerifyLink_textBox = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.modListLink_textBox = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.saveSettingsServer_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -635,8 +633,6 @@
             this.tabPage3.Controls.Add(this.saveSettingsServer_button);
             this.tabPage3.Controls.Add(this.label15);
             this.tabPage3.Controls.Add(this.modListLink_textBox);
-            this.tabPage3.Controls.Add(this.label14);
-            this.tabPage3.Controls.Add(this.modVerifyLink_textBox);
             this.tabPage3.Controls.Add(this.copyMissions_button);
             this.tabPage3.Controls.Add(this.linkLabel8);
             this.tabPage3.Controls.Add(this.label13);
@@ -672,6 +668,31 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // saveSettingsServer_button
+            // 
+            this.saveSettingsServer_button.Location = new System.Drawing.Point(803, 682);
+            this.saveSettingsServer_button.Name = "saveSettingsServer_button";
+            this.saveSettingsServer_button.Size = new System.Drawing.Size(93, 23);
+            this.saveSettingsServer_button.TabIndex = 51;
+            this.saveSettingsServer_button.Text = "Save Settings";
+            this.saveSettingsServer_button.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 667);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 13);
+            this.label15.TabIndex = 50;
+            this.label15.Text = "Mod List Link";
+            // 
+            // modListLink_textBox
+            // 
+            this.modListLink_textBox.Location = new System.Drawing.Point(7, 685);
+            this.modListLink_textBox.Name = "modListLink_textBox";
+            this.modListLink_textBox.Size = new System.Drawing.Size(439, 20);
+            this.modListLink_textBox.TabIndex = 49;
             // 
             // copyMissions_button
             // 
@@ -1113,47 +1134,6 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
-            // modVerifyLink_textBox
-            // 
-            this.modVerifyLink_textBox.Location = new System.Drawing.Point(7, 685);
-            this.modVerifyLink_textBox.Name = "modVerifyLink_textBox";
-            this.modVerifyLink_textBox.Size = new System.Drawing.Size(439, 20);
-            this.modVerifyLink_textBox.TabIndex = 47;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 669);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(80, 13);
-            this.label14.TabIndex = 48;
-            this.label14.Text = "Mod Verify Link";
-            // 
-            // modListLink_textBox
-            // 
-            this.modListLink_textBox.Location = new System.Drawing.Point(7, 648);
-            this.modListLink_textBox.Name = "modListLink_textBox";
-            this.modListLink_textBox.Size = new System.Drawing.Size(439, 20);
-            this.modListLink_textBox.TabIndex = 49;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 630);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 13);
-            this.label15.TabIndex = 50;
-            this.label15.Text = "Mod List Link";
-            // 
-            // saveSettingsServer_button
-            // 
-            this.saveSettingsServer_button.Location = new System.Drawing.Point(803, 682);
-            this.saveSettingsServer_button.Name = "saveSettingsServer_button";
-            this.saveSettingsServer_button.Size = new System.Drawing.Size(93, 23);
-            this.saveSettingsServer_button.TabIndex = 51;
-            this.saveSettingsServer_button.Text = "Save Settings";
-            this.saveSettingsServer_button.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1279,8 +1259,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox modListLink_textBox;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox modVerifyLink_textBox;
         private System.Windows.Forms.Button saveSettingsServer_button;
     }
 }

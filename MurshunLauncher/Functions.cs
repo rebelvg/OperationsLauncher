@@ -45,7 +45,6 @@ namespace MurshunLauncher
                 serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
                 hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
                 modListLink_textBox.Text = LauncherSettings.modListLink;
-                modVerifyLink_textBox.Text = LauncherSettings.modVerifyLink;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -127,7 +126,6 @@ namespace MurshunLauncher
                 LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
                 LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
                 LauncherSettings.modListLink = modListLink_textBox.Text;
-                LauncherSettings.modVerifyLink = modVerifyLink_textBox.Text;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -155,10 +153,14 @@ namespace MurshunLauncher
 
                 presetModsList.Clear();
 
-                foreach (string X in modLineJson)
+                foreach (string X in modLineJson["mods"])
                 {
                     presetModsList.Add(X);
                 }
+
+                server = modLineJson["server"];
+                password = modLineJson["password"];
+                verifyModsLink = modLineJson["verify_link"];
 
                 RefreshPresetModsList();
             }
@@ -319,21 +321,21 @@ namespace MurshunLauncher
         {
             bool success = false;
 
-            if (modVerifyLink_textBox.Text == "")
+            if (verifyModsLink == "")
                 return true;
 
-            LockInterface("Writing md5 to the server... " + modVerifyLink_textBox.Text);
+            LockInterface("Writing md5 to the server... " + verifyModsLink);
 
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString(modVerifyLink_textBox.Text + "?md5=" + localJsonMD5);
+                string modLineString = client.DownloadString(verifyModsLink + "?md5=" + localJsonMD5);
                 success = true;
             }
             catch
             {
-                this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server. " + modVerifyLink_textBox.Text)));
+                this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server. " + verifyModsLink)));
             }
 
             UnlockInterface();
@@ -441,6 +443,9 @@ namespace MurshunLauncher
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
 
                 presetModsList = json.mods.ToObject<List<string>>();
+
+                server = json["server"];
+                password = json["password"];
             }
 
             RefreshPresetModsList();

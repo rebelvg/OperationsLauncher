@@ -151,7 +151,13 @@ namespace MurshunLauncher
 
             if (joinTheServer_checkBox.Checked)
             {
-                modLine = modLine + " -connect=109.87.76.153 -port=2302 -password=v";
+                if (server != "")
+                {
+                    modLine = modLine + " -connect=" + server;
+
+                    if (password != "")
+                        modLine = modLine + " -password=" + password;
+                }
             }
 
             if (File.Exists(pathToArma3Client_textBox.Text))
@@ -523,7 +529,9 @@ namespace MurshunLauncher
 
             Dictionary<string, dynamic> files = new Dictionary<string, dynamic>();
 
-            files["verify_link"] = modVerifyLink_textBox.Text;
+            files["server"] = server;
+            files["password"] = password;
+            files["verify_link"] = verifyModsLink;
             files["mods"] = presetModsList;
             files["files"] = new Dictionary<string, dynamic>();
 
