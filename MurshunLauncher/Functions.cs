@@ -197,9 +197,9 @@ namespace MurshunLauncher
                     clientModsFiles_listView.Items.Clear();
                     murshunLauncherFiles_listView.Items.Clear();
 
-                    progressBar1.Minimum = 1;
+                    progressBar1.Minimum = 0;
                     progressBar1.Maximum = folderFiles.Count();
-                    progressBar1.Value = 1;
+                    progressBar1.Value = 0;
                     progressBar1.Step = 1;
                 }));
 
@@ -472,9 +472,9 @@ namespace MurshunLauncher
             compareClientFiles_listView.Items.Clear();
             compareServerFiles_listView.Items.Clear();
 
-            progressBar2.Minimum = 1;
+            progressBar2.Minimum = 0;
             progressBar2.Maximum = folder_clientFilesList.Count() + folder_serverFilesList.Count();
-            progressBar2.Value = 1;
+            progressBar2.Value = 0;
             progressBar2.Step = 1;
 
             foreach (string X in folder_clientFilesList)

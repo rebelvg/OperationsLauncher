@@ -281,9 +281,9 @@ namespace MurshunLauncher
 
             if (dialogResult == DialogResult.Yes)
             {
-                progressBar2.Minimum = 1;
-                progressBar2.Maximum = compareMissingFiles_listView.Items.Count;
-                progressBar2.Value = 1;
+                progressBar2.Minimum = 0;
+                progressBar2.Maximum = compareExcessFiles_listView.Items.Count + compareMissingFiles_listView.Items.Count;
+                progressBar2.Value = 0;
                 progressBar2.Step = 1;
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
@@ -540,9 +540,9 @@ namespace MurshunLauncher
             if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"))
                 json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"));
 
-            progressBar2.Minimum = 1;
+            progressBar2.Minimum = 0;
             progressBar2.Maximum = folderFiles.Count();
-            progressBar2.Value = 1;
+            progressBar2.Value = 0;
             progressBar2.Step = 1;
 
             foreach (string X in folderFiles)
