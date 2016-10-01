@@ -99,6 +99,8 @@ namespace MurshunLauncher
             public string serverProfiles_textBox;
             public string serverProfileName_textBox;
             public bool hideWindow_checkBox;
+            public string modListLink;
+            public string modVerifyLink;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -180,11 +182,6 @@ namespace MurshunLauncher
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://murshun.club/");
-        }
-
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://steamcommunity.com/groups/murshun");
@@ -250,8 +247,16 @@ namespace MurshunLauncher
                 if (hideWindow_checkBox.Checked)
                     myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 myProcess.Start();
-                myProcess.ProcessorAffinity = (System.IntPtr)12;
-                myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
+
+                try
+                {
+                    myProcess.ProcessorAffinity = (System.IntPtr)12;
+                    myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
+                }
+                catch
+                {
+
+                }
             }
             else
             {
@@ -270,19 +275,15 @@ namespace MurshunLauncher
 
             if (dialogResult == DialogResult.Yes)
             {
-                progressBar2.Minimum = 0;
+                progressBar2.Minimum = 1;
                 progressBar2.Maximum = compareMissingFiles_listView.Items.Count;
-                progressBar2.Value = 0;
+                progressBar2.Value = 1;
                 progressBar2.Step = 1;
-
-                //MessageBox.Show("Removing " + compareExcessFiles_listView.Items.Count + " files.");
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
                 {
                     File.Delete(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
                 }
-
-                //MessageBox.Show("Copying " + compareMissingFiles_listView.Items.Count + " files.");
 
                 foreach (ListViewItem item in compareMissingFiles_listView.Items)
                 {
@@ -534,6 +535,7 @@ namespace MurshunLauncher
 
             Dictionary<string, dynamic> files = new Dictionary<string, dynamic>();
 
+            files["verify_link"] = modVerifyLink_textBox.Text;
             files["mods"] = presetModsList;
             files["files"] = new Dictionary<string, dynamic>();
 
@@ -542,9 +544,9 @@ namespace MurshunLauncher
             if (File.Exists(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"))
                 json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json"));
 
-            progressBar2.Minimum = 0;
+            progressBar2.Minimum = 1;
             progressBar2.Maximum = folderFiles.Count();
-            progressBar2.Value = 0;
+            progressBar2.Value = 1;
             progressBar2.Step = 1;
 
             foreach (string X in folderFiles)

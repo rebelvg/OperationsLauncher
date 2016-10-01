@@ -44,6 +44,8 @@ namespace MurshunLauncher
                 serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
                 serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
                 hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
+                modListLink_textBox.Text = LauncherSettings.modListLink;
+                modVerifyLink_textBox.Text = LauncherSettings.modVerifyLink;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -124,6 +126,8 @@ namespace MurshunLauncher
                 LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
                 LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
                 LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
+                LauncherSettings.modListLink = modListLink_textBox.Text;
+                LauncherSettings.modVerifyLink = modVerifyLink_textBox.Text;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -139,13 +143,13 @@ namespace MurshunLauncher
 
         public void GetWebModLine()
         {
-            LockInterface("Getting the modline from the poddy main server...");
+            LockInterface("Getting the modline from the server... " + modListLink_textBox.Text);
 
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString("http://dedick.podkolpakom.net/arma/mods.php?json");
+                string modLineString = client.DownloadString(modListLink_textBox.Text);
 
                 dynamic modLineJson = JsonConvert.DeserializeObject(modLineString);
 
@@ -160,7 +164,7 @@ namespace MurshunLauncher
             }
             catch
             {
-                MessageBox.Show("Couldn't connect to the server to get the modline.");
+                MessageBox.Show("Couldn't connect to the server to get the modline. " + modListLink_textBox.Text);
             }
 
             UnlockInterface();
@@ -176,7 +180,9 @@ namespace MurshunLauncher
 
             if (File.Exists(murshunLauncherFilesPath))
             {
-                verifySuccess = CheckLauncherFiles(GetMD5(murshunLauncherFilesPath));
+                Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(murshunLauncherFilesPath));
+
+                verifySuccess = CheckLauncherFiles(json["verify_link"], GetMD5(murshunLauncherFilesPath));
 
                 List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
@@ -189,9 +195,9 @@ namespace MurshunLauncher
                     clientModsFiles_listView.Items.Clear();
                     murshunLauncherFiles_listView.Items.Clear();
 
-                    progressBar1.Minimum = 0;
+                    progressBar1.Minimum = 1;
                     progressBar1.Maximum = folderFiles.Count();
-                    progressBar1.Value = 0;
+                    progressBar1.Value = 1;
                     progressBar1.Step = 1;
                 }));
 
@@ -206,7 +212,7 @@ namespace MurshunLauncher
                     if (!fullVerify)
                         clientFiles.Add(X + ":" + file.Length);
                     else
-                        clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));                    
+                        clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
 
                     this.Invoke(new Action(() => progressBar1.PerformStep()));
                 }
@@ -218,9 +224,7 @@ namespace MurshunLauncher
                         clientModsFiles_listView.Items.Add(X);
                     }
 
-                    dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
-
-                    foreach (dynamic X in json.files)
+                    foreach (dynamic X in json["files"])
                     {
                         dynamic size = X.First.size;
                         dynamic date = X.First.date;
@@ -279,17 +283,20 @@ namespace MurshunLauncher
             return verifySuccess;
         }
 
-        public bool CheckLauncherFiles(string localJsonMD5)
+        public bool CheckLauncherFiles(string link, string localJsonMD5)
         {
             bool success = false;
 
-            ChangeHeader("Connecting to the poddy vps...");
+            if (link == "")
+                return true;
+
+            ChangeHeader("Connecting to the server... " + link);
 
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString("http://vps.podkolpakom.net/murshun_mods.php");
+                string modLineString = client.DownloadString(link);
 
                 if (modLineString != localJsonMD5)
                 {
@@ -302,7 +309,7 @@ namespace MurshunLauncher
             }
             catch
             {
-                this.Invoke(new Action(() => MessageBox.Show("Couldn't connect to the poddy vps to check the integrity of your files.")));
+                this.Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link)));
             }
 
             return success;
@@ -312,18 +319,21 @@ namespace MurshunLauncher
         {
             bool success = false;
 
-            LockInterface("Writing md5 to vps...");
+            if (modVerifyLink_textBox.Text == "")
+                return true;
+
+            LockInterface("Writing md5 to the server... " + modVerifyLink_textBox.Text);
 
             WebClient client = new WebClient();
 
             try
             {
-                string modLineString = client.DownloadString("http://vps.podkolpakom.net/murshun_mods.php?md5=" + localJsonMD5);
+                string modLineString = client.DownloadString(modVerifyLink_textBox.Text + "?md5=" + localJsonMD5);
                 success = true;
             }
             catch
             {
-                this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the vps.")));
+                this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server. " + modVerifyLink_textBox.Text)));
             }
 
             UnlockInterface();
@@ -431,13 +441,9 @@ namespace MurshunLauncher
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
 
                 presetModsList = json.mods.ToObject<List<string>>();
+            }
 
-                RefreshPresetModsList();
-            }
-            else
-            {
-                GetWebModLine();
-            }
+            RefreshPresetModsList();
         }
 
         public bool CompareFolders()
@@ -461,9 +467,9 @@ namespace MurshunLauncher
             compareClientFiles_listView.Items.Clear();
             compareServerFiles_listView.Items.Clear();
 
-            progressBar2.Minimum = 0;
+            progressBar2.Minimum = 1;
             progressBar2.Maximum = folder_clientFilesList.Count() + folder_serverFilesList.Count();
-            progressBar2.Value = 0;
+            progressBar2.Value = 1;
             progressBar2.Step = 1;
 
             foreach (string X in folder_clientFilesList)

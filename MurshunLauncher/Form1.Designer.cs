@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.save_button = new System.Windows.Forms.Button();
+            this.saveSettingsClient_button = new System.Windows.Forms.Button();
             this.showServerTabs_checkBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,7 +48,6 @@
             this.pathToArma3Client_textBox = new System.Windows.Forms.TextBox();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.clientCustomMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -124,6 +123,11 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.modVerifyLink_textBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.modListLink_textBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.saveSettingsServer_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -149,7 +153,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.save_button);
+            this.tabPage1.Controls.Add(this.saveSettingsClient_button);
             this.tabPage1.Controls.Add(this.showServerTabs_checkBox);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
@@ -166,7 +170,6 @@
             this.tabPage1.Controls.Add(this.pathToArma3Client_textBox);
             this.tabPage1.Controls.Add(this.linkLabel3);
             this.tabPage1.Controls.Add(this.linkLabel2);
-            this.tabPage1.Controls.Add(this.linkLabel1);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.clientCustomMods_listView);
             this.tabPage1.Controls.Add(this.clientPresetMods_listView);
@@ -186,15 +189,15 @@
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Client";
             // 
-            // save_button
+            // saveSettingsClient_button
             // 
-            this.save_button.Location = new System.Drawing.Point(945, 623);
-            this.save_button.Name = "save_button";
-            this.save_button.Size = new System.Drawing.Size(93, 23);
-            this.save_button.TabIndex = 41;
-            this.save_button.Text = "Save Settings";
-            this.save_button.UseVisualStyleBackColor = true;
-            this.save_button.Click += new System.EventHandler(this.save_button_Click);
+            this.saveSettingsClient_button.Location = new System.Drawing.Point(945, 623);
+            this.saveSettingsClient_button.Name = "saveSettingsClient_button";
+            this.saveSettingsClient_button.Size = new System.Drawing.Size(93, 23);
+            this.saveSettingsClient_button.TabIndex = 41;
+            this.saveSettingsClient_button.Text = "Save Settings";
+            this.saveSettingsClient_button.UseVisualStyleBackColor = true;
+            this.saveSettingsClient_button.Click += new System.EventHandler(this.save_button_Click);
             // 
             // showServerTabs_checkBox
             // 
@@ -355,17 +358,6 @@
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "Murshun Group";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(4, 633);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(79, 13);
-            this.linkLabel1.TabIndex = 18;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Murshun Home";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label3
             // 
@@ -640,6 +632,11 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.saveSettingsServer_button);
+            this.tabPage3.Controls.Add(this.label15);
+            this.tabPage3.Controls.Add(this.modListLink_textBox);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.modVerifyLink_textBox);
             this.tabPage3.Controls.Add(this.copyMissions_button);
             this.tabPage3.Controls.Add(this.linkLabel8);
             this.tabPage3.Controls.Add(this.label13);
@@ -792,11 +789,11 @@
             // hideWindow_checkBox
             // 
             this.hideWindow_checkBox.AutoSize = true;
-            this.hideWindow_checkBox.Location = new System.Drawing.Point(806, 650);
+            this.hideWindow_checkBox.Location = new System.Drawing.Point(772, 659);
             this.hideWindow_checkBox.Name = "hideWindow_checkBox";
-            this.hideWindow_checkBox.Size = new System.Drawing.Size(90, 17);
+            this.hideWindow_checkBox.Size = new System.Drawing.Size(124, 17);
             this.hideWindow_checkBox.TabIndex = 34;
-            this.hideWindow_checkBox.Text = "Hide Window";
+            this.hideWindow_checkBox.Text = "Hide Server Window";
             this.hideWindow_checkBox.UseVisualStyleBackColor = true;
             // 
             // removeUncheckedServerMod_button
@@ -1116,6 +1113,47 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // modVerifyLink_textBox
+            // 
+            this.modVerifyLink_textBox.Location = new System.Drawing.Point(7, 685);
+            this.modVerifyLink_textBox.Name = "modVerifyLink_textBox";
+            this.modVerifyLink_textBox.Size = new System.Drawing.Size(439, 20);
+            this.modVerifyLink_textBox.TabIndex = 47;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(8, 669);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(80, 13);
+            this.label14.TabIndex = 48;
+            this.label14.Text = "Mod Verify Link";
+            // 
+            // modListLink_textBox
+            // 
+            this.modListLink_textBox.Location = new System.Drawing.Point(7, 648);
+            this.modListLink_textBox.Name = "modListLink_textBox";
+            this.modListLink_textBox.Size = new System.Drawing.Size(439, 20);
+            this.modListLink_textBox.TabIndex = 49;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 630);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 13);
+            this.label15.TabIndex = 50;
+            this.label15.Text = "Mod List Link";
+            // 
+            // saveSettingsServer_button
+            // 
+            this.saveSettingsServer_button.Location = new System.Drawing.Point(803, 682);
+            this.saveSettingsServer_button.Name = "saveSettingsServer_button";
+            this.saveSettingsServer_button.Size = new System.Drawing.Size(93, 23);
+            this.saveSettingsServer_button.TabIndex = 51;
+            this.saveSettingsServer_button.Text = "Save Settings";
+            this.saveSettingsServer_button.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1162,7 +1200,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListView serverPresetMods_listView;
@@ -1236,10 +1273,15 @@
         private System.Windows.Forms.CheckBox showServerTabs_checkBox;
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.Button copyMissions_button;
-        private System.Windows.Forms.Button save_button;
+        private System.Windows.Forms.Button saveSettingsClient_button;
         private System.Windows.Forms.ProgressBar progressBar2;
         private System.Windows.Forms.Button fullVerify_button;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox modListLink_textBox;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox modVerifyLink_textBox;
+        private System.Windows.Forms.Button saveSettingsServer_button;
     }
 }
 
