@@ -339,8 +339,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 pathToArma3Server_textBox.Text = selectFile.FileName;
-
-                ReadPresetFile();
             }
         }
 
@@ -353,8 +351,6 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
-
-                ReadPresetFile();
             }
         }
 
@@ -369,8 +365,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 serverConfig_textBox.Text = selectFile.FileName;
-
-                ReadPresetFile();
             }
         }
 
@@ -385,8 +379,6 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 serverCfg_textBox.Text = selectFile.FileName;
-
-                ReadPresetFile();
             }
         }
 
@@ -399,8 +391,6 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 serverProfiles_textBox.Text = chosenFolder.SelectedPath;
-
-                ReadPresetFile();
             }
         }
 
@@ -413,8 +403,6 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
-
-                GetWebModLine();
             }
         }
 
