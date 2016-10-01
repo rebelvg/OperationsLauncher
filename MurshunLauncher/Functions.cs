@@ -35,16 +35,6 @@ namespace MurshunLauncher
                 joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
                 defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
                 advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
-                showServerTabs_checkBox.Checked = LauncherSettings.showServerTabs_checkBox;
-
-                pathToArma3Server_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
-                pathToArma3ServerMods_textBox.Text = LauncherSettings.pathToArma3ServerMods_textBox;
-                serverConfig_textBox.Text = LauncherSettings.serverConfig_textBox;
-                serverCfg_textBox.Text = LauncherSettings.serverCfg_textBox;
-                serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
-                serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
-                hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
-                modListLink_textBox.Text = LauncherSettings.modListLink;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -60,28 +50,6 @@ namespace MurshunLauncher
                     {
                         X.Checked = true;
                     }
-                }
-
-                foreach (string X in LauncherSettings.serverCustomMods_listView)
-                {
-                    if (!serverCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).Contains(X))
-                    {
-                        serverCustomMods_listView.Items.Add(X);
-                    }
-                }
-
-                foreach (ListViewItem X in serverCustomMods_listView.Items)
-                {
-                    if (LauncherSettings.serverCheckedModsList_listView.Contains(X.Text))
-                    {
-                        X.Checked = true;
-                    }
-                }
-
-                if (!LauncherSettings.showServerTabs_checkBox)
-                {
-                    tabControl1.Controls.Remove(tabPage3);
-                    tabControl1.Controls.Remove(tabPage4);
                 }
             }
             catch
@@ -114,18 +82,6 @@ namespace MurshunLauncher
                 LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
                 LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
-                LauncherSettings.showServerTabs_checkBox = showServerTabs_checkBox.Checked;
-
-                LauncherSettings.pathToArma3Server_textBox = pathToArma3Server_textBox.Text;
-                LauncherSettings.pathToArma3ServerMods_textBox = pathToArma3ServerMods_textBox.Text;
-                LauncherSettings.serverCustomMods_listView = serverCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.serverCheckedModsList_listView = serverCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.serverConfig_textBox = serverConfig_textBox.Text;
-                LauncherSettings.serverCfg_textBox = serverCfg_textBox.Text;
-                LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
-                LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
-                LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
-                LauncherSettings.modListLink = modListLink_textBox.Text;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -137,39 +93,6 @@ namespace MurshunLauncher
             {
                 MessageBox.Show("Saving xml settings failed.");
             }
-        }
-
-        public void GetWebModLine()
-        {
-            LockInterface("Getting the modline from the server... " + modListLink_textBox.Text);
-
-            WebClient client = new WebClient();
-
-            try
-            {
-                string modLineString = client.DownloadString(modListLink_textBox.Text);
-
-                dynamic modLineJson = JsonConvert.DeserializeObject(modLineString);
-
-                presetModsList.Clear();
-
-                foreach (string X in modLineJson["mods"])
-                {
-                    presetModsList.Add(X);
-                }
-
-                server = modLineJson["server"];
-                password = modLineJson["password"];
-                verifyModsLink = modLineJson["verify_link"];
-
-                RefreshPresetModsList();
-            }
-            catch
-            {
-                MessageBox.Show("Couldn't connect to the server to get the modline. " + modListLink_textBox.Text);
-            }
-
-            UnlockInterface();
         }
 
         public bool VerifyMods(bool fullVerify)
@@ -317,47 +240,14 @@ namespace MurshunLauncher
             return success;
         }
 
-        public bool SetLauncherFiles(string localJsonMD5)
-        {
-            bool success = false;
-
-            if (verifyModsLink == "")
-                return true;
-
-            LockInterface("Writing md5 to the server... " + verifyModsLink);
-
-            WebClient client = new WebClient();
-
-            try
-            {
-                string modLineString = client.DownloadString(verifyModsLink + "?md5=" + localJsonMD5);
-                success = true;
-            }
-            catch
-            {
-                this.Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server. " + verifyModsLink)));
-            }
-
-            UnlockInterface();
-
-            return success;
-        }
-
         public void RefreshPresetModsList()
         {
             SetColorOnText(pathToArma3Client_textBox);
             SetColorOnText(pathToArma3ClientMods_textBox);
-            SetColorOnText(pathToArma3Server_textBox);
-            SetColorOnText(pathToArma3ServerMods_textBox);
-            SetColorOnText(serverConfig_textBox);
-            SetColorOnText(serverCfg_textBox);
-            SetColorOnText(serverProfiles_textBox);
 
             SetColorOnPresetList(clientPresetMods_listView, pathToArma3ClientMods_textBox.Text);
-            SetColorOnPresetList(serverPresetMods_listView, pathToArma3ServerMods_textBox.Text);
 
             SetColorOnCustomList(clientCustomMods_listView, columnHeader7);
-            SetColorOnCustomList(serverCustomMods_listView, columnHeader9);
         }
 
         public void SetColorOnText(TextBox box)
@@ -451,128 +341,6 @@ namespace MurshunLauncher
             RefreshPresetModsList();
         }
 
-        public bool CompareFolders()
-        {
-            bool compareSuccess = true;
-
-            GetWebModLine();
-
-            List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
-
-            folder_clientFilesList = folder_clientFilesList.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
-
-            folder_clientFilesList = folder_clientFilesList.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
-
-            List<string> folder_serverFilesList = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
-
-            folder_serverFilesList = folder_serverFilesList.Select(a => a.Replace(pathToArma3ServerMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
-
-            folder_serverFilesList = folder_serverFilesList.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
-
-            compareClientFiles_listView.Items.Clear();
-            compareServerFiles_listView.Items.Clear();
-
-            progressBar2.Minimum = 0;
-            progressBar2.Maximum = folder_clientFilesList.Count() + folder_serverFilesList.Count();
-            progressBar2.Value = 0;
-            progressBar2.Step = 1;
-
-            foreach (string X in folder_clientFilesList)
-            {
-                FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
-                compareClientFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
-
-                progressBar2.PerformStep();
-            }
-
-            foreach (string X in folder_serverFilesList)
-            {
-                FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
-                compareServerFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
-
-                progressBar2.PerformStep();
-            }
-
-            folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-            folder_serverFilesList = compareServerFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-
-            List<string> missingFilesList = folder_clientFilesList.Where(x => !folder_serverFilesList.Contains(x)).ToList();
-            List<string> excessFilesList = folder_serverFilesList.Where(x => !folder_clientFilesList.Contains(x)).ToList();
-
-            compareMissingFiles_listView.Items.Clear();
-            compareExcessFiles_listView.Items.Clear();
-
-            foreach (string X in missingFilesList)
-            {
-                compareMissingFiles_listView.Items.Add(X);
-            }
-
-            foreach (string X in excessFilesList)
-            {
-                compareExcessFiles_listView.Items.Add(X);
-            }
-
-            compareClientMods_textBox.Text = "Client Mods (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
-            compareServerMods_textBox.Text = "Server Mods (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
-
-            if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
-            {
-                if (tabControl1.SelectedTab != tabPage4)
-                {
-                    MessageBox.Show("You have missing or excess files.");
-                    tabControl1.SelectedTab = tabPage4;
-                    compareSuccess = false;
-                }
-            }
-
-            return compareSuccess;
-        }
-
-        public bool CopyMissions()
-        {
-            bool copySuccess = true;
-
-            string arma3ClientMissionFolder = pathToArma3Client_textBox.Text.ToLower().Replace("arma3.exe", "mpmissions");
-            string arma3ServerMissionFolder = pathToArma3Server_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions");
-
-            if (arma3ClientMissionFolder == arma3ServerMissionFolder)
-                return true;
-
-            try
-            {
-                List<string> clientMissionlist = Directory.GetFiles(arma3ClientMissionFolder, "*", SearchOption.AllDirectories).Where(s => s.Contains(".pbo")).ToList();
-
-                foreach (string X in clientMissionlist)
-                {
-                    File.Copy(X, X.Replace(arma3ClientMissionFolder, arma3ServerMissionFolder), true);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error copying missions.");
-                copySuccess = false;
-            }
-
-            return copySuccess;
-        }
-
-        private void CheckPath(string filePath)
-        {
-            List<string> pathList = Path.GetDirectoryName(filePath).Split(Path.DirectorySeparatorChar).ToList();
-
-            string fullpath = pathList[0];
-
-            pathList.RemoveAt(0);
-
-            foreach (string X in pathList)
-            {
-                fullpath += "\\" + X;
-
-                if (!Directory.Exists(fullpath))
-                    Directory.CreateDirectory(fullpath);
-            }
-        }
-
         public string GetMD5(string filename)
         {
             using (var md5 = MD5.Create())
@@ -581,15 +349,6 @@ namespace MurshunLauncher
                 {
                     return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
                 }
-            }
-        }
-
-        public string GetMD5String(string text)
-        {
-            using (var md5 = MD5.Create())
-            {
-                byte[] inputBytes = System.Text.Encoding.Default.GetBytes(text);
-                return BitConverter.ToString(md5.ComputeHash(inputBytes)).Replace("-", "").ToLower();
             }
         }
 
