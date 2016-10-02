@@ -134,6 +134,8 @@ namespace MurshunLauncher
                 {
                     FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
 
+                    ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+
                     if (!fullVerify)
                         clientFiles.Add(X + ":" + file.Length);
                     else
@@ -321,7 +323,7 @@ namespace MurshunLauncher
 
                 if ((bytes / 1024 / 1024 / 1024) >= 1)
                 {
-                    MessageBox.Show("Your btsync archive folder is too large. It's size is over " + (bytes / 1024 / 1024 / 1024) + " GB. You can clear it and disable archiving in the btsync client.");
+                    MessageBox.Show("Your BTsync archive folder is too large. It's size is over " + (bytes / 1024 / 1024 / 1024) + " GB. You can clear it and disable archiving in the BTsync client.");
                     System.Diagnostics.Process.Start(archivePath);
                 }
             }
