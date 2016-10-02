@@ -366,7 +366,7 @@ namespace MurshunLauncher
             if (File.Exists(acre32mods) && File.Exists(acre64mods))
             {
                 if (!Directory.Exists(teamSpeakFolder_textBox.Text))
-                    MessageBox.Show("Can't find your TS folder to automaticly copy ACRE2 plugins in.");
+                    MessageBox.Show("Can't find your TS folder to automatically copy ACRE2 plugins in.");
                 else
                     CopyPlugins(teamSpeakFolder_textBox.Text + @"\plugins");
             }
