@@ -88,6 +88,7 @@ namespace MurshunLauncher
             public List<string> clientCheckedModsList_listView;
             public string defaultStartLine_textBox = "-world=empty -nosplash -skipintro -nofilepatching -nologs";
             public string advancedStartLine_textBox;
+            public string teamSpeakFolder_textBox = @"C:\Program Files (x86)\TeamSpeak 3 Client";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -300,6 +301,20 @@ namespace MurshunLauncher
         {
             Thread NewThread = new Thread(() => VerifyMods(true));
             NewThread.Start();
+        }
+
+        private void changePathToTeamSpeakFolder_button_Click(object sender, EventArgs e)
+        {
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
+            chosenFolder.Description = "Select teamspeak folder.";
+            chosenFolder.UseDescriptionForTitle = true;
+
+            if (chosenFolder.ShowDialog().Value)
+            {
+                teamSpeakFolder_textBox.Text = chosenFolder.SelectedPath;
+
+                ReadPresetFile();
+            }
         }
     }
 }

@@ -35,6 +35,7 @@ namespace MurshunLauncher
                 joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
                 defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
                 advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
+                teamSpeakFolder_textBox.Text = LauncherSettings.teamSpeakFolder_textBox;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -82,6 +83,7 @@ namespace MurshunLauncher
                 LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
                 LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
+                LauncherSettings.teamSpeakFolder_textBox = teamSpeakFolder_textBox.Text;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -244,6 +246,7 @@ namespace MurshunLauncher
         {
             SetColorOnText(pathToArma3Client_textBox);
             SetColorOnText(pathToArma3ClientMods_textBox);
+            SetColorOnText(teamSpeakFolder_textBox);
 
             SetColorOnPresetList(clientPresetMods_listView, pathToArma3ClientMods_textBox.Text);
 
@@ -352,6 +355,23 @@ namespace MurshunLauncher
             }
         }
 
+        public void CheckACRE2()
+        {
+            string acre32plugin = @"\acre2_win32.dll";
+            string acre64plugin = @"\acre2_win64.dll";
+
+            string acre32mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
+            string acre64mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
+
+            if (File.Exists(acre32mods) && File.Exists(acre64mods))
+            {
+                if (!Directory.Exists(teamSpeakFolder_textBox.Text))
+                    MessageBox.Show("Can't find your TS folder to automaticly copy ACRE2 plugins in.");
+                else
+                    CopyPlugins(teamSpeakFolder_textBox.Text + @"\plugins");
+            }
+        }
+
         private void CopyPlugins(string tspath)
         {
             string acre32plugin = @"\acre2_win32.dll";
@@ -390,30 +410,6 @@ namespace MurshunLauncher
                 {
                     MessageBox.Show("Can't overwrite ACRE2 plugins.\n" + e.Message);
                 }
-            }
-        }
-
-        public void CheckACRE2()
-        {
-            string acre32plugin = @"\acre2_win32.dll";
-            string acre64plugin = @"\acre2_win64.dll";
-
-            string ts32path = @"C:\Program Files (x86)\TeamSpeak 3 Client\plugins";
-            string ts64path = @"C:\Program Files\TeamSpeak 3 Client\plugins";
-
-            string acre32mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
-            string acre64mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
-
-            if (File.Exists(acre32mods) && File.Exists(acre64mods))
-            {
-                if (!Directory.Exists(ts32path) && !Directory.Exists(ts64path))
-                    MessageBox.Show("Can't find default TS folder to automaticly copy ACRE2 plugins in.");
-
-                if (Directory.Exists(ts32path))
-                    CopyPlugins(ts32path);
-
-                if (Directory.Exists(ts64path))
-                    CopyPlugins(ts64path);
             }
         }
 

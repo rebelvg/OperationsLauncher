@@ -74,6 +74,9 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clientModsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label7 = new System.Windows.Forms.Label();
+            this.changePathToTeamSpeakFolder_button = new System.Windows.Forms.Button();
+            this.teamSpeakFolder_textBox = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -95,6 +98,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label7);
+            this.tabPage1.Controls.Add(this.changePathToTeamSpeakFolder_button);
+            this.tabPage1.Controls.Add(this.teamSpeakFolder_textBox);
             this.tabPage1.Controls.Add(this.saveSettingsClient_button);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
@@ -548,6 +554,33 @@
             this.columnHeader1.Text = "Files (Path:Size)";
             this.columnHeader1.Width = 503;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 123);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(97, 13);
+            this.label7.TabIndex = 44;
+            this.label7.Text = "TeamSpeak Folder";
+            // 
+            // changePathToTeamSpeakFolder_button
+            // 
+            this.changePathToTeamSpeakFolder_button.Location = new System.Drawing.Point(420, 139);
+            this.changePathToTeamSpeakFolder_button.Name = "changePathToTeamSpeakFolder_button";
+            this.changePathToTeamSpeakFolder_button.Size = new System.Drawing.Size(26, 20);
+            this.changePathToTeamSpeakFolder_button.TabIndex = 43;
+            this.changePathToTeamSpeakFolder_button.Text = "...";
+            this.changePathToTeamSpeakFolder_button.UseVisualStyleBackColor = true;
+            this.changePathToTeamSpeakFolder_button.Click += new System.EventHandler(this.changePathToTeamSpeakFolder_button_Click);
+            // 
+            // teamSpeakFolder_textBox
+            // 
+            this.teamSpeakFolder_textBox.Location = new System.Drawing.Point(7, 139);
+            this.teamSpeakFolder_textBox.Name = "teamSpeakFolder_textBox";
+            this.teamSpeakFolder_textBox.ReadOnly = true;
+            this.teamSpeakFolder_textBox.Size = new System.Drawing.Size(406, 20);
+            this.teamSpeakFolder_textBox.TabIndex = 42;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -618,6 +651,9 @@
         private System.Windows.Forms.Button saveSettingsClient_button;
         private System.Windows.Forms.Button fullVerify_button;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button changePathToTeamSpeakFolder_button;
+        private System.Windows.Forms.TextBox teamSpeakFolder_textBox;
     }
 }
 
