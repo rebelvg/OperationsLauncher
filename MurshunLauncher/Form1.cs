@@ -236,7 +236,7 @@ namespace MurshunLauncher
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher/releases");
+            System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher");
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
