@@ -484,7 +484,7 @@
             this.murshunLauncherFiles_textBox.ReadOnly = true;
             this.murshunLauncherFiles_textBox.Size = new System.Drawing.Size(507, 20);
             this.murshunLauncherFiles_textBox.TabIndex = 8;
-            this.murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.txt";
+            this.murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json";
             // 
             // verifyMods_button
             // 

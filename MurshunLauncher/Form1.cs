@@ -289,6 +289,8 @@ namespace MurshunLauncher
         {
             ReadPresetFile();
 
+            CheckSyncFolderSize();
+
             VerifyMods(false);
         }
 
