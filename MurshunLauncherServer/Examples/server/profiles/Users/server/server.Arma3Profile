@@ -1,0 +1,213 @@
+class Difficulties
+{
+	class Recruit
+	{
+		class Flags
+		{
+			3rdPersonView=1;
+			armor=0;
+			autoAim=0;
+			autoGuideAT=0;
+			autoSpot=0;
+			cameraShake=0;
+			clockIndicator=0;
+			DeathMessages=0;
+			enemyTag=0;
+			friendlyTag=0;
+			hud=0;
+			hudGroupInfo=0;
+			hudPerm=0;
+			hudWp=0;
+			hudWpPerm=0;
+			map=0;
+			netStats=0;
+			tracers=0;
+			ultraAI=0;
+			unlimitedSaves=0;
+			VonID=0;
+			weaponCursor=0;
+			ExtendetInfoType=0;
+			MineTag=0;
+			StaminaBar=0;
+			StanceIndicator=0;
+			visionAid=0;
+		};
+		aiLevelPreset=3;
+		skillAI=0.40000001;
+		precisionAI=0.1;
+		skillFriendly=0.40000001;
+		precisionFriendly=0.1;
+		skillEnemy=0.40000001;
+		precisionEnemy=0.1;
+	};
+	class Regular
+	{
+		class Flags
+		{
+			3rdPersonView=0;
+			armor=0;
+			autoAim=0;
+			autoGuideAT=0;
+			autoSpot=0;
+			cameraShake=0;
+			clockIndicator=0;
+			DeathMessages=0;
+			enemyTag=0;
+			friendlyTag=0;
+			hud=0;
+			hudGroupInfo=0;
+			hudPerm=0;
+			hudWp=0;
+			hudWpPerm=0;
+			map=0;
+			netStats=0;
+			tracers=0;
+			ultraAI=0;
+			unlimitedSaves=0;
+			VonID=0;
+			weaponCursor=0;
+			ExtendetInfoType=0;
+			MineTag=0;
+			StaminaBar=0;
+			StanceIndicator=0;
+			visionAid=0;
+		};
+		aiLevelPreset=3;
+		skillAI=0.40000001;
+		precisionAI=0.1;
+		skillFriendly=0.40000001;
+		precisionFriendly=0.1;
+		skillEnemy=0.40000001;
+		precisionEnemy=0.1;
+	};
+	class Veteran
+	{
+		class Flags
+		{
+			3rdPersonView=0;
+			armor=0;
+			autoAim=0;
+			autoGuideAT=0;
+			autoSpot=0;
+			cameraShake=0;
+			clockIndicator=0;
+			DeathMessages=0;
+			enemyTag=0;
+			friendlyTag=0;
+			hud=0;
+			hudGroupInfo=0;
+			hudPerm=0;
+			hudWp=0;
+			hudWpPerm=0;
+			map=0;
+			netStats=0;
+			tracers=0;
+			ultraAI=0;
+			unlimitedSaves=0;
+			VonID=0;
+			weaponCursor=0;
+			ExtendetInfoType=0;
+			MineTag=0;
+			StaminaBar=0;
+			StanceIndicator=0;
+			visionAid=0;
+		};
+		aiLevelPreset=3;
+		skillAI=0.40000001;
+		precisionAI=0.1;
+		skillFriendly=0.40000001;
+		precisionFriendly=0.1;
+		skillEnemy=0.40000001;
+		precisionEnemy=0.1;
+	};
+	class Mercenary
+	{
+		class Flags
+		{
+			3rdPersonView=0;
+			armor=0;
+			autoAim=0;
+			autoGuideAT=0;
+			autoSpot=0;
+			cameraShake=0;
+			clockIndicator=0;
+			DeathMessages=0;
+			enemyTag=0;
+			friendlyTag=0;
+			hud=0;
+			hudGroupInfo=0;
+			hudPerm=0;
+			hudWp=0;
+			hudWpPerm=0;
+			map=0;
+			netStats=0;
+			tracers=0;
+			ultraAI=0;
+			unlimitedSaves=0;
+			VonID=0;
+			weaponCursor=0;
+			ExtendetInfoType=0;
+			MineTag=0;
+			StaminaBar=0;
+			StanceIndicator=0;
+			visionAid=0;
+		};
+		aiLevelPreset=3;
+		skillAI=0.40000001;
+		precisionAI=0.1;
+		skillFriendly=0.40000001;
+		precisionFriendly=0.1;
+		skillEnemy=0.40000001;
+		precisionEnemy=0.1;
+	};
+};
+difficulty="custom";
+difficultyMP="custom";
+class DifficultyPresets
+{
+	class CustomDifficulty
+	{
+		class Options
+		{
+			groupIndicators=0;
+			friendlyTags=0;
+			enemyTags=0;
+			detectedMines=0;
+			commands=0;
+			waypoints=0;
+			weaponInfo=1;
+			stanceIndicator=0;
+			reducedDamage=0;
+			staminaBar=0;
+			weaponCrosshair=0;
+			visionAid=0;
+			thirdPersonView=0;
+			cameraShake=0;
+			scoreTable=0;
+			deathMessages=0;
+			vonID=0;
+			mapContent=0;
+			autoReport=0;
+			multipleSaves=0;
+		};
+		aiLevelPreset=3;
+	};
+	class CustomAILevel
+	{
+		skillAI=0.40000001;
+		precisionAI=0.1;
+	};
+};
+singleVoice=0;
+maxSamplesPlayed=96;
+activeKeys[]={};
+sceneComplexity=1000000;
+shadowZDistance=100;
+viewDistance=3800;
+preferredObjectViewDistance=1600;
+terrainGrid=3.125;
+volumeCD=10;
+volumeFX=10;
+volumeSpeech=10;
+volumeVoN=10;
+vonRecThreshold=0.029999999;
