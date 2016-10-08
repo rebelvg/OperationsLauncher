@@ -311,7 +311,8 @@ namespace MurshunLauncherServer
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)
         {
-            VerifyMods(true);
+            Thread NewThread = new Thread(() => VerifyMods(true));
+            NewThread.Start();
         }
 
         private void refreshServer_button_Click(object sender, EventArgs e)

@@ -118,7 +118,7 @@
             // 
             // changeRepoConfigPath_button
             // 
-            this.changeRepoConfigPath_button.Location = new System.Drawing.Point(420, 141);
+            this.changeRepoConfigPath_button.Location = new System.Drawing.Point(420, 139);
             this.changeRepoConfigPath_button.Name = "changeRepoConfigPath_button";
             this.changeRepoConfigPath_button.Size = new System.Drawing.Size(26, 20);
             this.changeRepoConfigPath_button.TabIndex = 61;
@@ -200,7 +200,7 @@
             // 
             // repoConfigPath_textBox
             // 
-            this.repoConfigPath_textBox.Location = new System.Drawing.Point(7, 141);
+            this.repoConfigPath_textBox.Location = new System.Drawing.Point(7, 139);
             this.repoConfigPath_textBox.Name = "repoConfigPath_textBox";
             this.repoConfigPath_textBox.ReadOnly = true;
             this.repoConfigPath_textBox.Size = new System.Drawing.Size(406, 20);

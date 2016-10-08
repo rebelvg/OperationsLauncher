@@ -31,6 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.copyMissions_checkBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.changePathToMissionFolder_button = new System.Windows.Forms.Button();
+            this.missionFolder_textBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
@@ -81,10 +85,6 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clientModsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label1 = new System.Windows.Forms.Label();
-            this.changePathToMissionFolder_button = new System.Windows.Forms.Button();
-            this.missionFolder_textBox = new System.Windows.Forms.TextBox();
-            this.copyMissions_checkBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -150,6 +150,43 @@
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // copyMissions_checkBox
+            // 
+            this.copyMissions_checkBox.AutoSize = true;
+            this.copyMissions_checkBox.Location = new System.Drawing.Point(772, 636);
+            this.copyMissions_checkBox.Name = "copyMissions_checkBox";
+            this.copyMissions_checkBox.Size = new System.Drawing.Size(93, 17);
+            this.copyMissions_checkBox.TabIndex = 64;
+            this.copyMissions_checkBox.Text = "Copy Missions";
+            this.copyMissions_checkBox.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 514);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.TabIndex = 63;
+            this.label1.Text = "Mission Folder";
+            // 
+            // changePathToMissionFolder_button
+            // 
+            this.changePathToMissionFolder_button.Location = new System.Drawing.Point(420, 530);
+            this.changePathToMissionFolder_button.Name = "changePathToMissionFolder_button";
+            this.changePathToMissionFolder_button.Size = new System.Drawing.Size(26, 20);
+            this.changePathToMissionFolder_button.TabIndex = 62;
+            this.changePathToMissionFolder_button.Text = "...";
+            this.changePathToMissionFolder_button.UseVisualStyleBackColor = true;
+            this.changePathToMissionFolder_button.Click += new System.EventHandler(this.changePathToMissionFolder_button_Click);
+            // 
+            // missionFolder_textBox
+            // 
+            this.missionFolder_textBox.Location = new System.Drawing.Point(7, 530);
+            this.missionFolder_textBox.Name = "missionFolder_textBox";
+            this.missionFolder_textBox.ReadOnly = true;
+            this.missionFolder_textBox.Size = new System.Drawing.Size(406, 20);
+            this.missionFolder_textBox.TabIndex = 61;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -162,7 +199,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 395);
+            this.label4.Location = new System.Drawing.Point(8, 6);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 57;
@@ -170,7 +207,7 @@
             // 
             // xmlPath_textBox
             // 
-            this.xmlPath_textBox.Location = new System.Drawing.Point(7, 411);
+            this.xmlPath_textBox.Location = new System.Drawing.Point(7, 22);
             this.xmlPath_textBox.Name = "xmlPath_textBox";
             this.xmlPath_textBox.ReadOnly = true;
             this.xmlPath_textBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -199,7 +236,7 @@
             // linkLabel8
             // 
             this.linkLabel8.AutoSize = true;
-            this.linkLabel8.Location = new System.Drawing.Point(401, 279);
+            this.linkLabel8.Location = new System.Drawing.Point(401, 420);
             this.linkLabel8.Name = "linkLabel8";
             this.linkLabel8.Size = new System.Drawing.Size(45, 13);
             this.linkLabel8.TabIndex = 45;
@@ -210,7 +247,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 240);
+            this.label13.Location = new System.Drawing.Point(8, 381);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(101, 13);
             this.label13.TabIndex = 44;
@@ -218,7 +255,7 @@
             // 
             // defaultStartLineServer_textBox
             // 
-            this.defaultStartLineServer_textBox.Location = new System.Drawing.Point(7, 256);
+            this.defaultStartLineServer_textBox.Location = new System.Drawing.Point(7, 397);
             this.defaultStartLineServer_textBox.Name = "defaultStartLineServer_textBox";
             this.defaultStartLineServer_textBox.ReadOnly = true;
             this.defaultStartLineServer_textBox.Size = new System.Drawing.Size(439, 20);
@@ -228,7 +265,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 201);
+            this.label12.Location = new System.Drawing.Point(8, 240);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(67, 13);
             this.label12.TabIndex = 42;
@@ -237,7 +274,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 162);
+            this.label11.Location = new System.Drawing.Point(8, 201);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(73, 13);
             this.label11.TabIndex = 41;
@@ -246,7 +283,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 123);
+            this.label10.Location = new System.Drawing.Point(8, 162);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(93, 13);
             this.label10.TabIndex = 40;
@@ -255,7 +292,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 84);
+            this.label9.Location = new System.Drawing.Point(8, 123);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(98, 13);
             this.label9.TabIndex = 39;
@@ -264,7 +301,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 45);
+            this.label8.Location = new System.Drawing.Point(8, 84);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(67, 13);
             this.label8.TabIndex = 38;
@@ -273,7 +310,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 6);
+            this.label7.Location = new System.Drawing.Point(8, 45);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 13);
             this.label7.TabIndex = 37;
@@ -331,14 +368,14 @@
             // 
             // serverProfileName_textBox
             // 
-            this.serverProfileName_textBox.Location = new System.Drawing.Point(7, 217);
+            this.serverProfileName_textBox.Location = new System.Drawing.Point(7, 256);
             this.serverProfileName_textBox.Name = "serverProfileName_textBox";
             this.serverProfileName_textBox.Size = new System.Drawing.Size(439, 20);
             this.serverProfileName_textBox.TabIndex = 31;
             // 
             // changeServerProfiles_button
             // 
-            this.changeServerProfiles_button.Location = new System.Drawing.Point(420, 178);
+            this.changeServerProfiles_button.Location = new System.Drawing.Point(420, 217);
             this.changeServerProfiles_button.Name = "changeServerProfiles_button";
             this.changeServerProfiles_button.Size = new System.Drawing.Size(26, 20);
             this.changeServerProfiles_button.TabIndex = 30;
@@ -348,7 +385,7 @@
             // 
             // changeServerCfg_button
             // 
-            this.changeServerCfg_button.Location = new System.Drawing.Point(420, 139);
+            this.changeServerCfg_button.Location = new System.Drawing.Point(420, 178);
             this.changeServerCfg_button.Name = "changeServerCfg_button";
             this.changeServerCfg_button.Size = new System.Drawing.Size(26, 20);
             this.changeServerCfg_button.TabIndex = 29;
@@ -358,7 +395,7 @@
             // 
             // changeServerConfig_button
             // 
-            this.changeServerConfig_button.Location = new System.Drawing.Point(420, 100);
+            this.changeServerConfig_button.Location = new System.Drawing.Point(420, 139);
             this.changeServerConfig_button.Name = "changeServerConfig_button";
             this.changeServerConfig_button.Size = new System.Drawing.Size(26, 20);
             this.changeServerConfig_button.TabIndex = 28;
@@ -368,7 +405,7 @@
             // 
             // changePathToArma3ServerMods_button
             // 
-            this.changePathToArma3ServerMods_button.Location = new System.Drawing.Point(420, 61);
+            this.changePathToArma3ServerMods_button.Location = new System.Drawing.Point(420, 100);
             this.changePathToArma3ServerMods_button.Name = "changePathToArma3ServerMods_button";
             this.changePathToArma3ServerMods_button.Size = new System.Drawing.Size(26, 20);
             this.changePathToArma3ServerMods_button.TabIndex = 27;
@@ -378,7 +415,7 @@
             // 
             // changePathToArma3Server_button
             // 
-            this.changePathToArma3Server_button.Location = new System.Drawing.Point(420, 22);
+            this.changePathToArma3Server_button.Location = new System.Drawing.Point(420, 61);
             this.changePathToArma3Server_button.Name = "changePathToArma3Server_button";
             this.changePathToArma3Server_button.Size = new System.Drawing.Size(26, 20);
             this.changePathToArma3Server_button.TabIndex = 26;
@@ -398,7 +435,7 @@
             // 
             // serverProfiles_textBox
             // 
-            this.serverProfiles_textBox.Location = new System.Drawing.Point(7, 178);
+            this.serverProfiles_textBox.Location = new System.Drawing.Point(7, 217);
             this.serverProfiles_textBox.Name = "serverProfiles_textBox";
             this.serverProfiles_textBox.ReadOnly = true;
             this.serverProfiles_textBox.Size = new System.Drawing.Size(406, 20);
@@ -447,7 +484,7 @@
             // 
             // serverCfg_textBox
             // 
-            this.serverCfg_textBox.Location = new System.Drawing.Point(7, 139);
+            this.serverCfg_textBox.Location = new System.Drawing.Point(7, 178);
             this.serverCfg_textBox.Name = "serverCfg_textBox";
             this.serverCfg_textBox.ReadOnly = true;
             this.serverCfg_textBox.Size = new System.Drawing.Size(406, 20);
@@ -455,7 +492,7 @@
             // 
             // serverConfig_textBox
             // 
-            this.serverConfig_textBox.Location = new System.Drawing.Point(7, 100);
+            this.serverConfig_textBox.Location = new System.Drawing.Point(7, 139);
             this.serverConfig_textBox.Name = "serverConfig_textBox";
             this.serverConfig_textBox.ReadOnly = true;
             this.serverConfig_textBox.Size = new System.Drawing.Size(406, 20);
@@ -463,7 +500,7 @@
             // 
             // pathToArma3ServerMods_textBox
             // 
-            this.pathToArma3ServerMods_textBox.Location = new System.Drawing.Point(7, 61);
+            this.pathToArma3ServerMods_textBox.Location = new System.Drawing.Point(7, 100);
             this.pathToArma3ServerMods_textBox.Name = "pathToArma3ServerMods_textBox";
             this.pathToArma3ServerMods_textBox.ReadOnly = true;
             this.pathToArma3ServerMods_textBox.Size = new System.Drawing.Size(406, 20);
@@ -471,7 +508,7 @@
             // 
             // pathToArma3Server_textBox
             // 
-            this.pathToArma3Server_textBox.Location = new System.Drawing.Point(7, 22);
+            this.pathToArma3Server_textBox.Location = new System.Drawing.Point(7, 61);
             this.pathToArma3Server_textBox.Name = "pathToArma3Server_textBox";
             this.pathToArma3Server_textBox.ReadOnly = true;
             this.pathToArma3Server_textBox.Size = new System.Drawing.Size(406, 20);
@@ -625,43 +662,6 @@
             // 
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 434);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
-            this.label1.TabIndex = 63;
-            this.label1.Text = "Mission Folder";
-            // 
-            // changePathToMissionFolder_button
-            // 
-            this.changePathToMissionFolder_button.Location = new System.Drawing.Point(420, 450);
-            this.changePathToMissionFolder_button.Name = "changePathToMissionFolder_button";
-            this.changePathToMissionFolder_button.Size = new System.Drawing.Size(26, 20);
-            this.changePathToMissionFolder_button.TabIndex = 62;
-            this.changePathToMissionFolder_button.Text = "...";
-            this.changePathToMissionFolder_button.UseVisualStyleBackColor = true;
-            this.changePathToMissionFolder_button.Click += new System.EventHandler(this.changePathToMissionFolder_button_Click);
-            // 
-            // missionFolder_textBox
-            // 
-            this.missionFolder_textBox.Location = new System.Drawing.Point(7, 450);
-            this.missionFolder_textBox.Name = "missionFolder_textBox";
-            this.missionFolder_textBox.ReadOnly = true;
-            this.missionFolder_textBox.Size = new System.Drawing.Size(406, 20);
-            this.missionFolder_textBox.TabIndex = 61;
-            // 
-            // copyMissions_checkBox
-            // 
-            this.copyMissions_checkBox.AutoSize = true;
-            this.copyMissions_checkBox.Location = new System.Drawing.Point(772, 636);
-            this.copyMissions_checkBox.Name = "copyMissions_checkBox";
-            this.copyMissions_checkBox.Size = new System.Drawing.Size(93, 17);
-            this.copyMissions_checkBox.TabIndex = 64;
-            this.copyMissions_checkBox.Text = "Copy Missions";
-            this.copyMissions_checkBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
