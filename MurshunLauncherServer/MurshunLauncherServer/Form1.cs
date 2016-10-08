@@ -198,6 +198,8 @@ namespace MurshunLauncherServer
             {
                 pathToArma3Server_textBox.Text = selectFile.FileName;
             }
+
+            ReadPresetFile();
         }
 
         private void changePathToArma3ServerMods_button_Click(object sender, EventArgs e)
@@ -210,6 +212,8 @@ namespace MurshunLauncherServer
             {
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
             }
+
+            ReadPresetFile();
         }
 
         private void changeServerConfig_button_Click(object sender, EventArgs e)
@@ -224,6 +228,8 @@ namespace MurshunLauncherServer
             {
                 serverConfig_textBox.Text = selectFile.FileName;
             }
+
+            ReadPresetFile();
         }
 
         private void changeServerCfg_button_Click(object sender, EventArgs e)
@@ -238,6 +244,8 @@ namespace MurshunLauncherServer
             {
                 serverCfg_textBox.Text = selectFile.FileName;
             }
+
+            ReadPresetFile();
         }
 
         private void changeServerProfiles_button_Click(object sender, EventArgs e)
@@ -250,6 +258,8 @@ namespace MurshunLauncherServer
             {
                 serverProfiles_textBox.Text = chosenFolder.SelectedPath;
             }
+
+            ReadPresetFile();
         }
 
         private void addCustomServerMod_Click(object sender, EventArgs e)
@@ -262,6 +272,8 @@ namespace MurshunLauncherServer
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
             }
+
+            ReadPresetFile();
         }
 
         private void removeUncheckedServerMod_button_Click(object sender, EventArgs e)
@@ -352,6 +364,8 @@ namespace MurshunLauncherServer
             {
                 missionFolder_textBox.Text = chosenFolder.SelectedPath;
             }
+
+            ReadPresetFile();
         }
     }
 }

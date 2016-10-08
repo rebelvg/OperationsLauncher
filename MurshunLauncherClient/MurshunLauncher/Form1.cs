@@ -171,9 +171,9 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
-
-                ReadPresetFile();
             }
+
+            ReadPresetFile();
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -192,9 +192,9 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 pathToArma3Client_textBox.Text = selectFile.FileName;
-
-                ReadPresetFile();
             }
+
+            ReadPresetFile();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -206,9 +206,9 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
-
-                ReadPresetFile();
             }
+
+            ReadPresetFile();
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -314,9 +314,9 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 teamSpeakFolder_textBox.Text = chosenFolder.SelectedPath;
-
-                ReadPresetFile();
             }
+
+            ReadPresetFile();
         }
     }
 }

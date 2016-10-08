@@ -132,6 +132,8 @@ namespace MurshunLauncherServer
             {
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
             }
+
+            ReadPresetFile();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -164,10 +166,10 @@ namespace MurshunLauncherServer
 
             if (chosenFolder.ShowDialog().Value)
             {
-                pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
-
-                ReadPresetFile();
+                pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;                
             }
+
+            ReadPresetFile();
         }
 
         private void changeRepoConfigPath_button_Click(object sender, EventArgs e)
@@ -181,9 +183,9 @@ namespace MurshunLauncherServer
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 repoConfigPath_textBox.Text = selectFile.FileName;
-
-                ReadPresetFile();
             }
+
+            ReadPresetFile();
         }
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)
