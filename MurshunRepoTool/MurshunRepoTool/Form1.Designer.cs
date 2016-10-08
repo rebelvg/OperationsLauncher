@@ -62,6 +62,7 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.createVerifyFile_button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -265,6 +266,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.createVerifyFile_button2);
             this.tabPage4.Controls.Add(this.progressBar2);
             this.tabPage4.Controls.Add(this.syncFolders_button);
             this.tabPage4.Controls.Add(this.compareServerMods_textBox);
@@ -401,6 +403,16 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // createVerifyFile_button2
+            // 
+            this.createVerifyFile_button2.Location = new System.Drawing.Point(381, 6);
+            this.createVerifyFile_button2.Name = "createVerifyFile_button2";
+            this.createVerifyFile_button2.Size = new System.Drawing.Size(180, 23);
+            this.createVerifyFile_button2.TabIndex = 20;
+            this.createVerifyFile_button2.Text = "Create Verify File";
+            this.createVerifyFile_button2.UseVisualStyleBackColor = true;
+            this.createVerifyFile_button2.Click += new System.EventHandler(this.createVerifyFile_button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -459,6 +471,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button changeRepoConfigPath_button;
         private System.Windows.Forms.Button createVerifyFile_button;
+        private System.Windows.Forms.Button createVerifyFile_button2;
     }
 }
 

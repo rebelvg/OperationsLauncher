@@ -192,5 +192,10 @@ namespace MurshunLauncherServer
         {
             CreateVerifyFile();
         }
+
+        private void createVerifyFile_button2_Click(object sender, EventArgs e)
+        {
+            CreateVerifyFile();
+        }
     }
 }
