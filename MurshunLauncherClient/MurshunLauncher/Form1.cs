@@ -89,6 +89,7 @@ namespace MurshunLauncher
             public string defaultStartLine_textBox = "-world=empty -nosplash -skipintro -nofilepatching -nologs";
             public string advancedStartLine_textBox;
             public string teamSpeakFolder_textBox = @"C:\Program Files (x86)\TeamSpeak 3 Client";
+            public bool debugMode;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -102,14 +103,22 @@ namespace MurshunLauncher
 
             if (!VerifyMods(false))
             {
-                DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "", MessageBoxButtons.YesNo);
+                if (debugMode)
+                {
+                    DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "", MessageBoxButtons.YesNo);
 
-                if (dialogResult == DialogResult.Yes)
-                {
-                    tabControl1.SelectedTab = tabPage1;
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        tabControl1.SelectedTab = tabPage1;
+                    }
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
                 }
-                if (dialogResult == DialogResult.No)
+                else
                 {
+                    MessageBox.Show("Verify returned errors. Launch canceled.");
                     return;
                 }
             }

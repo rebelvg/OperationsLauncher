@@ -36,6 +36,7 @@ namespace MurshunLauncher
                 defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
                 advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
                 teamSpeakFolder_textBox.Text = LauncherSettings.teamSpeakFolder_textBox;
+                debugMode = LauncherSettings.debugMode;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -84,6 +85,7 @@ namespace MurshunLauncher
                 LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
                 LauncherSettings.teamSpeakFolder_textBox = teamSpeakFolder_textBox.Text;
+                LauncherSettings.debugMode = debugMode;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
