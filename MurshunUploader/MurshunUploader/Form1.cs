@@ -144,6 +144,7 @@ namespace MurshunUploader
             }
 
             MLdatastart += 21;
+
             for (int i = 0; i < FileList.Count; i++)
             {
                 if (FileList[i].Filename != "mission.sqm")
@@ -163,7 +164,7 @@ namespace MurshunUploader
             }
             catch
             {
-                MessageBox.Show("Can't fine briefing name. Mission is either binarized or doesn't have any briefing name.");
+                MessageBox.Show("Can't find briefing name. Mission is either binarized or doesn't have any briefing name.");
                 return;
             }
 
