@@ -172,7 +172,7 @@ namespace MurshunUploader
                 return;
             }
 
-            while (archive[briefinglocation + originalbriefingnamelg] != 0x22 && archive[briefinglocation + originalbriefingnamelg + 1] != 0x3B)
+            while (!(archive[briefinglocation + originalbriefingnamelg] == 0x22 && archive[briefinglocation + originalbriefingnamelg + 1] == 0x3B))
             {
                 originalbriefingnamelg++;
             }
