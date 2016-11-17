@@ -37,6 +37,7 @@ namespace MurshunUploader
             for (int i = 0; i < candidate.Length; i++)
                 if (array[position + i] != candidate[i])
                     return false;
+
             try
             {
                 if (array[position + candidate.Length] == 0x00)

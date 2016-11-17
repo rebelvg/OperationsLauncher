@@ -58,6 +58,7 @@ namespace MurshunUploader
 
             return resultint;
         }
+
         static byte[] ReturnToSender(int dec)
         {
             string Hex = dec.ToString("X");
@@ -127,12 +128,15 @@ namespace MurshunUploader
             while (fileposition < MLdatastart - 21)
             {
                 int wordlength = 0;
+
                 while (archive[fileposition + wordlength] != 0x00)
                 {
                     wordlength++;
                 }
+
                 if (wordlength != 0)
                     FileList.Add(new FileArch(Encoding.UTF8.GetString(TempArrayHex(wordlength, archive, fileposition)), ParseOffset(archive, fileposition + wordlength + 17), fileposition + wordlength + 17));
+
                 fileposition += wordlength + 21;
             }
 
@@ -168,7 +172,7 @@ namespace MurshunUploader
                 return;
             }
 
-            while (archive[briefinglocation + originalbriefingnamelg] != 0x22)
+            while (archive[briefinglocation + originalbriefingnamelg] != 0x22 && archive[briefinglocation + originalbriefingnamelg + 1] != 0x3B)
             {
                 originalbriefingnamelg++;
             }
