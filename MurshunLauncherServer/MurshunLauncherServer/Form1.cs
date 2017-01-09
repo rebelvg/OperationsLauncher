@@ -74,7 +74,7 @@ namespace MurshunLauncherServer
             }
             catch (Exception e)
             {
-                MessageBox.Show("Launcher crashed while initializing. Try running it as administrator.\n\n" + e);
+                MessageBox.Show("Launcher crashed while initializing. Try running it as administrator.\n\n" + e.Message);
                 System.Environment.Exit(1);
             }
         }
