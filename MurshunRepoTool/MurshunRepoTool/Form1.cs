@@ -74,7 +74,7 @@ namespace MurshunLauncherServer
             }
             catch (Exception e)
             {
-                PrintMessage("Tool crashed while initializing. Try running it as administrator.\n\n" + e);
+                PrintMessage("Tool crashed while initializing. Try running it as administrator.\n\n" + e.Message);
                 System.Environment.Exit(1);
             }
         }
