@@ -200,7 +200,7 @@ namespace MurshunUploader
             }
             catch (Exception e)
             {
-                MessageBox.Show("Writing error.\n" + e);
+                MessageBox.Show("Writing error.\n" + e.Message);
                 return;
             }
 
@@ -235,7 +235,7 @@ namespace MurshunUploader
             }
             catch (Exception e)
             {
-                MessageBox.Show("Writing error.\n" + e);
+                MessageBox.Show("Writing error.\n" + e.Message);
                 return;
             }
         }
