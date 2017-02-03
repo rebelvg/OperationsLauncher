@@ -164,7 +164,7 @@ namespace MurshunUploader
 
             if (TempArrayHex(6, archive, MLdatastart).SequenceEqual(new byte[] { 0x00, 0x72, 0x61, 0x50, 0x00, 0x00 }))
             {
-                MessageBox.Show("Mission is binarized, please resave mission file");
+                MessageBox.Show("Mission is binarized. Disable binarization in the editor.");
                 return;
             }
 
@@ -213,7 +213,7 @@ namespace MurshunUploader
             {
                 WebClient Client = new WebClient();
 
-                byte[] result = Client.UploadFile("http://dedick.podkolpakom.net/arma/upload/upload.php?password=" + password_textBox.Text + "&version=" + version, file);
+                byte[] result = Client.UploadFile("http://main.klpq.men/arma/upload/upload.php?password=" + password_textBox.Text + "&version=" + version, file);
 
                 string webReturn = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
 
@@ -245,7 +245,7 @@ namespace MurshunUploader
             OpenFileDialog selectFile = new OpenFileDialog();
 
             selectFile.Title = "Select mission file";
-            selectFile.Filter = "Executable File (.pbo) | *.pbo";
+            selectFile.Filter = "Pbo File (.pbo) | *.pbo";
             selectFile.RestoreDirectory = true;
 
             if (selectFile.ShowDialog() == DialogResult.OK)
