@@ -162,6 +162,12 @@ namespace MurshunUploader
                 }
             }
 
+            if (TempArrayHex(6, archive, MLdatastart).SequenceEqual(new byte[] { 0x00, 0x72, 0x61, 0x50, 0x00, 0x00 }))
+            {
+                MessageBox.Show("Mission is binarized, please resave mission file");
+                return;
+            }
+
             try
             {
                 briefinglocation = archive.Locate(patternbriefing, MLdatastart)[0] + 14;
