@@ -22,6 +22,12 @@ namespace MurshunLauncher
         {
             InitializeComponent();
 
+#if TRACE
+            debugMode = false;
+#else
+            debugMode = true;
+#endif
+
             try
             {
                 if (Process.GetProcessesByName("MurshunLauncher").Length > 1)
@@ -86,10 +92,8 @@ namespace MurshunLauncher
             public bool joinTheServer_checkBox;
             public List<string> clientCustomMods_listView;
             public List<string> clientCheckedModsList_listView;
-            public string defaultStartLine_textBox = "-world=empty -nosplash -skipintro -nofilepatching -nologs";
             public string advancedStartLine_textBox;
-            public string teamSpeakFolder_textBox = @"C:\Program Files (x86)\TeamSpeak 3 Client";
-            public bool debugMode;
+            public string teamSpeakAppDataFolder_textBox = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TS3Client";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -185,11 +189,6 @@ namespace MurshunLauncher
             ReadPresetFile();
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            defaultStartLine_textBox.Text = "-world=empty -nosplash -skipintro -nofilepatching -nologs";
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog selectFile = new OpenFileDialog();
@@ -259,19 +258,6 @@ namespace MurshunLauncher
             System.Diagnostics.Process.Start("https://community.bistudio.com/wiki/Arma_3_Startup_Parameters");
         }
 
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (defaultStartLine_textBox.Text.Contains("-showscripterrors"))
-            {
-                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace(" -showscripterrors", "");
-                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace("-showscripterrors", "");
-            }
-            else
-            {
-                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text + " -showscripterrors";
-            }
-        }
-
         private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (defaultStartLine_textBox.Text.Contains("-nologs"))
@@ -322,7 +308,16 @@ namespace MurshunLauncher
 
             if (chosenFolder.ShowDialog().Value)
             {
-                teamSpeakFolder_textBox.Text = chosenFolder.SelectedPath;
+                if (Directory.Exists(chosenFolder.SelectedPath + @"\plugins"))
+                {
+                    teamSpeakFolder_textBox.Text = chosenFolder.SelectedPath;
+
+                    CheckACRE2();
+                }
+                else
+                {
+                    MessageBox.Show("This folder doesn't have plugins folder in it.");
+                }
             }
 
             ReadPresetFile();

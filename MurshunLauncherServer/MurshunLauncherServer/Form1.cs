@@ -69,8 +69,6 @@ namespace MurshunLauncherServer
                         MessageBox.Show("Saving xml settings failed.");
                     }
                 }
-
-                label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {

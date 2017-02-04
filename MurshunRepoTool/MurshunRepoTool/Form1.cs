@@ -69,8 +69,6 @@ namespace MurshunLauncherServer
                         PrintMessage("Saving xml settings failed.");
                     }
                 }
-
-                label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {
@@ -81,8 +79,6 @@ namespace MurshunLauncherServer
 
         public class MurshunLauncherXmlSettings
         {
-            public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
-            public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
             public string modListLink = Directory.GetCurrentDirectory() + "\\MurshunRepoToolConfig.json";
         }
 
@@ -93,6 +89,12 @@ namespace MurshunLauncherServer
 
         private void button10_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(pathToArma3ServerMods_textBox.Text) || !Directory.Exists(pathToArma3ClientMods_textBox.Text))
+            {
+                MessageBox.Show("Server or Sync folder doesn't exist.");
+                return;
+            }
+
             DialogResult dialogResult = MessageBox.Show("Sync " + (compareExcessFiles_listView.Items.Count + compareMissingFiles_listView.Items.Count) + " files?", "", MessageBoxButtons.YesNo);
 
             if (dialogResult == DialogResult.Yes)
@@ -122,20 +124,6 @@ namespace MurshunLauncherServer
             }
         }
 
-        private void changePathToArma3ServerMods_button_Click(object sender, EventArgs e)
-        {
-            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
-            chosenFolder.Description = "Select server mods folder.";
-            chosenFolder.UseDescriptionForTitle = true;
-
-            if (chosenFolder.ShowDialog().Value)
-            {
-                pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
-            }
-
-            ReadPresetFile();
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveXmlFile();
@@ -155,20 +143,6 @@ namespace MurshunLauncherServer
 
         private void refreshServer_button_Click(object sender, EventArgs e)
         {
-            ReadPresetFile();
-        }
-
-        private void changePathToArma3ClientMods_button_Click(object sender, EventArgs e)
-        {
-            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
-            chosenFolder.Description = "Select client mods folder.";
-            chosenFolder.UseDescriptionForTitle = true;
-
-            if (chosenFolder.ShowDialog().Value)
-            {
-                pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;                
-            }
-
             ReadPresetFile();
         }
 

@@ -40,7 +40,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.refreshClient_button = new System.Windows.Forms.Button();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.removeUncheckedMod_button = new System.Windows.Forms.Button();
@@ -48,7 +47,6 @@
             this.changePathToArma3Client_button = new System.Windows.Forms.Button();
             this.pathToArma3ClientMods_textBox = new System.Windows.Forms.TextBox();
             this.pathToArma3Client_textBox = new System.Windows.Forms.TextBox();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.clientCustomMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -107,7 +105,6 @@
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.refreshClient_button);
             this.tabPage1.Controls.Add(this.linkLabel7);
-            this.tabPage1.Controls.Add(this.linkLabel6);
             this.tabPage1.Controls.Add(this.linkLabel5);
             this.tabPage1.Controls.Add(this.linkLabel4);
             this.tabPage1.Controls.Add(this.removeUncheckedMod_button);
@@ -115,7 +112,6 @@
             this.tabPage1.Controls.Add(this.changePathToArma3Client_button);
             this.tabPage1.Controls.Add(this.pathToArma3ClientMods_textBox);
             this.tabPage1.Controls.Add(this.pathToArma3Client_textBox);
-            this.tabPage1.Controls.Add(this.linkLabel3);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.clientCustomMods_listView);
             this.tabPage1.Controls.Add(this.clientPresetMods_listView);
@@ -140,9 +136,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(8, 123);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(97, 13);
+            this.label7.Size = new System.Drawing.Size(142, 13);
             this.label7.TabIndex = 44;
-            this.label7.Text = "TeamSpeak Folder";
+            this.label7.Text = "TeamSpeak AppData Folder";
             // 
             // changePathToTeamSpeakFolder_button
             // 
@@ -220,17 +216,6 @@
             this.linkLabel7.Text = "-noLogs";
             this.linkLabel7.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel7_LinkClicked);
             // 
-            // linkLabel6
-            // 
-            this.linkLabel6.AutoSize = true;
-            this.linkLabel6.Location = new System.Drawing.Point(306, 420);
-            this.linkLabel6.Name = "linkLabel6";
-            this.linkLabel6.Size = new System.Drawing.Size(89, 13);
-            this.linkLabel6.TabIndex = 31;
-            this.linkLabel6.TabStop = true;
-            this.linkLabel6.Text = "-showScriptErrors";
-            this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
-            // 
             // linkLabel5
             // 
             this.linkLabel5.AutoSize = true;
@@ -298,17 +283,6 @@
             this.pathToArma3Client_textBox.ReadOnly = true;
             this.pathToArma3Client_textBox.Size = new System.Drawing.Size(406, 20);
             this.pathToArma3Client_textBox.TabIndex = 23;
-            // 
-            // linkLabel3
-            // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(7, 420);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(73, 13);
-            this.linkLabel3.TabIndex = 22;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Load Defaults";
-            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
             // label3
             // 
@@ -390,6 +364,7 @@
             this.defaultStartLine_textBox.ReadOnly = true;
             this.defaultStartLine_textBox.Size = new System.Drawing.Size(439, 20);
             this.defaultStartLine_textBox.TabIndex = 11;
+            this.defaultStartLine_textBox.Text = "-world=empty -nosplash -skipintro -nofilepatching -showscripterrors -nologs";
             // 
             // joinTheServer_checkBox
             // 
@@ -622,7 +597,6 @@
         private System.Windows.Forms.ListView clientPresetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.Button changePathToArma3ClientMods_button;
         private System.Windows.Forms.Button changePathToArma3Client_button;
         private System.Windows.Forms.TextBox pathToArma3ClientMods_textBox;
@@ -642,7 +616,6 @@
         private System.Windows.Forms.Button removeUncheckedMod_button;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.LinkLabel linkLabel5;
-        private System.Windows.Forms.LinkLabel linkLabel6;
         private System.Windows.Forms.LinkLabel linkLabel7;
         private System.Windows.Forms.Button refreshClient_button;
         private System.Windows.Forms.Label label6;

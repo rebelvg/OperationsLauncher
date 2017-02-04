@@ -30,8 +30,6 @@ namespace MurshunLauncherServer
                 LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
                 reader.Close();
 
-                pathToArma3ClientMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
-                pathToArma3ServerMods_textBox.Text = LauncherSettings.pathToArma3ServerMods_textBox;
                 repoConfigPath_textBox.Text = LauncherSettings.modListLink;
             }
             catch
@@ -57,8 +55,6 @@ namespace MurshunLauncherServer
             {
                 LauncherSettings = new MurshunLauncherXmlSettings();
 
-                LauncherSettings.pathToArma3ClientMods_textBox = pathToArma3ClientMods_textBox.Text;
-                LauncherSettings.pathToArma3ServerMods_textBox = pathToArma3ServerMods_textBox.Text;
                 LauncherSettings.modListLink = repoConfigPath_textBox.Text;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
@@ -87,6 +83,8 @@ namespace MurshunLauncherServer
                 password = json["password"];
                 verifyModsLink = json["verify_link"];
                 verifyModsPassword = json["verify_password"];
+                pathToArma3ServerMods_textBox.Text = json["mods_folder"];
+                pathToArma3ClientMods_textBox.Text = json["sync_folder"];
             }
             else
             {
@@ -183,6 +181,12 @@ namespace MurshunLauncherServer
         public bool CompareFolders()
         {
             bool compareSuccess = true;
+
+            if (!Directory.Exists(pathToArma3ServerMods_textBox.Text) || !Directory.Exists(pathToArma3ClientMods_textBox.Text))
+            {
+                MessageBox.Show("Server or Sync folder doesn't exist.");
+                return false;
+            }
 
             LockInterface("Comparing...");
 
@@ -315,7 +319,7 @@ namespace MurshunLauncherServer
             }
             catch (Exception e)
             {
-                PrintMessage("There was an error on saving of MurshunLauncherFiles.json.\n\n" + e);
+                PrintMessage("There was an error on saving of MurshunLauncherFiles.json.\n\n" + e.Message);
             }
         }
 

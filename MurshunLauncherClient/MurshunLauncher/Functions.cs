@@ -33,10 +33,8 @@ namespace MurshunLauncher
                 pathToArma3Client_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
                 pathToArma3ClientMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
                 joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
-                defaultStartLine_textBox.Text = LauncherSettings.defaultStartLine_textBox;
                 advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
-                teamSpeakFolder_textBox.Text = LauncherSettings.teamSpeakFolder_textBox;
-                debugMode = LauncherSettings.debugMode;
+                teamSpeakFolder_textBox.Text = LauncherSettings.teamSpeakAppDataFolder_textBox;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
@@ -82,10 +80,8 @@ namespace MurshunLauncher
                 LauncherSettings.joinTheServer_checkBox = joinTheServer_checkBox.Checked;
                 LauncherSettings.clientCustomMods_listView = clientCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
                 LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.defaultStartLine_textBox = defaultStartLine_textBox.Text;
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
-                LauncherSettings.teamSpeakFolder_textBox = teamSpeakFolder_textBox.Text;
-                LauncherSettings.debugMode = debugMode;
+                LauncherSettings.teamSpeakAppDataFolder_textBox = teamSpeakFolder_textBox.Text;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -369,8 +365,8 @@ namespace MurshunLauncher
 
             if (File.Exists(acre32mods) && File.Exists(acre64mods))
             {
-                if (!Directory.Exists(teamSpeakFolder_textBox.Text))
-                    MessageBox.Show("Can't find your TS folder to automatically copy ACRE2 plugins in.");
+                if (!Directory.Exists(teamSpeakFolder_textBox.Text + @"\plugins"))
+                    MessageBox.Show("Can't find your TS plugins folder to automatically copy ACRE2 plugins in.");
                 else
                     CopyPlugins(teamSpeakFolder_textBox.Text + @"\plugins");
             }

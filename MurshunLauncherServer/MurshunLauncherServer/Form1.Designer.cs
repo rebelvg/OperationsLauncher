@@ -35,7 +35,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.changePathToMissionFolder_button = new System.Windows.Forms.Button();
             this.missionFolder_textBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
             this.saveSettingsServer_button = new System.Windows.Forms.Button();
@@ -110,7 +109,6 @@
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.changePathToMissionFolder_button);
             this.tabPage3.Controls.Add(this.missionFolder_textBox);
-            this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.xmlPath_textBox);
             this.tabPage3.Controls.Add(this.saveSettingsServer_button);
@@ -187,15 +185,6 @@
             this.missionFolder_textBox.Size = new System.Drawing.Size(406, 20);
             this.missionFolder_textBox.TabIndex = 61;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 695);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 13);
-            this.label3.TabIndex = 60;
-            this.label3.Text = "Version 0.999";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -260,7 +249,7 @@
             this.defaultStartLineServer_textBox.ReadOnly = true;
             this.defaultStartLineServer_textBox.Size = new System.Drawing.Size(439, 20);
             this.defaultStartLineServer_textBox.TabIndex = 43;
-            this.defaultStartLineServer_textBox.Text = "-port=2302 -nofilepatching -nologs -loadMissionToMemory";
+            this.defaultStartLineServer_textBox.Text = "-port=2302 -nofilepatching -loadmissiontomemory -nologs";
             // 
             // label12
             // 
@@ -739,7 +728,6 @@
         private System.Windows.Forms.Button saveSettingsServer_button;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox xmlPath_textBox;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button changePathToMissionFolder_button;
         private System.Windows.Forms.TextBox missionFolder_textBox;
