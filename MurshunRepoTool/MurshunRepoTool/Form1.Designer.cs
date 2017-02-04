@@ -98,7 +98,7 @@
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1046, 712);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Server";
+            this.tabPage3.Text = "Repo";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // createVerifyFile_button
@@ -113,7 +113,7 @@
             // 
             // changeRepoConfigPath_button
             // 
-            this.changeRepoConfigPath_button.Location = new System.Drawing.Point(420, 61);
+            this.changeRepoConfigPath_button.Location = new System.Drawing.Point(387, 61);
             this.changeRepoConfigPath_button.Name = "changeRepoConfigPath_button";
             this.changeRepoConfigPath_button.Size = new System.Drawing.Size(26, 20);
             this.changeRepoConfigPath_button.TabIndex = 61;
@@ -144,7 +144,7 @@
             this.pathToArma3ClientMods_textBox.Location = new System.Drawing.Point(7, 139);
             this.pathToArma3ClientMods_textBox.Name = "pathToArma3ClientMods_textBox";
             this.pathToArma3ClientMods_textBox.ReadOnly = true;
-            this.pathToArma3ClientMods_textBox.Size = new System.Drawing.Size(439, 20);
+            this.pathToArma3ClientMods_textBox.Size = new System.Drawing.Size(406, 20);
             this.pathToArma3ClientMods_textBox.TabIndex = 54;
             // 
             // xmlPath_textBox
@@ -153,7 +153,7 @@
             this.xmlPath_textBox.Name = "xmlPath_textBox";
             this.xmlPath_textBox.ReadOnly = true;
             this.xmlPath_textBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.xmlPath_textBox.Size = new System.Drawing.Size(439, 20);
+            this.xmlPath_textBox.Size = new System.Drawing.Size(406, 20);
             this.xmlPath_textBox.TabIndex = 52;
             // 
             // saveSettingsServer_button
@@ -179,7 +179,7 @@
             this.repoConfigPath_textBox.Location = new System.Drawing.Point(7, 61);
             this.repoConfigPath_textBox.Name = "repoConfigPath_textBox";
             this.repoConfigPath_textBox.ReadOnly = true;
-            this.repoConfigPath_textBox.Size = new System.Drawing.Size(406, 20);
+            this.repoConfigPath_textBox.Size = new System.Drawing.Size(374, 20);
             this.repoConfigPath_textBox.TabIndex = 49;
             // 
             // label8
@@ -208,10 +208,10 @@
             this.serverPresetMods_listView.FullRowSelect = true;
             this.serverPresetMods_listView.GridLines = true;
             this.serverPresetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.serverPresetMods_listView.Location = new System.Drawing.Point(558, 6);
+            this.serverPresetMods_listView.Location = new System.Drawing.Point(419, 6);
             this.serverPresetMods_listView.MultiSelect = false;
             this.serverPresetMods_listView.Name = "serverPresetMods_listView";
-            this.serverPresetMods_listView.Size = new System.Drawing.Size(480, 544);
+            this.serverPresetMods_listView.Size = new System.Drawing.Size(619, 544);
             this.serverPresetMods_listView.TabIndex = 4;
             this.serverPresetMods_listView.UseCompatibleStateImageBehavior = false;
             this.serverPresetMods_listView.View = System.Windows.Forms.View.Details;
@@ -219,14 +219,14 @@
             // columnHeader8
             // 
             this.columnHeader8.Text = "Preset Mods";
-            this.columnHeader8.Width = 370;
+            this.columnHeader8.Width = 265;
             // 
             // pathToArma3ServerMods_textBox
             // 
             this.pathToArma3ServerMods_textBox.Location = new System.Drawing.Point(7, 100);
             this.pathToArma3ServerMods_textBox.Name = "pathToArma3ServerMods_textBox";
             this.pathToArma3ServerMods_textBox.ReadOnly = true;
-            this.pathToArma3ServerMods_textBox.Size = new System.Drawing.Size(439, 20);
+            this.pathToArma3ServerMods_textBox.Size = new System.Drawing.Size(406, 20);
             this.pathToArma3ServerMods_textBox.TabIndex = 1;
             // 
             // tabPage4
@@ -245,7 +245,7 @@
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1046, 712);
             this.tabPage4.TabIndex = 0;
-            this.tabPage4.Text = "Server Tools";
+            this.tabPage4.Text = "Repo Tools";
             // 
             // createVerifyFile_button2
             // 
