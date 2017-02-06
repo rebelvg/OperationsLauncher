@@ -157,9 +157,9 @@ namespace MurshunLauncherServer
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 repoConfigPath_textBox.Text = selectFile.FileName;
-            }
 
-            ReadPresetFile();
+                ReadPresetFile();
+            }
         }
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)

@@ -331,6 +331,8 @@ namespace MurshunLauncher
         {
             string murshunLauncherFilesPath = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
+            presetModsList = new List<string>();
+
             if (File.Exists(murshunLauncherFilesPath))
             {
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));

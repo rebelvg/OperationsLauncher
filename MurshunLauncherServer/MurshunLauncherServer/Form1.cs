@@ -195,9 +195,9 @@ namespace MurshunLauncherServer
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 pathToArma3Server_textBox.Text = selectFile.FileName;
-            }
 
-            ReadPresetFile();
+                refreshServer_button_Click(null, null);
+            }
         }
 
         private void changePathToArma3ServerMods_button_Click(object sender, EventArgs e)
@@ -209,9 +209,9 @@ namespace MurshunLauncherServer
             if (chosenFolder.ShowDialog().Value)
             {
                 pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
-            }
 
-            ReadPresetFile();
+                refreshServer_button_Click(null, null);
+            }
         }
 
         private void changeServerConfig_button_Click(object sender, EventArgs e)
@@ -225,9 +225,9 @@ namespace MurshunLauncherServer
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 serverConfig_textBox.Text = selectFile.FileName;
-            }
 
-            ReadPresetFile();
+                refreshServer_button_Click(null, null);
+            }
         }
 
         private void changeServerCfg_button_Click(object sender, EventArgs e)
@@ -241,9 +241,9 @@ namespace MurshunLauncherServer
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 serverCfg_textBox.Text = selectFile.FileName;
-            }
 
-            ReadPresetFile();
+                refreshServer_button_Click(null, null);
+            }
         }
 
         private void changeServerProfiles_button_Click(object sender, EventArgs e)
@@ -255,9 +255,9 @@ namespace MurshunLauncherServer
             if (chosenFolder.ShowDialog().Value)
             {
                 serverProfiles_textBox.Text = chosenFolder.SelectedPath;
-            }
 
-            ReadPresetFile();
+                refreshServer_button_Click(null, null);
+            }
         }
 
         private void addCustomServerMod_Click(object sender, EventArgs e)
@@ -269,9 +269,9 @@ namespace MurshunLauncherServer
             if (chosenFolder.ShowDialog().Value)
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
-            }
 
-            ReadPresetFile();
+                ReadPresetFile();
+            }
         }
 
         private void removeUncheckedServerMod_button_Click(object sender, EventArgs e)
@@ -312,11 +312,7 @@ namespace MurshunLauncherServer
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            ReadPresetFile();
-
-            CheckSyncFolderSize();
-
-            VerifyMods(false);
+            refreshServer_button_Click(null, null);
         }
 
         private void createVerifyFile_button_Click(object sender, EventArgs e)
@@ -361,9 +357,9 @@ namespace MurshunLauncherServer
             if (chosenFolder.ShowDialog().Value)
             {
                 missionFolder_textBox.Text = chosenFolder.SelectedPath;
-            }
 
-            ReadPresetFile();
+                refreshServer_button_Click(null, null);
+            }
         }
     }
 }

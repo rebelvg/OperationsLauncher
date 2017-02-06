@@ -73,6 +73,8 @@ namespace MurshunLauncherServer
         {
             string murshunLauncherFilesPath = repoConfigPath_textBox.Text;
 
+            presetModsList = new List<string>();
+
             if (File.Exists(murshunLauncherFilesPath))
             {
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));

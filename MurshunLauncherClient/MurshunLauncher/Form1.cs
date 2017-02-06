@@ -184,9 +184,9 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
-            }
 
-            ReadPresetFile();
+                ReadPresetFile();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -200,9 +200,9 @@ namespace MurshunLauncher
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 pathToArma3Client_textBox.Text = selectFile.FileName;
-            }
 
-            ReadPresetFile();
+                refreshClient_button_Click(null, null);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -214,9 +214,9 @@ namespace MurshunLauncher
             if (chosenFolder.ShowDialog().Value)
             {
                 pathToArma3ClientMods_textBox.Text = chosenFolder.SelectedPath;
-            }
 
-            ReadPresetFile();
+                refreshClient_button_Click(null, null);
+            }
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -273,11 +273,7 @@ namespace MurshunLauncher
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            ReadPresetFile();
-
-            CheckSyncFolderSize();
-
-            VerifyMods(false);
+            refreshClient_button_Click(null, null);
         }
 
         private void refreshClient_button_Click(object sender, EventArgs e)
@@ -312,15 +308,13 @@ namespace MurshunLauncher
                 {
                     teamSpeakFolder_textBox.Text = chosenFolder.SelectedPath;
 
-                    CheckACRE2();
+                    refreshClient_button_Click(null, null);
                 }
                 else
                 {
                     MessageBox.Show("This folder doesn't have plugins folder in it.");
                 }
             }
-
-            ReadPresetFile();
         }
     }
 }
