@@ -191,9 +191,10 @@ namespace MurshunLauncher
                         if (tabControl1.SelectedTab != tabPage2)
                         {
                             MessageBox.Show("You have missing or excess files.");
-                            tabControl1.SelectedTab = tabPage2;
-                            verifySuccess = false;
+                            tabControl1.SelectedTab = tabPage2;                            
                         }
+
+                        verifySuccess = false;
                     }
                 }));
             }

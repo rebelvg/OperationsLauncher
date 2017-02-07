@@ -89,7 +89,7 @@ namespace MurshunLauncherServer
 
         private void button10_Click(object sender, EventArgs e)
         {
-            if (!Directory.Exists(pathToArma3ServerMods_textBox.Text) || !Directory.Exists(pathToArma3ClientMods_textBox.Text))
+            if (!Directory.Exists(pathToModsFolder_textBox.Text) || !Directory.Exists(pathToSyncFolder_textBox.Text))
             {
                 MessageBox.Show("Server or Sync folder doesn't exist.");
                 return;
@@ -106,16 +106,16 @@ namespace MurshunLauncherServer
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
                 {
-                    File.Delete(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
+                    File.Delete(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
 
                     progressBar2.PerformStep();
                 }
 
                 foreach (ListViewItem item in compareMissingFiles_listView.Items)
                 {
-                    CheckPath(pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0]);
+                    CheckPath(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
 
-                    File.Copy(pathToArma3ClientMods_textBox.Text + item.Text.Split(':')[0], pathToArma3ServerMods_textBox.Text + item.Text.Split(':')[0], true);
+                    File.Copy(pathToModsFolder_textBox.Text + item.Text.Split(':')[0], pathToSyncFolder_textBox.Text + item.Text.Split(':')[0], true);
 
                     progressBar2.PerformStep();
                 }

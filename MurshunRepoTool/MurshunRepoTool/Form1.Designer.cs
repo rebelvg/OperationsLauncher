@@ -35,7 +35,7 @@
             this.changeRepoConfigPath_button = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.pathToArma3ClientMods_textBox = new System.Windows.Forms.TextBox();
+            this.pathToSyncFolder_textBox = new System.Windows.Forms.TextBox();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
             this.saveSettingsServer_button = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
@@ -44,7 +44,7 @@
             this.refreshServer_button = new System.Windows.Forms.Button();
             this.serverPresetMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pathToArma3ServerMods_textBox = new System.Windows.Forms.TextBox();
+            this.pathToModsFolder_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.createVerifyFile_button2 = new System.Windows.Forms.Button();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
@@ -85,7 +85,7 @@
             this.tabPage3.Controls.Add(this.changeRepoConfigPath_button);
             this.tabPage3.Controls.Add(this.label6);
             this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.pathToArma3ClientMods_textBox);
+            this.tabPage3.Controls.Add(this.pathToSyncFolder_textBox);
             this.tabPage3.Controls.Add(this.xmlPath_textBox);
             this.tabPage3.Controls.Add(this.saveSettingsServer_button);
             this.tabPage3.Controls.Add(this.label15);
@@ -93,7 +93,7 @@
             this.tabPage3.Controls.Add(this.label8);
             this.tabPage3.Controls.Add(this.refreshServer_button);
             this.tabPage3.Controls.Add(this.serverPresetMods_listView);
-            this.tabPage3.Controls.Add(this.pathToArma3ServerMods_textBox);
+            this.tabPage3.Controls.Add(this.pathToModsFolder_textBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1046, 712);
@@ -139,13 +139,13 @@
             this.label4.TabIndex = 57;
             this.label4.Text = "Xml Path";
             // 
-            // pathToArma3ClientMods_textBox
+            // pathToSyncFolder_textBox
             // 
-            this.pathToArma3ClientMods_textBox.Location = new System.Drawing.Point(7, 139);
-            this.pathToArma3ClientMods_textBox.Name = "pathToArma3ClientMods_textBox";
-            this.pathToArma3ClientMods_textBox.ReadOnly = true;
-            this.pathToArma3ClientMods_textBox.Size = new System.Drawing.Size(406, 20);
-            this.pathToArma3ClientMods_textBox.TabIndex = 54;
+            this.pathToSyncFolder_textBox.Location = new System.Drawing.Point(7, 139);
+            this.pathToSyncFolder_textBox.Name = "pathToSyncFolder_textBox";
+            this.pathToSyncFolder_textBox.ReadOnly = true;
+            this.pathToSyncFolder_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToSyncFolder_textBox.TabIndex = 54;
             // 
             // xmlPath_textBox
             // 
@@ -221,13 +221,13 @@
             this.columnHeader8.Text = "Preset Mods";
             this.columnHeader8.Width = 265;
             // 
-            // pathToArma3ServerMods_textBox
+            // pathToModsFolder_textBox
             // 
-            this.pathToArma3ServerMods_textBox.Location = new System.Drawing.Point(7, 100);
-            this.pathToArma3ServerMods_textBox.Name = "pathToArma3ServerMods_textBox";
-            this.pathToArma3ServerMods_textBox.ReadOnly = true;
-            this.pathToArma3ServerMods_textBox.Size = new System.Drawing.Size(406, 20);
-            this.pathToArma3ServerMods_textBox.TabIndex = 1;
+            this.pathToModsFolder_textBox.Location = new System.Drawing.Point(7, 100);
+            this.pathToModsFolder_textBox.Name = "pathToModsFolder_textBox";
+            this.pathToModsFolder_textBox.ReadOnly = true;
+            this.pathToModsFolder_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToModsFolder_textBox.TabIndex = 1;
             // 
             // tabPage4
             // 
@@ -281,7 +281,7 @@
             this.compareServerMods_textBox.ReadOnly = true;
             this.compareServerMods_textBox.Size = new System.Drawing.Size(507, 20);
             this.compareServerMods_textBox.TabIndex = 16;
-            this.compareServerMods_textBox.Text = "Server Mods";
+            this.compareServerMods_textBox.Text = "Sync Folder";
             // 
             // compareFolders_button
             // 
@@ -300,7 +300,7 @@
             this.compareClientMods_textBox.ReadOnly = true;
             this.compareClientMods_textBox.Size = new System.Drawing.Size(507, 20);
             this.compareClientMods_textBox.TabIndex = 9;
-            this.compareClientMods_textBox.Text = "Client Mods";
+            this.compareClientMods_textBox.Text = "Mods Folder";
             // 
             // compareExcessFiles_listView
             // 
@@ -407,7 +407,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListView serverPresetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.TextBox pathToArma3ServerMods_textBox;
+        private System.Windows.Forms.TextBox pathToModsFolder_textBox;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox compareServerMods_textBox;
         private System.Windows.Forms.Button compareFolders_button;
@@ -429,7 +429,7 @@
         private System.Windows.Forms.Button saveSettingsServer_button;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox pathToArma3ClientMods_textBox;
+        private System.Windows.Forms.TextBox pathToSyncFolder_textBox;
         private System.Windows.Forms.TextBox xmlPath_textBox;
         private System.Windows.Forms.Button changeRepoConfigPath_button;
         private System.Windows.Forms.Button createVerifyFile_button;

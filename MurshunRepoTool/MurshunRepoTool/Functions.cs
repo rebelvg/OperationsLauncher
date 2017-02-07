@@ -85,8 +85,8 @@ namespace MurshunLauncherServer
                 password = json["password"];
                 verifyModsLink = json["verify_link"];
                 verifyModsPassword = json["verify_password"];
-                pathToArma3ServerMods_textBox.Text = json["mods_folder"];
-                pathToArma3ClientMods_textBox.Text = json["sync_folder"];
+                pathToModsFolder_textBox.Text = json["mods_folder"];
+                pathToSyncFolder_textBox.Text = json["sync_folder"];
             }
             else
             {
@@ -122,11 +122,11 @@ namespace MurshunLauncherServer
 
         public void RefreshPresetModsList()
         {
-            SetColorOnText(pathToArma3ClientMods_textBox);
-            SetColorOnText(pathToArma3ServerMods_textBox);
+            SetColorOnText(pathToSyncFolder_textBox);
+            SetColorOnText(pathToModsFolder_textBox);
             SetColorOnText(repoConfigPath_textBox);
 
-            SetColorOnPresetList(serverPresetMods_listView, pathToArma3ServerMods_textBox.Text);
+            SetColorOnPresetList(serverPresetMods_listView, pathToModsFolder_textBox.Text);
         }
 
         public void SetColorOnText(TextBox box)
@@ -184,7 +184,7 @@ namespace MurshunLauncherServer
         {
             bool compareSuccess = true;
 
-            if (!Directory.Exists(pathToArma3ServerMods_textBox.Text) || !Directory.Exists(pathToArma3ClientMods_textBox.Text))
+            if (!Directory.Exists(pathToModsFolder_textBox.Text) || !Directory.Exists(pathToSyncFolder_textBox.Text))
             {
                 MessageBox.Show("Server or Sync folder doesn't exist.");
                 return false;
@@ -194,15 +194,15 @@ namespace MurshunLauncherServer
 
             ReadPresetFile();
 
-            List<string> folder_clientFilesList = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folder_clientFilesList = Directory.GetFiles(pathToModsFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
-            folder_clientFilesList = folder_clientFilesList.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folder_clientFilesList = folder_clientFilesList.Select(a => a.Replace(pathToModsFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
             folder_clientFilesList = folder_clientFilesList.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
 
-            List<string> folder_serverFilesList = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folder_serverFilesList = Directory.GetFiles(pathToSyncFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
-            folder_serverFilesList = folder_serverFilesList.Select(a => a.Replace(pathToArma3ServerMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folder_serverFilesList = folder_serverFilesList.Select(a => a.Replace(pathToSyncFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
             folder_serverFilesList = folder_serverFilesList.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
 
@@ -216,7 +216,7 @@ namespace MurshunLauncherServer
 
             foreach (string X in folder_clientFilesList)
             {
-                FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
+                FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
                 compareClientFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
 
                 progressBar2.PerformStep();
@@ -226,7 +226,7 @@ namespace MurshunLauncherServer
 
             foreach (string X in folder_serverFilesList)
             {
-                FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
+                FileInfo file = new FileInfo(pathToSyncFolder_textBox.Text + X);
                 compareServerFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
 
                 progressBar2.PerformStep();
@@ -253,18 +253,11 @@ namespace MurshunLauncherServer
                 compareExcessFiles_listView.Items.Add(X);
             }
 
-            compareClientMods_textBox.Text = "Client Mods (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
-            compareServerMods_textBox.Text = "Server Mods (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
+            compareClientMods_textBox.Text = "Mods Folder (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
+            compareServerMods_textBox.Text = "Sync Folder (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
 
             if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
-            {
-                if (tabControl1.SelectedTab != tabPage4)
-                {
-                    PrintMessage("You have missing or excess files.");
-                    tabControl1.SelectedTab = tabPage4;
-                    compareSuccess = false;
-                }
-            }
+                compareSuccess = false;
 
             UnlockInterface();
 
@@ -275,16 +268,16 @@ namespace MurshunLauncherServer
         {
             List<string> pathList = Path.GetDirectoryName(filePath).Split(Path.DirectorySeparatorChar).ToList();
 
-            string fullpath = pathList[0];
+            string fullPath = pathList[0];
 
             pathList.RemoveAt(0);
 
             foreach (string X in pathList)
             {
-                fullpath += "\\" + X;
+                fullPath += "\\" + X;
 
-                if (!Directory.Exists(fullpath))
-                    Directory.CreateDirectory(fullpath);
+                if (!Directory.Exists(fullPath))
+                    Directory.CreateDirectory(fullPath);
             }
         }
 
@@ -312,10 +305,10 @@ namespace MurshunLauncherServer
         {
             try
             {
-                File.WriteAllText(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+                File.WriteAllText(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
 
-                if (pathToArma3ClientMods_textBox.Text.ToLower() != pathToArma3ServerMods_textBox.Text.ToLower() && Directory.Exists(pathToArma3ClientMods_textBox.Text))
-                    File.WriteAllText(pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+                if (Directory.Exists(pathToSyncFolder_textBox.Text) && pathToSyncFolder_textBox.Text.ToLower() != pathToModsFolder_textBox.Text.ToLower())
+                    File.WriteAllText(pathToSyncFolder_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
 
                 PrintMessage("MurshunLauncherFiles.json was saved.");
             }
@@ -331,9 +324,9 @@ namespace MurshunLauncherServer
 
             ReadPresetFile();
 
-            List<string> folderFiles = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folderFiles = Directory.GetFiles(pathToModsFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
-            folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ServerMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folderFiles = folderFiles.Select(a => a.Replace(pathToModsFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
             folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
 
@@ -347,8 +340,8 @@ namespace MurshunLauncherServer
 
             Dictionary<string, dynamic> json_old = new Dictionary<string, dynamic>();
 
-            if (File.Exists(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json"))
-                json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json"));
+            if (File.Exists(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json"))
+                json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json"));
 
             progressBar2.Minimum = 0;
             progressBar2.Maximum = folderFiles.Count();
@@ -357,7 +350,7 @@ namespace MurshunLauncherServer
 
             foreach (string X in folderFiles)
             {
-                FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
+                FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
 
                 ChangeHeader("Reading... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
@@ -371,11 +364,11 @@ namespace MurshunLauncherServer
                     if (json_old["files"][X].date == file.LastWriteTimeUtc)
                         data["md5"] = json_old["files"][X].md5;
                     else
-                        data["md5"] = GetMD5(pathToArma3ServerMods_textBox.Text + X);
+                        data["md5"] = GetMD5(pathToModsFolder_textBox.Text + X);
                 }
                 catch
                 {
-                    data["md5"] = GetMD5(pathToArma3ServerMods_textBox.Text + X);
+                    data["md5"] = GetMD5(pathToModsFolder_textBox.Text + X);
                 }
 
                 files["files"][X] = data;

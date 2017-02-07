@@ -281,8 +281,9 @@ namespace MurshunLauncherServer
                         {
                             MessageBox.Show("You have missing or excess files.");
                             tabControl1.SelectedTab = tabPage4;
-                            verifySuccess = false;
                         }
+
+                        verifySuccess = false;
                     }
                 }));
             }
