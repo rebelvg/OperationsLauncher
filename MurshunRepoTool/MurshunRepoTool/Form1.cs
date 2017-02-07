@@ -26,7 +26,7 @@ namespace MurshunLauncherServer
             {
                 if (Process.GetProcessesByName("MurshunRepoTool").Length > 1)
                 {
-                    PrintMessage("Tool is already running.");
+                    PrintMessage("Repo Tool is already running.");
                     System.Environment.Exit(1);
                 }
 
