@@ -194,24 +194,16 @@ namespace MurshunUploader
                 return;
             }
 
-                briefingName = Encoding.UTF8.GetString(TempArrayHex(originalbriefingnamelg, archive, briefinglocation));
+            briefingName = Encoding.UTF8.GetString(TempArrayHex(originalbriefingnamelg, archive, briefinglocation));
 
             MessageBox.Show("Old briefing name - " + briefingName + ".\n" + "New briefing name - " + briefingName + newName + ".");
 
             if (checkBoxaddons.Checked)
             {
-                var addonsfound = true;
                 try
                 {
                     addonsdeploc = archive.Locate(patternaddondep, MLdatastart)[0] + 14;
-                }
-                catch
-                {
-                    MessageBox.Show("Can't find addons dependencies array");
-                    addonsfound = false;
-                }
-                if (addonsfound)
-                {
+
                     try
                     {
                         while (!(archive[addonsdeploc + addonsdepsize] == 0x7D && archive[addonsdeploc + addonsdepsize + 1] == 0x3B))
@@ -224,12 +216,15 @@ namespace MurshunUploader
                         MessageBox.Show("Addons array doesn't end.\n" + e.Message);
                         return;
                     }
+
                     string addondep = "";
                     addondep = Encoding.UTF8.GetString(TempArrayHex(addonsdepsize, archive, addonsdeploc));
-                    MessageBox.Show("Old dependencies - " + addondep + "\n\n" + "New dependencies -  NONE.");
-
+                    MessageBox.Show("Old dependencies - {\n" + addondep + "}\n\nNew dependencies -  NONE.");
                 }
-
+                catch
+                {
+                    MessageBox.Show("Can't find addons dependencies array.");
+                }
             }
 
             for (int i = 0; i < 4; i++)
@@ -240,7 +235,7 @@ namespace MurshunUploader
             try
             {
                 File.WriteAllBytes(tempPath, TempArrayHex(addonsdeploc, archive, 0));
-                AppendAllBytes(tempPath, TempArrayHex(briefinglocation + originalbriefingnamelg - addonsdeploc - addonsdepsize, archive, addonsdeploc+addonsdepsize));
+                AppendAllBytes(tempPath, TempArrayHex(briefinglocation + originalbriefingnamelg - addonsdeploc - addonsdepsize, archive, addonsdeploc + addonsdepsize));
                 AppendAllBytes(tempPath, Encoding.UTF8.GetBytes(newName));
                 AppendAllBytes(tempPath, TempArrayHex(archive.Length - briefinglocation - originalbriefingnamelg, archive, briefinglocation + originalbriefingnamelg));
             }

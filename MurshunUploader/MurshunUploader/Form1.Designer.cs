@@ -74,8 +74,6 @@
             // checkBoxaddons
             // 
             this.checkBoxaddons.AutoSize = true;
-            this.checkBoxaddons.Checked = true;
-            this.checkBoxaddons.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxaddons.Location = new System.Drawing.Point(15, 313);
             this.checkBoxaddons.Name = "checkBoxaddons";
             this.checkBoxaddons.Size = new System.Drawing.Size(122, 17);
