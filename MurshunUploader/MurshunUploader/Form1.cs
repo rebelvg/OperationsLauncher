@@ -107,13 +107,16 @@ namespace MurshunUploader
             int missionsqmid = 0;
             string briefingName;
             int originalbriefingnamelg = 0;
+            int addonsdeploc = 0;
             int briefinglocation = 0;
             int fileposition = 0;
             int MLdatastart = 9;
+            int addonsdepsize = 0;
 
             List<FileArch> FileList = new List<FileArch>();
             var pattern = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             var patternbriefing = new byte[] { 0x62, 0x72, 0x69, 0x65, 0x66, 0x69, 0x6E, 0x67, 0x4E, 0x61, 0x6D, 0x65, 0x3D, 0x22 };
+            var patternaddondep = new byte[] { 0x61, 0x64, 0x64, 0x6F, 0x6E, 0x73, 0x5B, 0x5D, 0x3D, 0x0D, 0x0A, 0x7B, 0x0D, 0x0A };
 
             try
             {
@@ -174,27 +177,70 @@ namespace MurshunUploader
             }
             catch
             {
-                MessageBox.Show("Can't find briefing name. Mission is either binarized or doesn't have any briefing name.");
+                MessageBox.Show("Can't find briefing name. Please add briefing name.");
                 return;
             }
 
-            while (!(archive[briefinglocation + originalbriefingnamelg] == 0x22 && archive[briefinglocation + originalbriefingnamelg + 1] == 0x3B))
+            try
             {
-                originalbriefingnamelg++;
+                while (!(archive[briefinglocation + originalbriefingnamelg] == 0x22 && archive[briefinglocation + originalbriefingnamelg + 1] == 0x3B))
+                {
+                    originalbriefingnamelg++;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Briefing name doesn't end. Out of bounds.");
+                return;
             }
 
-            briefingName = Encoding.UTF8.GetString(TempArrayHex(originalbriefingnamelg, archive, briefinglocation));
-
-            for (int i = 0; i < 4; i++)
-                archive[FileList[missionsqmid].Descpos + i] = ReturnToSender(FileList[missionsqmid].Filesize + newName.Length)[i];
+                briefingName = Encoding.UTF8.GetString(TempArrayHex(originalbriefingnamelg, archive, briefinglocation));
 
             MessageBox.Show("Old briefing name - " + briefingName + ".\n" + "New briefing name - " + briefingName + newName + ".");
+
+            if (checkBoxaddons.Checked)
+            {
+                var addonsfound = true;
+                try
+                {
+                    addonsdeploc = archive.Locate(patternaddondep, MLdatastart)[0] + 14;
+                }
+                catch
+                {
+                    MessageBox.Show("Can't find addons dependencies array");
+                    addonsfound = false;
+                }
+                if (addonsfound)
+                {
+                    try
+                    {
+                        while (!(archive[addonsdeploc + addonsdepsize] == 0x7D && archive[addonsdeploc + addonsdepsize + 1] == 0x3B))
+                        {
+                            addonsdepsize++;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Addons array doesn't end.\n" + e.Message);
+                        return;
+                    }
+                    string addondep = "";
+                    addondep = Encoding.UTF8.GetString(TempArrayHex(addonsdepsize, archive, addonsdeploc));
+                    MessageBox.Show("Old dependencies - " + addondep + "\n\n" + "New dependencies -  NONE.");
+
+                }
+
+            }
+
+            for (int i = 0; i < 4; i++)
+                archive[FileList[missionsqmid].Descpos + i] = ReturnToSender(FileList[missionsqmid].Filesize - addonsdepsize + newName.Length)[i];
 
             string tempPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Path.GetFileName(path);
 
             try
             {
-                File.WriteAllBytes(tempPath, TempArrayHex(briefinglocation + originalbriefingnamelg, archive, 0));
+                File.WriteAllBytes(tempPath, TempArrayHex(addonsdeploc, archive, 0));
+                AppendAllBytes(tempPath, TempArrayHex(briefinglocation + originalbriefingnamelg - addonsdeploc - addonsdepsize, archive, addonsdeploc+addonsdepsize));
                 AppendAllBytes(tempPath, Encoding.UTF8.GetBytes(newName));
                 AppendAllBytes(tempPath, TempArrayHex(archive.Length - briefinglocation - originalbriefingnamelg, archive, briefinglocation + originalbriefingnamelg));
             }

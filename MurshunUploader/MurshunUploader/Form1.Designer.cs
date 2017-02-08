@@ -33,6 +33,7 @@
             this.password_textBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkBoxaddons = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -70,11 +71,24 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Version 0.999";
             // 
+            // checkBoxaddons
+            // 
+            this.checkBoxaddons.AutoSize = true;
+            this.checkBoxaddons.Checked = true;
+            this.checkBoxaddons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxaddons.Location = new System.Drawing.Point(15, 313);
+            this.checkBoxaddons.Name = "checkBoxaddons";
+            this.checkBoxaddons.Size = new System.Drawing.Size(122, 17);
+            this.checkBoxaddons.TabIndex = 5;
+            this.checkBoxaddons.Text = "Clear Dependencies";
+            this.checkBoxaddons.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(391, 385);
+            this.Controls.Add(this.checkBoxaddons);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.password_textBox);
@@ -93,6 +107,7 @@
         private System.Windows.Forms.TextBox password_textBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBoxaddons;
     }
 }
 
