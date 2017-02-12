@@ -37,12 +37,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pathToSyncFolder_textBox = new System.Windows.Forms.TextBox();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
-            this.saveSettingsServer_button = new System.Windows.Forms.Button();
+            this.saveSettings_button = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.repoConfigPath_textBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.refreshServer_button = new System.Windows.Forms.Button();
-            this.serverPresetMods_listView = new System.Windows.Forms.ListView();
+            this.refresh_button = new System.Windows.Forms.Button();
+            this.presetMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pathToModsFolder_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -87,12 +87,12 @@
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.pathToSyncFolder_textBox);
             this.tabPage3.Controls.Add(this.xmlPath_textBox);
-            this.tabPage3.Controls.Add(this.saveSettingsServer_button);
+            this.tabPage3.Controls.Add(this.saveSettings_button);
             this.tabPage3.Controls.Add(this.label15);
             this.tabPage3.Controls.Add(this.repoConfigPath_textBox);
             this.tabPage3.Controls.Add(this.label8);
-            this.tabPage3.Controls.Add(this.refreshServer_button);
-            this.tabPage3.Controls.Add(this.serverPresetMods_listView);
+            this.tabPage3.Controls.Add(this.refresh_button);
+            this.tabPage3.Controls.Add(this.presetMods_listView);
             this.tabPage3.Controls.Add(this.pathToModsFolder_textBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
@@ -156,14 +156,14 @@
             this.xmlPath_textBox.Size = new System.Drawing.Size(406, 20);
             this.xmlPath_textBox.TabIndex = 52;
             // 
-            // saveSettingsServer_button
+            // saveSettings_button
             // 
-            this.saveSettingsServer_button.Location = new System.Drawing.Point(808, 682);
-            this.saveSettingsServer_button.Name = "saveSettingsServer_button";
-            this.saveSettingsServer_button.Size = new System.Drawing.Size(93, 23);
-            this.saveSettingsServer_button.TabIndex = 51;
-            this.saveSettingsServer_button.Text = "Save Settings";
-            this.saveSettingsServer_button.UseVisualStyleBackColor = true;
+            this.saveSettings_button.Location = new System.Drawing.Point(808, 682);
+            this.saveSettings_button.Name = "saveSettings_button";
+            this.saveSettings_button.Size = new System.Drawing.Size(93, 23);
+            this.saveSettings_button.TabIndex = 51;
+            this.saveSettings_button.Text = "Save Settings";
+            this.saveSettings_button.UseVisualStyleBackColor = true;
             // 
             // label15
             // 
@@ -191,30 +191,30 @@
             this.label8.TabIndex = 38;
             this.label8.Text = "Mods Folder";
             // 
-            // refreshServer_button
+            // refresh_button
             // 
-            this.refreshServer_button.Location = new System.Drawing.Point(956, 556);
-            this.refreshServer_button.Name = "refreshServer_button";
-            this.refreshServer_button.Size = new System.Drawing.Size(82, 23);
-            this.refreshServer_button.TabIndex = 36;
-            this.refreshServer_button.Text = "Refresh";
-            this.refreshServer_button.UseVisualStyleBackColor = true;
-            this.refreshServer_button.Click += new System.EventHandler(this.refreshServer_button_Click);
+            this.refresh_button.Location = new System.Drawing.Point(956, 556);
+            this.refresh_button.Name = "refresh_button";
+            this.refresh_button.Size = new System.Drawing.Size(82, 23);
+            this.refresh_button.TabIndex = 36;
+            this.refresh_button.Text = "Refresh";
+            this.refresh_button.UseVisualStyleBackColor = true;
+            this.refresh_button.Click += new System.EventHandler(this.refreshServer_button_Click);
             // 
-            // serverPresetMods_listView
+            // presetMods_listView
             // 
-            this.serverPresetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.presetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader8});
-            this.serverPresetMods_listView.FullRowSelect = true;
-            this.serverPresetMods_listView.GridLines = true;
-            this.serverPresetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.serverPresetMods_listView.Location = new System.Drawing.Point(419, 6);
-            this.serverPresetMods_listView.MultiSelect = false;
-            this.serverPresetMods_listView.Name = "serverPresetMods_listView";
-            this.serverPresetMods_listView.Size = new System.Drawing.Size(619, 544);
-            this.serverPresetMods_listView.TabIndex = 4;
-            this.serverPresetMods_listView.UseCompatibleStateImageBehavior = false;
-            this.serverPresetMods_listView.View = System.Windows.Forms.View.Details;
+            this.presetMods_listView.FullRowSelect = true;
+            this.presetMods_listView.GridLines = true;
+            this.presetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.presetMods_listView.Location = new System.Drawing.Point(419, 6);
+            this.presetMods_listView.MultiSelect = false;
+            this.presetMods_listView.Name = "presetMods_listView";
+            this.presetMods_listView.Size = new System.Drawing.Size(619, 544);
+            this.presetMods_listView.TabIndex = 4;
+            this.presetMods_listView.UseCompatibleStateImageBehavior = false;
+            this.presetMods_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader8
             // 
@@ -405,7 +405,7 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ListView serverPresetMods_listView;
+        private System.Windows.Forms.ListView presetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.TextBox pathToModsFolder_textBox;
         private System.Windows.Forms.TabPage tabPage4;
@@ -421,12 +421,12 @@
         private System.Windows.Forms.ListView compareClientFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader13;
         private System.Windows.Forms.Button syncFolders_button;
-        private System.Windows.Forms.Button refreshServer_button;
+        private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ProgressBar progressBar2;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox repoConfigPath_textBox;
-        private System.Windows.Forms.Button saveSettingsServer_button;
+        private System.Windows.Forms.Button saveSettings_button;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox pathToSyncFolder_textBox;

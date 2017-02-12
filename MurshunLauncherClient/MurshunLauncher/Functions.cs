@@ -30,21 +30,21 @@ namespace MurshunLauncher
                 LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
                 reader.Close();
 
-                pathToArma3Client_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
-                pathToArma3ClientMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
+                pathToArma3_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
+                pathToMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
                 joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
                 advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
                 teamSpeakFolder_textBox.Text = LauncherSettings.teamSpeakAppDataFolder_textBox;
 
                 foreach (string X in LauncherSettings.clientCustomMods_listView)
                 {
-                    if (!clientCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).Contains(X))
+                    if (!customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).Contains(X))
                     {
-                        clientCustomMods_listView.Items.Add(X);
+                        customMods_listView.Items.Add(X);
                     }
                 }
 
-                foreach (ListViewItem X in clientCustomMods_listView.Items)
+                foreach (ListViewItem X in customMods_listView.Items)
                 {
                     if (LauncherSettings.clientCheckedModsList_listView.Contains(X.Text))
                     {
@@ -75,11 +75,11 @@ namespace MurshunLauncher
             {
                 LauncherSettings = new MurshunLauncherXmlSettings();
 
-                LauncherSettings.pathToArma3Client_textBox = pathToArma3Client_textBox.Text;
-                LauncherSettings.pathToArma3ClientMods_textBox = pathToArma3ClientMods_textBox.Text;
+                LauncherSettings.pathToArma3Client_textBox = pathToArma3_textBox.Text;
+                LauncherSettings.pathToArma3ClientMods_textBox = pathToMods_textBox.Text;
                 LauncherSettings.joinTheServer_checkBox = joinTheServer_checkBox.Checked;
-                LauncherSettings.clientCustomMods_listView = clientCustomMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.clientCheckedModsList_listView = clientCustomMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
+                LauncherSettings.clientCustomMods_listView = customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+                LauncherSettings.clientCheckedModsList_listView = customMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
                 LauncherSettings.teamSpeakAppDataFolder_textBox = teamSpeakFolder_textBox.Text;
 
@@ -100,21 +100,21 @@ namespace MurshunLauncher
             if (!ReadPresetFile())
                 return false;
 
-            string murshunLauncherFilesPath = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
             Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(murshunLauncherFilesPath));
 
             if (!await Task.Run(() => CheckLauncherFiles(json["verify_link"], GetMD5(murshunLauncherFilesPath))))
                 return false;
 
-            List<string> folderFiles = Directory.GetFiles(pathToArma3ClientMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folderFiles = Directory.GetFiles(pathToMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
-            folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ClientMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folderFiles = folderFiles.Select(a => a.Replace(pathToMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
             folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
 
-            clientModsFiles_listView.Items.Clear();
-            murshunLauncherFiles_listView.Items.Clear();
+            modsFiles_listView.Items.Clear();
+            launcherFiles_listView.Items.Clear();
 
             progressBar1.Minimum = 0;
             progressBar1.Maximum = folderFiles.Count();
@@ -125,7 +125,7 @@ namespace MurshunLauncher
 
             foreach (string X in clientFiles)
             {
-                clientModsFiles_listView.Items.Add(X);
+                modsFiles_listView.Items.Add(X);
             }
 
             foreach (dynamic X in json["files"])
@@ -135,35 +135,35 @@ namespace MurshunLauncher
                 dynamic md5 = X.First.md5;
 
                 if (!fullVerify)
-                    murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
+                    launcherFiles_listView.Items.Add(X.Name + ":" + size);
                 else
-                    murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
+                    launcherFiles_listView.Items.Add(X.Name + ":" + md5);
             }
 
-            folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+            folderFiles = modsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
-            List<string> jsonFiles = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+            List<string> jsonFiles = launcherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
             List<string> missingFilesList = jsonFiles.Where(x => !folderFiles.Contains(x)).ToList();
             List<string> excessFilesList = folderFiles.Where(x => !jsonFiles.Contains(x)).ToList();
 
-            clientMissingFiles_listView.Items.Clear();
-            clientExcessFiles_listView.Items.Clear();
+            missingFiles_listView.Items.Clear();
+            excessFiles_listView.Items.Clear();
 
             foreach (string X in missingFilesList)
             {
-                clientMissingFiles_listView.Items.Add(X);
+                missingFiles_listView.Items.Add(X);
             }
 
             foreach (string X in excessFilesList)
             {
-                clientExcessFiles_listView.Items.Add(X);
+                excessFiles_listView.Items.Add(X);
             }
 
-            clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
-            murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
+            modsFiles_textBox.Text = pathToMods_textBox.Text + " (" + modsFiles_listView.Items.Count + " files / " + missingFiles_listView.Items.Count + " missing)";
+            launcherFiles_textBox.Text = "MurshunLauncherFiles.json (" + launcherFiles_listView.Items.Count + " files / " + excessFiles_listView.Items.Count + " excess)";
 
-            if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
+            if (missingFiles_listView.Items.Count != 0 || excessFiles_listView.Items.Count != 0)
             {
                 if (tabControl1.SelectedTab != tabPage2)
                 {
@@ -187,14 +187,14 @@ namespace MurshunLauncher
 
             foreach (string X in folderFiles)
             {
-                FileInfo file = new FileInfo(pathToArma3ClientMods_textBox.Text + X);
+                FileInfo file = new FileInfo(pathToMods_textBox.Text + X);
 
                 ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
                 if (!fullVerify)
                     clientFiles.Add(X + ":" + file.Length);
                 else
-                    clientFiles.Add(X + ":" + GetMD5(pathToArma3ClientMods_textBox.Text + X));
+                    clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X));
 
                 Invoke(new Action(() => progressBar1.PerformStep()));
 
@@ -236,13 +236,13 @@ namespace MurshunLauncher
 
         public void RefreshPresetModsList()
         {
-            SetColorOnText(pathToArma3Client_textBox);
-            SetColorOnText(pathToArma3ClientMods_textBox);
+            SetColorOnText(pathToArma3_textBox);
+            SetColorOnText(pathToMods_textBox);
             SetColorOnText(teamSpeakFolder_textBox);
 
-            SetColorOnPresetList(clientPresetMods_listView, pathToArma3ClientMods_textBox.Text);
+            SetColorOnPresetList(presetMods_listView, pathToMods_textBox.Text);
 
-            SetColorOnCustomList(clientCustomMods_listView, columnHeader7);
+            SetColorOnCustomList(customMods_listView, columnHeader7);
         }
 
         public void SetColorOnText(TextBox box)
@@ -298,7 +298,7 @@ namespace MurshunLauncher
 
         public void CheckSyncFolderSize()
         {
-            string archivePath = pathToArma3ClientMods_textBox.Text + "\\.sync\\Archive";
+            string archivePath = pathToMods_textBox.Text + "\\.sync\\Archive";
 
             if (Directory.Exists(archivePath))
             {
@@ -321,7 +321,7 @@ namespace MurshunLauncher
 
         public bool ReadPresetFile()
         {
-            string murshunLauncherFilesPath = pathToArma3ClientMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
             presetModsList = new List<string>();
 
@@ -359,8 +359,8 @@ namespace MurshunLauncher
             string acre32plugin = @"\acre2_win32.dll";
             string acre64plugin = @"\acre2_win64.dll";
 
-            string acre32mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
-            string acre64mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
+            string acre32mods = pathToMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
+            string acre64mods = pathToMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
 
             if (!File.Exists(acre32mods) && !File.Exists(acre64mods))
                 return true;
@@ -379,8 +379,8 @@ namespace MurshunLauncher
             string acre32plugin = @"\acre2_win32.dll";
             string acre64plugin = @"\acre2_win64.dll";
 
-            string acre32mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
-            string acre64mods = pathToArma3ClientMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
+            string acre32mods = pathToMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
+            string acre64mods = pathToMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
 
             if (File.Exists(tspath + acre32plugin) && File.Exists(tspath + acre64plugin) && GetMD5(tspath + acre32plugin) == GetMD5(acre32mods) && GetMD5(tspath + acre64plugin) == GetMD5(acre64mods))
                 return true;

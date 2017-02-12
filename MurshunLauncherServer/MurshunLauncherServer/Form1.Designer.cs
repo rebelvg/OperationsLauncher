@@ -37,7 +37,7 @@
             this.missionFolder_textBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
-            this.saveSettingsServer_button = new System.Windows.Forms.Button();
+            this.saveSettings_button = new System.Windows.Forms.Button();
             this.copyMissions_button = new System.Windows.Forms.Button();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.label13 = new System.Windows.Forms.Label();
@@ -48,7 +48,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.refreshServer_button = new System.Windows.Forms.Button();
+            this.refresh_button = new System.Windows.Forms.Button();
             this.closeServer_button = new System.Windows.Forms.Button();
             this.hideWindow_checkBox = new System.Windows.Forms.CheckBox();
             this.removeUncheckedServerMod_button = new System.Windows.Forms.Button();
@@ -59,30 +59,30 @@
             this.changeServerConfig_button = new System.Windows.Forms.Button();
             this.changePathToArma3ServerMods_button = new System.Windows.Forms.Button();
             this.changePathToArma3Server_button = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.launch_button = new System.Windows.Forms.Button();
             this.serverProfiles_textBox = new System.Windows.Forms.TextBox();
-            this.serverCustomMods_listView = new System.Windows.Forms.ListView();
+            this.customMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.serverPresetMods_listView = new System.Windows.Forms.ListView();
+            this.presetMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.serverCfg_textBox = new System.Windows.Forms.TextBox();
             this.serverConfig_textBox = new System.Windows.Forms.TextBox();
-            this.pathToArma3ServerMods_textBox = new System.Windows.Forms.TextBox();
-            this.pathToArma3Server_textBox = new System.Windows.Forms.TextBox();
+            this.pathToMods_textBox = new System.Windows.Forms.TextBox();
+            this.pathToArma3_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
-            this.createVerifyFile_button = new System.Windows.Forms.Button();
-            this.syncFolders_button = new System.Windows.Forms.Button();
-            this.murshunLauncherFiles_textBox = new System.Windows.Forms.TextBox();
-            this.compareFolders_button = new System.Windows.Forms.Button();
-            this.clientMods_textBox = new System.Windows.Forms.TextBox();
-            this.clientExcessFiles_listView = new System.Windows.Forms.ListView();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.fullVerify_button = new System.Windows.Forms.Button();
+            this.removeExcess_button = new System.Windows.Forms.Button();
+            this.launcherFiles_textBox = new System.Windows.Forms.TextBox();
+            this.verify_button = new System.Windows.Forms.Button();
+            this.modsFiles_textBox = new System.Windows.Forms.TextBox();
+            this.excessFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.murshunLauncherFiles_listView = new System.Windows.Forms.ListView();
+            this.launcherFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clientMissingFiles_listView = new System.Windows.Forms.ListView();
+            this.missingFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clientModsFiles_listView = new System.Windows.Forms.ListView();
+            this.modsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -111,7 +111,7 @@
             this.tabPage3.Controls.Add(this.missionFolder_textBox);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.xmlPath_textBox);
-            this.tabPage3.Controls.Add(this.saveSettingsServer_button);
+            this.tabPage3.Controls.Add(this.saveSettings_button);
             this.tabPage3.Controls.Add(this.copyMissions_button);
             this.tabPage3.Controls.Add(this.linkLabel8);
             this.tabPage3.Controls.Add(this.label13);
@@ -122,7 +122,7 @@
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.label8);
             this.tabPage3.Controls.Add(this.label7);
-            this.tabPage3.Controls.Add(this.refreshServer_button);
+            this.tabPage3.Controls.Add(this.refresh_button);
             this.tabPage3.Controls.Add(this.closeServer_button);
             this.tabPage3.Controls.Add(this.hideWindow_checkBox);
             this.tabPage3.Controls.Add(this.removeUncheckedServerMod_button);
@@ -133,14 +133,14 @@
             this.tabPage3.Controls.Add(this.changeServerConfig_button);
             this.tabPage3.Controls.Add(this.changePathToArma3ServerMods_button);
             this.tabPage3.Controls.Add(this.changePathToArma3Server_button);
-            this.tabPage3.Controls.Add(this.button8);
+            this.tabPage3.Controls.Add(this.launch_button);
             this.tabPage3.Controls.Add(this.serverProfiles_textBox);
-            this.tabPage3.Controls.Add(this.serverCustomMods_listView);
-            this.tabPage3.Controls.Add(this.serverPresetMods_listView);
+            this.tabPage3.Controls.Add(this.customMods_listView);
+            this.tabPage3.Controls.Add(this.presetMods_listView);
             this.tabPage3.Controls.Add(this.serverCfg_textBox);
             this.tabPage3.Controls.Add(this.serverConfig_textBox);
-            this.tabPage3.Controls.Add(this.pathToArma3ServerMods_textBox);
-            this.tabPage3.Controls.Add(this.pathToArma3Server_textBox);
+            this.tabPage3.Controls.Add(this.pathToMods_textBox);
+            this.tabPage3.Controls.Add(this.pathToArma3_textBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1044, 711);
@@ -203,14 +203,14 @@
             this.xmlPath_textBox.Size = new System.Drawing.Size(439, 20);
             this.xmlPath_textBox.TabIndex = 52;
             // 
-            // saveSettingsServer_button
+            // saveSettings_button
             // 
-            this.saveSettingsServer_button.Location = new System.Drawing.Point(803, 682);
-            this.saveSettingsServer_button.Name = "saveSettingsServer_button";
-            this.saveSettingsServer_button.Size = new System.Drawing.Size(93, 23);
-            this.saveSettingsServer_button.TabIndex = 51;
-            this.saveSettingsServer_button.Text = "Save Settings";
-            this.saveSettingsServer_button.UseVisualStyleBackColor = true;
+            this.saveSettings_button.Location = new System.Drawing.Point(803, 682);
+            this.saveSettings_button.Name = "saveSettings_button";
+            this.saveSettings_button.Size = new System.Drawing.Size(93, 23);
+            this.saveSettings_button.TabIndex = 51;
+            this.saveSettings_button.Text = "Save Settings";
+            this.saveSettings_button.UseVisualStyleBackColor = true;
             // 
             // copyMissions_button
             // 
@@ -305,15 +305,15 @@
             this.label7.TabIndex = 37;
             this.label7.Text = "Server (.exe)";
             // 
-            // refreshServer_button
+            // refresh_button
             // 
-            this.refreshServer_button.Location = new System.Drawing.Point(660, 556);
-            this.refreshServer_button.Name = "refreshServer_button";
-            this.refreshServer_button.Size = new System.Drawing.Size(82, 23);
-            this.refreshServer_button.TabIndex = 36;
-            this.refreshServer_button.Text = "Refresh";
-            this.refreshServer_button.UseVisualStyleBackColor = true;
-            this.refreshServer_button.Click += new System.EventHandler(this.refreshServer_button_Click);
+            this.refresh_button.Location = new System.Drawing.Point(660, 556);
+            this.refresh_button.Name = "refresh_button";
+            this.refresh_button.Size = new System.Drawing.Size(82, 23);
+            this.refresh_button.TabIndex = 36;
+            this.refresh_button.Text = "Refresh";
+            this.refresh_button.UseVisualStyleBackColor = true;
+            this.refresh_button.Click += new System.EventHandler(this.refreshServer_button_Click);
             // 
             // closeServer_button
             // 
@@ -321,7 +321,7 @@
             this.closeServer_button.Name = "closeServer_button";
             this.closeServer_button.Size = new System.Drawing.Size(136, 25);
             this.closeServer_button.TabIndex = 35;
-            this.closeServer_button.Text = "KILL SERVER";
+            this.closeServer_button.Text = "CLOSE SERVER";
             this.closeServer_button.UseVisualStyleBackColor = true;
             this.closeServer_button.Click += new System.EventHandler(this.closeServer_button_Click);
             // 
@@ -412,15 +412,15 @@
             this.changePathToArma3Server_button.UseVisualStyleBackColor = true;
             this.changePathToArma3Server_button.Click += new System.EventHandler(this.changePathToArma3Server_button_Click);
             // 
-            // button8
+            // launch_button
             // 
-            this.button8.Location = new System.Drawing.Point(902, 650);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(136, 55);
-            this.button8.TabIndex = 12;
-            this.button8.Text = "LAUNCH SERVER";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.launch_button.Location = new System.Drawing.Point(902, 650);
+            this.launch_button.Name = "launch_button";
+            this.launch_button.Size = new System.Drawing.Size(136, 55);
+            this.launch_button.TabIndex = 12;
+            this.launch_button.Text = "LAUNCH SERVER";
+            this.launch_button.UseVisualStyleBackColor = true;
+            this.launch_button.Click += new System.EventHandler(this.button8_Click);
             // 
             // serverProfiles_textBox
             // 
@@ -430,41 +430,41 @@
             this.serverProfiles_textBox.Size = new System.Drawing.Size(406, 20);
             this.serverProfiles_textBox.TabIndex = 11;
             // 
-            // serverCustomMods_listView
+            // customMods_listView
             // 
-            this.serverCustomMods_listView.CheckBoxes = true;
-            this.serverCustomMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.customMods_listView.CheckBoxes = true;
+            this.customMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader9});
-            this.serverCustomMods_listView.FullRowSelect = true;
-            this.serverCustomMods_listView.GridLines = true;
-            this.serverCustomMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.serverCustomMods_listView.Location = new System.Drawing.Point(748, 6);
-            this.serverCustomMods_listView.MultiSelect = false;
-            this.serverCustomMods_listView.Name = "serverCustomMods_listView";
-            this.serverCustomMods_listView.Size = new System.Drawing.Size(290, 544);
-            this.serverCustomMods_listView.TabIndex = 5;
-            this.serverCustomMods_listView.UseCompatibleStateImageBehavior = false;
-            this.serverCustomMods_listView.View = System.Windows.Forms.View.Details;
+            this.customMods_listView.FullRowSelect = true;
+            this.customMods_listView.GridLines = true;
+            this.customMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.customMods_listView.Location = new System.Drawing.Point(748, 6);
+            this.customMods_listView.MultiSelect = false;
+            this.customMods_listView.Name = "customMods_listView";
+            this.customMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.customMods_listView.TabIndex = 5;
+            this.customMods_listView.UseCompatibleStateImageBehavior = false;
+            this.customMods_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader9
             // 
             this.columnHeader9.Text = "Custom Mods";
             this.columnHeader9.Width = 286;
             // 
-            // serverPresetMods_listView
+            // presetMods_listView
             // 
-            this.serverPresetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.presetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader8});
-            this.serverPresetMods_listView.FullRowSelect = true;
-            this.serverPresetMods_listView.GridLines = true;
-            this.serverPresetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.serverPresetMods_listView.Location = new System.Drawing.Point(452, 6);
-            this.serverPresetMods_listView.MultiSelect = false;
-            this.serverPresetMods_listView.Name = "serverPresetMods_listView";
-            this.serverPresetMods_listView.Size = new System.Drawing.Size(290, 544);
-            this.serverPresetMods_listView.TabIndex = 4;
-            this.serverPresetMods_listView.UseCompatibleStateImageBehavior = false;
-            this.serverPresetMods_listView.View = System.Windows.Forms.View.Details;
+            this.presetMods_listView.FullRowSelect = true;
+            this.presetMods_listView.GridLines = true;
+            this.presetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.presetMods_listView.Location = new System.Drawing.Point(452, 6);
+            this.presetMods_listView.MultiSelect = false;
+            this.presetMods_listView.Name = "presetMods_listView";
+            this.presetMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.presetMods_listView.TabIndex = 4;
+            this.presetMods_listView.UseCompatibleStateImageBehavior = false;
+            this.presetMods_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader8
             // 
@@ -487,165 +487,165 @@
             this.serverConfig_textBox.Size = new System.Drawing.Size(406, 20);
             this.serverConfig_textBox.TabIndex = 2;
             // 
-            // pathToArma3ServerMods_textBox
+            // pathToMods_textBox
             // 
-            this.pathToArma3ServerMods_textBox.Location = new System.Drawing.Point(7, 100);
-            this.pathToArma3ServerMods_textBox.Name = "pathToArma3ServerMods_textBox";
-            this.pathToArma3ServerMods_textBox.ReadOnly = true;
-            this.pathToArma3ServerMods_textBox.Size = new System.Drawing.Size(406, 20);
-            this.pathToArma3ServerMods_textBox.TabIndex = 1;
+            this.pathToMods_textBox.Location = new System.Drawing.Point(7, 100);
+            this.pathToMods_textBox.Name = "pathToMods_textBox";
+            this.pathToMods_textBox.ReadOnly = true;
+            this.pathToMods_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToMods_textBox.TabIndex = 1;
             // 
-            // pathToArma3Server_textBox
+            // pathToArma3_textBox
             // 
-            this.pathToArma3Server_textBox.Location = new System.Drawing.Point(7, 61);
-            this.pathToArma3Server_textBox.Name = "pathToArma3Server_textBox";
-            this.pathToArma3Server_textBox.ReadOnly = true;
-            this.pathToArma3Server_textBox.Size = new System.Drawing.Size(406, 20);
-            this.pathToArma3Server_textBox.TabIndex = 0;
+            this.pathToArma3_textBox.Location = new System.Drawing.Point(7, 61);
+            this.pathToArma3_textBox.Name = "pathToArma3_textBox";
+            this.pathToArma3_textBox.ReadOnly = true;
+            this.pathToArma3_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToArma3_textBox.TabIndex = 0;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.progressBar2);
-            this.tabPage4.Controls.Add(this.createVerifyFile_button);
-            this.tabPage4.Controls.Add(this.syncFolders_button);
-            this.tabPage4.Controls.Add(this.murshunLauncherFiles_textBox);
-            this.tabPage4.Controls.Add(this.compareFolders_button);
-            this.tabPage4.Controls.Add(this.clientMods_textBox);
-            this.tabPage4.Controls.Add(this.clientExcessFiles_listView);
-            this.tabPage4.Controls.Add(this.murshunLauncherFiles_listView);
-            this.tabPage4.Controls.Add(this.clientMissingFiles_listView);
-            this.tabPage4.Controls.Add(this.clientModsFiles_listView);
+            this.tabPage4.Controls.Add(this.progressBar1);
+            this.tabPage4.Controls.Add(this.fullVerify_button);
+            this.tabPage4.Controls.Add(this.removeExcess_button);
+            this.tabPage4.Controls.Add(this.launcherFiles_textBox);
+            this.tabPage4.Controls.Add(this.verify_button);
+            this.tabPage4.Controls.Add(this.modsFiles_textBox);
+            this.tabPage4.Controls.Add(this.excessFiles_listView);
+            this.tabPage4.Controls.Add(this.launcherFiles_listView);
+            this.tabPage4.Controls.Add(this.missingFiles_listView);
+            this.tabPage4.Controls.Add(this.modsFiles_listView);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1044, 711);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Server Verify";
             // 
-            // progressBar2
+            // progressBar1
             // 
-            this.progressBar2.Location = new System.Drawing.Point(567, 6);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(471, 23);
-            this.progressBar2.TabIndex = 19;
+            this.progressBar1.Location = new System.Drawing.Point(567, 6);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(471, 23);
+            this.progressBar1.TabIndex = 19;
             // 
-            // createVerifyFile_button
+            // fullVerify_button
             // 
-            this.createVerifyFile_button.Location = new System.Drawing.Point(381, 6);
-            this.createVerifyFile_button.Name = "createVerifyFile_button";
-            this.createVerifyFile_button.Size = new System.Drawing.Size(180, 23);
-            this.createVerifyFile_button.TabIndex = 18;
-            this.createVerifyFile_button.Text = "Full Verify";
-            this.createVerifyFile_button.UseVisualStyleBackColor = true;
-            this.createVerifyFile_button.Click += new System.EventHandler(this.createVerifyFile_button_Click);
+            this.fullVerify_button.Location = new System.Drawing.Point(381, 6);
+            this.fullVerify_button.Name = "fullVerify_button";
+            this.fullVerify_button.Size = new System.Drawing.Size(180, 23);
+            this.fullVerify_button.TabIndex = 18;
+            this.fullVerify_button.Text = "Full Verify";
+            this.fullVerify_button.UseVisualStyleBackColor = true;
+            this.fullVerify_button.Click += new System.EventHandler(this.createVerifyFile_button_Click);
             // 
-            // syncFolders_button
+            // removeExcess_button
             // 
-            this.syncFolders_button.Location = new System.Drawing.Point(195, 6);
-            this.syncFolders_button.Name = "syncFolders_button";
-            this.syncFolders_button.Size = new System.Drawing.Size(180, 23);
-            this.syncFolders_button.TabIndex = 17;
-            this.syncFolders_button.Text = "Remove Excess";
-            this.syncFolders_button.UseVisualStyleBackColor = true;
-            this.syncFolders_button.Click += new System.EventHandler(this.button10_Click);
+            this.removeExcess_button.Location = new System.Drawing.Point(195, 6);
+            this.removeExcess_button.Name = "removeExcess_button";
+            this.removeExcess_button.Size = new System.Drawing.Size(180, 23);
+            this.removeExcess_button.TabIndex = 17;
+            this.removeExcess_button.Text = "Remove Excess";
+            this.removeExcess_button.UseVisualStyleBackColor = true;
+            this.removeExcess_button.Click += new System.EventHandler(this.button10_Click);
             // 
-            // murshunLauncherFiles_textBox
+            // launcherFiles_textBox
             // 
-            this.murshunLauncherFiles_textBox.Location = new System.Drawing.Point(534, 36);
-            this.murshunLauncherFiles_textBox.Name = "murshunLauncherFiles_textBox";
-            this.murshunLauncherFiles_textBox.ReadOnly = true;
-            this.murshunLauncherFiles_textBox.Size = new System.Drawing.Size(507, 20);
-            this.murshunLauncherFiles_textBox.TabIndex = 16;
-            this.murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json";
+            this.launcherFiles_textBox.Location = new System.Drawing.Point(534, 36);
+            this.launcherFiles_textBox.Name = "launcherFiles_textBox";
+            this.launcherFiles_textBox.ReadOnly = true;
+            this.launcherFiles_textBox.Size = new System.Drawing.Size(507, 20);
+            this.launcherFiles_textBox.TabIndex = 16;
+            this.launcherFiles_textBox.Text = "MurshunLauncherFiles.json";
             // 
-            // compareFolders_button
+            // verify_button
             // 
-            this.compareFolders_button.Location = new System.Drawing.Point(9, 6);
-            this.compareFolders_button.Name = "compareFolders_button";
-            this.compareFolders_button.Size = new System.Drawing.Size(180, 23);
-            this.compareFolders_button.TabIndex = 12;
-            this.compareFolders_button.Text = "Verify";
-            this.compareFolders_button.UseVisualStyleBackColor = true;
-            this.compareFolders_button.Click += new System.EventHandler(this.button9_Click);
+            this.verify_button.Location = new System.Drawing.Point(9, 6);
+            this.verify_button.Name = "verify_button";
+            this.verify_button.Size = new System.Drawing.Size(180, 23);
+            this.verify_button.TabIndex = 12;
+            this.verify_button.Text = "Verify";
+            this.verify_button.UseVisualStyleBackColor = true;
+            this.verify_button.Click += new System.EventHandler(this.button9_Click);
             // 
-            // clientMods_textBox
+            // modsFiles_textBox
             // 
-            this.clientMods_textBox.Location = new System.Drawing.Point(9, 36);
-            this.clientMods_textBox.Name = "clientMods_textBox";
-            this.clientMods_textBox.ReadOnly = true;
-            this.clientMods_textBox.Size = new System.Drawing.Size(507, 20);
-            this.clientMods_textBox.TabIndex = 9;
-            this.clientMods_textBox.Text = "Server Mods";
+            this.modsFiles_textBox.Location = new System.Drawing.Point(9, 36);
+            this.modsFiles_textBox.Name = "modsFiles_textBox";
+            this.modsFiles_textBox.ReadOnly = true;
+            this.modsFiles_textBox.Size = new System.Drawing.Size(507, 20);
+            this.modsFiles_textBox.TabIndex = 9;
+            this.modsFiles_textBox.Text = "Server Mods";
             // 
-            // clientExcessFiles_listView
+            // excessFiles_listView
             // 
-            this.clientExcessFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.excessFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader10});
-            this.clientExcessFiles_listView.FullRowSelect = true;
-            this.clientExcessFiles_listView.GridLines = true;
-            this.clientExcessFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientExcessFiles_listView.Location = new System.Drawing.Point(534, 302);
-            this.clientExcessFiles_listView.Name = "clientExcessFiles_listView";
-            this.clientExcessFiles_listView.Size = new System.Drawing.Size(507, 406);
-            this.clientExcessFiles_listView.TabIndex = 14;
-            this.clientExcessFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.clientExcessFiles_listView.View = System.Windows.Forms.View.Details;
+            this.excessFiles_listView.FullRowSelect = true;
+            this.excessFiles_listView.GridLines = true;
+            this.excessFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.excessFiles_listView.Location = new System.Drawing.Point(534, 302);
+            this.excessFiles_listView.Name = "excessFiles_listView";
+            this.excessFiles_listView.Size = new System.Drawing.Size(507, 406);
+            this.excessFiles_listView.TabIndex = 14;
+            this.excessFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.excessFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader10
             // 
             this.columnHeader10.Text = "Excess Files (Path:Size)";
             this.columnHeader10.Width = 503;
             // 
-            // murshunLauncherFiles_listView
+            // launcherFiles_listView
             // 
-            this.murshunLauncherFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.launcherFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader11});
-            this.murshunLauncherFiles_listView.FullRowSelect = true;
-            this.murshunLauncherFiles_listView.GridLines = true;
-            this.murshunLauncherFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.murshunLauncherFiles_listView.Location = new System.Drawing.Point(534, 62);
-            this.murshunLauncherFiles_listView.Name = "murshunLauncherFiles_listView";
-            this.murshunLauncherFiles_listView.Size = new System.Drawing.Size(507, 234);
-            this.murshunLauncherFiles_listView.TabIndex = 15;
-            this.murshunLauncherFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.murshunLauncherFiles_listView.View = System.Windows.Forms.View.Details;
+            this.launcherFiles_listView.FullRowSelect = true;
+            this.launcherFiles_listView.GridLines = true;
+            this.launcherFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.launcherFiles_listView.Location = new System.Drawing.Point(534, 62);
+            this.launcherFiles_listView.Name = "launcherFiles_listView";
+            this.launcherFiles_listView.Size = new System.Drawing.Size(507, 234);
+            this.launcherFiles_listView.TabIndex = 15;
+            this.launcherFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.launcherFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader11
             // 
             this.columnHeader11.Text = "Files (Path:Size)";
             this.columnHeader11.Width = 503;
             // 
-            // clientMissingFiles_listView
+            // missingFiles_listView
             // 
-            this.clientMissingFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.missingFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader12});
-            this.clientMissingFiles_listView.FullRowSelect = true;
-            this.clientMissingFiles_listView.GridLines = true;
-            this.clientMissingFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientMissingFiles_listView.Location = new System.Drawing.Point(9, 302);
-            this.clientMissingFiles_listView.Name = "clientMissingFiles_listView";
-            this.clientMissingFiles_listView.Size = new System.Drawing.Size(507, 406);
-            this.clientMissingFiles_listView.TabIndex = 13;
-            this.clientMissingFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.clientMissingFiles_listView.View = System.Windows.Forms.View.Details;
+            this.missingFiles_listView.FullRowSelect = true;
+            this.missingFiles_listView.GridLines = true;
+            this.missingFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.missingFiles_listView.Location = new System.Drawing.Point(9, 302);
+            this.missingFiles_listView.Name = "missingFiles_listView";
+            this.missingFiles_listView.Size = new System.Drawing.Size(507, 406);
+            this.missingFiles_listView.TabIndex = 13;
+            this.missingFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.missingFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader12
             // 
             this.columnHeader12.Text = "Missing Files (Path:Size)";
             this.columnHeader12.Width = 503;
             // 
-            // clientModsFiles_listView
+            // modsFiles_listView
             // 
-            this.clientModsFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.modsFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader13});
-            this.clientModsFiles_listView.FullRowSelect = true;
-            this.clientModsFiles_listView.GridLines = true;
-            this.clientModsFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientModsFiles_listView.Location = new System.Drawing.Point(9, 62);
-            this.clientModsFiles_listView.Name = "clientModsFiles_listView";
-            this.clientModsFiles_listView.Size = new System.Drawing.Size(507, 234);
-            this.clientModsFiles_listView.TabIndex = 11;
-            this.clientModsFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.clientModsFiles_listView.View = System.Windows.Forms.View.Details;
+            this.modsFiles_listView.FullRowSelect = true;
+            this.modsFiles_listView.GridLines = true;
+            this.modsFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.modsFiles_listView.Location = new System.Drawing.Point(9, 62);
+            this.modsFiles_listView.Name = "modsFiles_listView";
+            this.modsFiles_listView.Size = new System.Drawing.Size(507, 234);
+            this.modsFiles_listView.TabIndex = 11;
+            this.modsFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.modsFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader13
             // 
@@ -679,29 +679,29 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ListView serverPresetMods_listView;
+        private System.Windows.Forms.ListView presetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.TextBox serverCfg_textBox;
         private System.Windows.Forms.TextBox serverConfig_textBox;
-        private System.Windows.Forms.TextBox pathToArma3ServerMods_textBox;
-        private System.Windows.Forms.TextBox pathToArma3Server_textBox;
-        private System.Windows.Forms.ListView serverCustomMods_listView;
+        private System.Windows.Forms.TextBox pathToMods_textBox;
+        private System.Windows.Forms.TextBox pathToArma3_textBox;
+        private System.Windows.Forms.ListView customMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.TextBox serverProfiles_textBox;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button launch_button;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.TextBox murshunLauncherFiles_textBox;
-        private System.Windows.Forms.Button compareFolders_button;
-        private System.Windows.Forms.TextBox clientMods_textBox;
-        private System.Windows.Forms.ListView clientExcessFiles_listView;
+        private System.Windows.Forms.TextBox launcherFiles_textBox;
+        private System.Windows.Forms.Button verify_button;
+        private System.Windows.Forms.TextBox modsFiles_textBox;
+        private System.Windows.Forms.ListView excessFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader10;
-        private System.Windows.Forms.ListView murshunLauncherFiles_listView;
+        private System.Windows.Forms.ListView launcherFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader11;
-        private System.Windows.Forms.ListView clientMissingFiles_listView;
+        private System.Windows.Forms.ListView missingFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader12;
-        private System.Windows.Forms.ListView clientModsFiles_listView;
+        private System.Windows.Forms.ListView modsFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader13;
-        private System.Windows.Forms.Button syncFolders_button;
+        private System.Windows.Forms.Button removeExcess_button;
         private System.Windows.Forms.Button changeServerProfiles_button;
         private System.Windows.Forms.Button changeServerCfg_button;
         private System.Windows.Forms.Button changeServerConfig_button;
@@ -712,8 +712,8 @@
         private System.Windows.Forms.Button removeUncheckedServerMod_button;
         private System.Windows.Forms.CheckBox hideWindow_checkBox;
         private System.Windows.Forms.Button closeServer_button;
-        private System.Windows.Forms.Button refreshServer_button;
-        private System.Windows.Forms.Button createVerifyFile_button;
+        private System.Windows.Forms.Button refresh_button;
+        private System.Windows.Forms.Button fullVerify_button;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
@@ -724,8 +724,8 @@
         private System.Windows.Forms.TextBox defaultStartLineServer_textBox;
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.Button copyMissions_button;
-        private System.Windows.Forms.ProgressBar progressBar2;
-        private System.Windows.Forms.Button saveSettingsServer_button;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button saveSettings_button;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox xmlPath_textBox;
         private System.Windows.Forms.Label label1;

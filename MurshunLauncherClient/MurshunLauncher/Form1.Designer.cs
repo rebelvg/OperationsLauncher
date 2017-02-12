@@ -34,23 +34,23 @@
             this.label7 = new System.Windows.Forms.Label();
             this.changePathToTeamSpeakFolder_button = new System.Windows.Forms.Button();
             this.teamSpeakFolder_textBox = new System.Windows.Forms.TextBox();
-            this.saveSettingsClient_button = new System.Windows.Forms.Button();
+            this.saveSettings_button = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.refreshClient_button = new System.Windows.Forms.Button();
+            this.refresh_button = new System.Windows.Forms.Button();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.removeUncheckedMod_button = new System.Windows.Forms.Button();
             this.changePathToArma3ClientMods_button = new System.Windows.Forms.Button();
             this.changePathToArma3Client_button = new System.Windows.Forms.Button();
-            this.pathToArma3ClientMods_textBox = new System.Windows.Forms.TextBox();
-            this.pathToArma3Client_textBox = new System.Windows.Forms.TextBox();
+            this.pathToMods_textBox = new System.Windows.Forms.TextBox();
+            this.pathToArma3_textBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.clientCustomMods_listView = new System.Windows.Forms.ListView();
+            this.customMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clientPresetMods_listView = new System.Windows.Forms.ListView();
+            this.presetMods_listView = new System.Windows.Forms.ListView();
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.advancedStartLine_textBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -64,16 +64,16 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.fullVerify_button = new System.Windows.Forms.Button();
             this.removeExcess_button = new System.Windows.Forms.Button();
-            this.murshunLauncherFiles_textBox = new System.Windows.Forms.TextBox();
+            this.launcherFiles_textBox = new System.Windows.Forms.TextBox();
             this.verifyMods_button = new System.Windows.Forms.Button();
-            this.clientMods_textBox = new System.Windows.Forms.TextBox();
-            this.clientExcessFiles_listView = new System.Windows.Forms.ListView();
+            this.modsFiles_textBox = new System.Windows.Forms.TextBox();
+            this.excessFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.murshunLauncherFiles_listView = new System.Windows.Forms.ListView();
+            this.launcherFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clientMissingFiles_listView = new System.Windows.Forms.ListView();
+            this.missingFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clientModsFiles_listView = new System.Windows.Forms.ListView();
+            this.modsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -99,22 +99,22 @@
             this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.changePathToTeamSpeakFolder_button);
             this.tabPage1.Controls.Add(this.teamSpeakFolder_textBox);
-            this.tabPage1.Controls.Add(this.saveSettingsClient_button);
+            this.tabPage1.Controls.Add(this.saveSettings_button);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.refreshClient_button);
+            this.tabPage1.Controls.Add(this.refresh_button);
             this.tabPage1.Controls.Add(this.linkLabel7);
             this.tabPage1.Controls.Add(this.linkLabel5);
             this.tabPage1.Controls.Add(this.linkLabel4);
             this.tabPage1.Controls.Add(this.removeUncheckedMod_button);
             this.tabPage1.Controls.Add(this.changePathToArma3ClientMods_button);
             this.tabPage1.Controls.Add(this.changePathToArma3Client_button);
-            this.tabPage1.Controls.Add(this.pathToArma3ClientMods_textBox);
-            this.tabPage1.Controls.Add(this.pathToArma3Client_textBox);
+            this.tabPage1.Controls.Add(this.pathToMods_textBox);
+            this.tabPage1.Controls.Add(this.pathToArma3_textBox);
             this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.clientCustomMods_listView);
-            this.tabPage1.Controls.Add(this.clientPresetMods_listView);
+            this.tabPage1.Controls.Add(this.customMods_listView);
+            this.tabPage1.Controls.Add(this.presetMods_listView);
             this.tabPage1.Controls.Add(this.advancedStartLine_textBox);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
@@ -158,15 +158,15 @@
             this.teamSpeakFolder_textBox.Size = new System.Drawing.Size(406, 20);
             this.teamSpeakFolder_textBox.TabIndex = 42;
             // 
-            // saveSettingsClient_button
+            // saveSettings_button
             // 
-            this.saveSettingsClient_button.Location = new System.Drawing.Point(803, 682);
-            this.saveSettingsClient_button.Name = "saveSettingsClient_button";
-            this.saveSettingsClient_button.Size = new System.Drawing.Size(93, 23);
-            this.saveSettingsClient_button.TabIndex = 41;
-            this.saveSettingsClient_button.Text = "Save Settings";
-            this.saveSettingsClient_button.UseVisualStyleBackColor = true;
-            this.saveSettingsClient_button.Click += new System.EventHandler(this.save_button_Click);
+            this.saveSettings_button.Location = new System.Drawing.Point(803, 682);
+            this.saveSettings_button.Name = "saveSettings_button";
+            this.saveSettings_button.Size = new System.Drawing.Size(93, 23);
+            this.saveSettings_button.TabIndex = 41;
+            this.saveSettings_button.Text = "Save Settings";
+            this.saveSettings_button.UseVisualStyleBackColor = true;
+            this.saveSettings_button.Click += new System.EventHandler(this.save_button_Click);
             // 
             // label6
             // 
@@ -195,15 +195,15 @@
             this.label4.TabIndex = 34;
             this.label4.Text = "Xml Path";
             // 
-            // refreshClient_button
+            // refresh_button
             // 
-            this.refreshClient_button.Location = new System.Drawing.Point(660, 556);
-            this.refreshClient_button.Name = "refreshClient_button";
-            this.refreshClient_button.Size = new System.Drawing.Size(82, 23);
-            this.refreshClient_button.TabIndex = 33;
-            this.refreshClient_button.Text = "Refresh";
-            this.refreshClient_button.UseVisualStyleBackColor = true;
-            this.refreshClient_button.Click += new System.EventHandler(this.refreshClient_button_Click);
+            this.refresh_button.Location = new System.Drawing.Point(660, 556);
+            this.refresh_button.Name = "refresh_button";
+            this.refresh_button.Size = new System.Drawing.Size(82, 23);
+            this.refresh_button.TabIndex = 33;
+            this.refresh_button.Text = "Refresh";
+            this.refresh_button.UseVisualStyleBackColor = true;
+            this.refresh_button.Click += new System.EventHandler(this.refreshClient_button_Click);
             // 
             // linkLabel7
             // 
@@ -268,21 +268,21 @@
             this.changePathToArma3Client_button.UseVisualStyleBackColor = true;
             this.changePathToArma3Client_button.Click += new System.EventHandler(this.button2_Click);
             // 
-            // pathToArma3ClientMods_textBox
+            // pathToMods_textBox
             // 
-            this.pathToArma3ClientMods_textBox.Location = new System.Drawing.Point(7, 100);
-            this.pathToArma3ClientMods_textBox.Name = "pathToArma3ClientMods_textBox";
-            this.pathToArma3ClientMods_textBox.ReadOnly = true;
-            this.pathToArma3ClientMods_textBox.Size = new System.Drawing.Size(406, 20);
-            this.pathToArma3ClientMods_textBox.TabIndex = 24;
+            this.pathToMods_textBox.Location = new System.Drawing.Point(7, 100);
+            this.pathToMods_textBox.Name = "pathToMods_textBox";
+            this.pathToMods_textBox.ReadOnly = true;
+            this.pathToMods_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToMods_textBox.TabIndex = 24;
             // 
-            // pathToArma3Client_textBox
+            // pathToArma3_textBox
             // 
-            this.pathToArma3Client_textBox.Location = new System.Drawing.Point(7, 61);
-            this.pathToArma3Client_textBox.Name = "pathToArma3Client_textBox";
-            this.pathToArma3Client_textBox.ReadOnly = true;
-            this.pathToArma3Client_textBox.Size = new System.Drawing.Size(406, 20);
-            this.pathToArma3Client_textBox.TabIndex = 23;
+            this.pathToArma3_textBox.Location = new System.Drawing.Point(7, 61);
+            this.pathToArma3_textBox.Name = "pathToArma3_textBox";
+            this.pathToArma3_textBox.ReadOnly = true;
+            this.pathToArma3_textBox.Size = new System.Drawing.Size(406, 20);
+            this.pathToArma3_textBox.TabIndex = 23;
             // 
             // label3
             // 
@@ -293,39 +293,39 @@
             this.label3.TabIndex = 17;
             this.label3.Text = "Version 0.999";
             // 
-            // clientCustomMods_listView
+            // customMods_listView
             // 
-            this.clientCustomMods_listView.CheckBoxes = true;
-            this.clientCustomMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.customMods_listView.CheckBoxes = true;
+            this.customMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader7});
-            this.clientCustomMods_listView.FullRowSelect = true;
-            this.clientCustomMods_listView.GridLines = true;
-            this.clientCustomMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientCustomMods_listView.Location = new System.Drawing.Point(748, 6);
-            this.clientCustomMods_listView.Name = "clientCustomMods_listView";
-            this.clientCustomMods_listView.Size = new System.Drawing.Size(290, 544);
-            this.clientCustomMods_listView.TabIndex = 16;
-            this.clientCustomMods_listView.UseCompatibleStateImageBehavior = false;
-            this.clientCustomMods_listView.View = System.Windows.Forms.View.Details;
+            this.customMods_listView.FullRowSelect = true;
+            this.customMods_listView.GridLines = true;
+            this.customMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.customMods_listView.Location = new System.Drawing.Point(748, 6);
+            this.customMods_listView.Name = "customMods_listView";
+            this.customMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.customMods_listView.TabIndex = 16;
+            this.customMods_listView.UseCompatibleStateImageBehavior = false;
+            this.customMods_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader7
             // 
             this.columnHeader7.Text = "Custom Mods";
             this.columnHeader7.Width = 286;
             // 
-            // clientPresetMods_listView
+            // presetMods_listView
             // 
-            this.clientPresetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.presetMods_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader6});
-            this.clientPresetMods_listView.FullRowSelect = true;
-            this.clientPresetMods_listView.GridLines = true;
-            this.clientPresetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientPresetMods_listView.Location = new System.Drawing.Point(452, 6);
-            this.clientPresetMods_listView.Name = "clientPresetMods_listView";
-            this.clientPresetMods_listView.Size = new System.Drawing.Size(290, 544);
-            this.clientPresetMods_listView.TabIndex = 15;
-            this.clientPresetMods_listView.UseCompatibleStateImageBehavior = false;
-            this.clientPresetMods_listView.View = System.Windows.Forms.View.Details;
+            this.presetMods_listView.FullRowSelect = true;
+            this.presetMods_listView.GridLines = true;
+            this.presetMods_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.presetMods_listView.Location = new System.Drawing.Point(452, 6);
+            this.presetMods_listView.Name = "presetMods_listView";
+            this.presetMods_listView.Size = new System.Drawing.Size(290, 544);
+            this.presetMods_listView.TabIndex = 15;
+            this.presetMods_listView.UseCompatibleStateImageBehavior = false;
+            this.presetMods_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader6
             // 
@@ -410,13 +410,13 @@
             this.tabPage2.Controls.Add(this.progressBar1);
             this.tabPage2.Controls.Add(this.fullVerify_button);
             this.tabPage2.Controls.Add(this.removeExcess_button);
-            this.tabPage2.Controls.Add(this.murshunLauncherFiles_textBox);
+            this.tabPage2.Controls.Add(this.launcherFiles_textBox);
             this.tabPage2.Controls.Add(this.verifyMods_button);
-            this.tabPage2.Controls.Add(this.clientMods_textBox);
-            this.tabPage2.Controls.Add(this.clientExcessFiles_listView);
-            this.tabPage2.Controls.Add(this.murshunLauncherFiles_listView);
-            this.tabPage2.Controls.Add(this.clientMissingFiles_listView);
-            this.tabPage2.Controls.Add(this.clientModsFiles_listView);
+            this.tabPage2.Controls.Add(this.modsFiles_textBox);
+            this.tabPage2.Controls.Add(this.excessFiles_listView);
+            this.tabPage2.Controls.Add(this.launcherFiles_listView);
+            this.tabPage2.Controls.Add(this.missingFiles_listView);
+            this.tabPage2.Controls.Add(this.modsFiles_listView);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -452,14 +452,14 @@
             this.removeExcess_button.UseVisualStyleBackColor = true;
             this.removeExcess_button.Click += new System.EventHandler(this.button2_Click_1);
             // 
-            // murshunLauncherFiles_textBox
+            // launcherFiles_textBox
             // 
-            this.murshunLauncherFiles_textBox.Location = new System.Drawing.Point(534, 36);
-            this.murshunLauncherFiles_textBox.Name = "murshunLauncherFiles_textBox";
-            this.murshunLauncherFiles_textBox.ReadOnly = true;
-            this.murshunLauncherFiles_textBox.Size = new System.Drawing.Size(507, 20);
-            this.murshunLauncherFiles_textBox.TabIndex = 8;
-            this.murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json";
+            this.launcherFiles_textBox.Location = new System.Drawing.Point(534, 36);
+            this.launcherFiles_textBox.Name = "launcherFiles_textBox";
+            this.launcherFiles_textBox.ReadOnly = true;
+            this.launcherFiles_textBox.Size = new System.Drawing.Size(507, 20);
+            this.launcherFiles_textBox.TabIndex = 8;
+            this.launcherFiles_textBox.Text = "MurshunLauncherFiles.json";
             // 
             // verifyMods_button
             // 
@@ -471,85 +471,85 @@
             this.verifyMods_button.UseVisualStyleBackColor = true;
             this.verifyMods_button.Click += new System.EventHandler(this.button3_Click);
             // 
-            // clientMods_textBox
+            // modsFiles_textBox
             // 
-            this.clientMods_textBox.Location = new System.Drawing.Point(9, 36);
-            this.clientMods_textBox.Name = "clientMods_textBox";
-            this.clientMods_textBox.ReadOnly = true;
-            this.clientMods_textBox.Size = new System.Drawing.Size(507, 20);
-            this.clientMods_textBox.TabIndex = 0;
-            this.clientMods_textBox.Text = "Client Mods";
+            this.modsFiles_textBox.Location = new System.Drawing.Point(9, 36);
+            this.modsFiles_textBox.Name = "modsFiles_textBox";
+            this.modsFiles_textBox.ReadOnly = true;
+            this.modsFiles_textBox.Size = new System.Drawing.Size(507, 20);
+            this.modsFiles_textBox.TabIndex = 0;
+            this.modsFiles_textBox.Text = "Client Mods";
             // 
-            // clientExcessFiles_listView
+            // excessFiles_listView
             // 
-            this.clientExcessFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.excessFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3});
-            this.clientExcessFiles_listView.FullRowSelect = true;
-            this.clientExcessFiles_listView.GridLines = true;
-            this.clientExcessFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientExcessFiles_listView.Location = new System.Drawing.Point(534, 302);
-            this.clientExcessFiles_listView.Name = "clientExcessFiles_listView";
-            this.clientExcessFiles_listView.Size = new System.Drawing.Size(507, 406);
-            this.clientExcessFiles_listView.TabIndex = 6;
-            this.clientExcessFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.clientExcessFiles_listView.View = System.Windows.Forms.View.Details;
+            this.excessFiles_listView.FullRowSelect = true;
+            this.excessFiles_listView.GridLines = true;
+            this.excessFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.excessFiles_listView.Location = new System.Drawing.Point(534, 302);
+            this.excessFiles_listView.Name = "excessFiles_listView";
+            this.excessFiles_listView.Size = new System.Drawing.Size(507, 406);
+            this.excessFiles_listView.TabIndex = 6;
+            this.excessFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.excessFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Excess Files (Path:Size)";
             this.columnHeader3.Width = 503;
             // 
-            // murshunLauncherFiles_listView
+            // launcherFiles_listView
             // 
-            this.murshunLauncherFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.launcherFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader4});
-            this.murshunLauncherFiles_listView.FullRowSelect = true;
-            this.murshunLauncherFiles_listView.GridLines = true;
-            this.murshunLauncherFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.murshunLauncherFiles_listView.Location = new System.Drawing.Point(534, 62);
-            this.murshunLauncherFiles_listView.Name = "murshunLauncherFiles_listView";
-            this.murshunLauncherFiles_listView.Size = new System.Drawing.Size(507, 234);
-            this.murshunLauncherFiles_listView.TabIndex = 7;
-            this.murshunLauncherFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.murshunLauncherFiles_listView.View = System.Windows.Forms.View.Details;
+            this.launcherFiles_listView.FullRowSelect = true;
+            this.launcherFiles_listView.GridLines = true;
+            this.launcherFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.launcherFiles_listView.Location = new System.Drawing.Point(534, 62);
+            this.launcherFiles_listView.Name = "launcherFiles_listView";
+            this.launcherFiles_listView.Size = new System.Drawing.Size(507, 234);
+            this.launcherFiles_listView.TabIndex = 7;
+            this.launcherFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.launcherFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Files (Path:Size)";
             this.columnHeader4.Width = 503;
             // 
-            // clientMissingFiles_listView
+            // missingFiles_listView
             // 
-            this.clientMissingFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.missingFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2});
-            this.clientMissingFiles_listView.FullRowSelect = true;
-            this.clientMissingFiles_listView.GridLines = true;
-            this.clientMissingFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientMissingFiles_listView.Location = new System.Drawing.Point(9, 302);
-            this.clientMissingFiles_listView.Name = "clientMissingFiles_listView";
-            this.clientMissingFiles_listView.Size = new System.Drawing.Size(507, 406);
-            this.clientMissingFiles_listView.TabIndex = 5;
-            this.clientMissingFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.clientMissingFiles_listView.View = System.Windows.Forms.View.Details;
+            this.missingFiles_listView.FullRowSelect = true;
+            this.missingFiles_listView.GridLines = true;
+            this.missingFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.missingFiles_listView.Location = new System.Drawing.Point(9, 302);
+            this.missingFiles_listView.Name = "missingFiles_listView";
+            this.missingFiles_listView.Size = new System.Drawing.Size(507, 406);
+            this.missingFiles_listView.TabIndex = 5;
+            this.missingFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.missingFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Missing Files (Path:Size)";
             this.columnHeader2.Width = 503;
             // 
-            // clientModsFiles_listView
+            // modsFiles_listView
             // 
-            this.clientModsFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.modsFiles_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.clientModsFiles_listView.FullRowSelect = true;
-            this.clientModsFiles_listView.GridLines = true;
-            this.clientModsFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.clientModsFiles_listView.Location = new System.Drawing.Point(9, 62);
-            this.clientModsFiles_listView.Name = "clientModsFiles_listView";
-            this.clientModsFiles_listView.Size = new System.Drawing.Size(507, 234);
-            this.clientModsFiles_listView.TabIndex = 2;
-            this.clientModsFiles_listView.UseCompatibleStateImageBehavior = false;
-            this.clientModsFiles_listView.View = System.Windows.Forms.View.Details;
+            this.modsFiles_listView.FullRowSelect = true;
+            this.modsFiles_listView.GridLines = true;
+            this.modsFiles_listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.modsFiles_listView.Location = new System.Drawing.Point(9, 62);
+            this.modsFiles_listView.Name = "modsFiles_listView";
+            this.modsFiles_listView.Size = new System.Drawing.Size(507, 234);
+            this.modsFiles_listView.TabIndex = 2;
+            this.modsFiles_listView.UseCompatibleStateImageBehavior = false;
+            this.modsFiles_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
@@ -592,36 +592,36 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox advancedStartLine_textBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListView clientCustomMods_listView;
+        private System.Windows.Forms.ListView customMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ListView clientPresetMods_listView;
+        private System.Windows.Forms.ListView presetMods_listView;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button changePathToArma3ClientMods_button;
         private System.Windows.Forms.Button changePathToArma3Client_button;
-        private System.Windows.Forms.TextBox pathToArma3ClientMods_textBox;
-        private System.Windows.Forms.TextBox pathToArma3Client_textBox;
-        private System.Windows.Forms.TextBox murshunLauncherFiles_textBox;
+        private System.Windows.Forms.TextBox pathToMods_textBox;
+        private System.Windows.Forms.TextBox pathToArma3_textBox;
+        private System.Windows.Forms.TextBox launcherFiles_textBox;
         private System.Windows.Forms.Button verifyMods_button;
-        private System.Windows.Forms.ListView clientMissingFiles_listView;
+        private System.Windows.Forms.ListView missingFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ListView murshunLauncherFiles_listView;
+        private System.Windows.Forms.ListView launcherFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.TextBox clientMods_textBox;
-        private System.Windows.Forms.ListView clientModsFiles_listView;
+        private System.Windows.Forms.TextBox modsFiles_textBox;
+        private System.Windows.Forms.ListView modsFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ListView clientExcessFiles_listView;
+        private System.Windows.Forms.ListView excessFiles_listView;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button removeExcess_button;
         private System.Windows.Forms.Button removeUncheckedMod_button;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.LinkLabel linkLabel5;
         private System.Windows.Forms.LinkLabel linkLabel7;
-        private System.Windows.Forms.Button refreshClient_button;
+        private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button saveSettingsClient_button;
+        private System.Windows.Forms.Button saveSettings_button;
         private System.Windows.Forms.Button fullVerify_button;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label7;

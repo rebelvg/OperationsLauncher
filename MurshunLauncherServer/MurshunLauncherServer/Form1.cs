@@ -118,27 +118,27 @@ namespace MurshunLauncherServer
 
             modLine = modLine + " \"-mod=";
 
-            foreach (ListViewItem X in serverPresetMods_listView.Items)
+            foreach (ListViewItem X in presetMods_listView.Items)
             {
-                modLine = modLine + pathToArma3ServerMods_textBox.Text + "\\" + X.Text + ";";
+                modLine = modLine + pathToMods_textBox.Text + "\\" + X.Text + ";";
             }
 
             modLine = modLine + "\"";
 
             modLine = modLine + " \"-servermod=";
 
-            foreach (ListViewItem X in serverCustomMods_listView.CheckedItems)
+            foreach (ListViewItem X in customMods_listView.CheckedItems)
             {
                 modLine = modLine + X.Text + ";";
             }
 
             modLine = modLine + "\"";
 
-            if (File.Exists(pathToArma3Server_textBox.Text))
+            if (File.Exists(pathToArma3_textBox.Text))
             {
                 Process myProcess = new Process();
 
-                myProcess.StartInfo.FileName = pathToArma3Server_textBox.Text;
+                myProcess.StartInfo.FileName = pathToArma3_textBox.Text;
                 myProcess.StartInfo.Arguments = modLine;
                 if (hideWindow_checkBox.Checked)
                     myProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
@@ -167,13 +167,13 @@ namespace MurshunLauncherServer
 
         private void button10_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Remove " + clientExcessFiles_listView.Items.Count + " excess files?", "", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Remove " + excessFiles_listView.Items.Count + " excess files?", "", MessageBoxButtons.YesNo);
 
             if (dialogResult == DialogResult.Yes)
             {
-                foreach (ListViewItem X in clientExcessFiles_listView.Items)
+                foreach (ListViewItem X in excessFiles_listView.Items)
                 {
-                    File.Delete(pathToArma3ServerMods_textBox.Text + X.Text.Split(':')[0]);
+                    File.Delete(pathToMods_textBox.Text + X.Text.Split(':')[0]);
                 }
 
                 MessageBox.Show("Done.");
@@ -190,7 +190,7 @@ namespace MurshunLauncherServer
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
-                pathToArma3Server_textBox.Text = selectFile.FileName;
+                pathToArma3_textBox.Text = selectFile.FileName;
 
                 refreshServer_button_Click(null, null);
             }
@@ -204,7 +204,7 @@ namespace MurshunLauncherServer
 
             if (chosenFolder.ShowDialog().Value)
             {
-                pathToArma3ServerMods_textBox.Text = chosenFolder.SelectedPath;
+                pathToMods_textBox.Text = chosenFolder.SelectedPath;
 
                 refreshServer_button_Click(null, null);
             }
@@ -264,7 +264,7 @@ namespace MurshunLauncherServer
 
             if (chosenFolder.ShowDialog().Value)
             {
-                serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
+                customMods_listView.Items.Add(chosenFolder.SelectedPath);
 
                 refreshServer_button_Click(null, null);
             }
@@ -272,7 +272,7 @@ namespace MurshunLauncherServer
 
         private void removeUncheckedServerMod_button_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in serverCustomMods_listView.Items)
+            foreach (ListViewItem item in customMods_listView.Items)
             {
                 if (!item.Checked)
                     item.Remove();
