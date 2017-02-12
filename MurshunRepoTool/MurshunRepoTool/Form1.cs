@@ -26,7 +26,7 @@ namespace MurshunLauncherServer
             {
                 if (Process.GetProcessesByName("MurshunRepoTool").Length > 1)
                 {
-                    PrintMessage("Repo Tool is already running.");
+                    MessageBox.Show("Repo Tool is already running.");
                     System.Environment.Exit(1);
                 }
 
@@ -42,7 +42,7 @@ namespace MurshunLauncherServer
                     }
                     catch
                     {
-                        PrintMessage("Couldn't create a folder at " + iniDirectoryPath);
+                        MessageBox.Show("Couldn't create a folder at " + iniDirectoryPath);
                     }
                 }
 
@@ -66,13 +66,13 @@ namespace MurshunLauncherServer
                     }
                     catch
                     {
-                        PrintMessage("Saving xml settings failed.");
+                        MessageBox.Show("Saving xml settings failed.");
                     }
                 }
             }
             catch (Exception e)
             {
-                PrintMessage("Tool crashed while initializing. Try running it as administrator.\n\n" + e.Message);
+                MessageBox.Show("Tool crashed while initializing. Try running it as administrator.\n\n" + e.Message);
                 System.Environment.Exit(1);
             }
         }
@@ -120,7 +120,7 @@ namespace MurshunLauncherServer
                     progressBar2.PerformStep();
                 }
 
-                PrintMessage("Done.");
+                MessageBox.Show("Done.");
             }
         }
 
@@ -131,14 +131,7 @@ namespace MurshunLauncherServer
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            ReadPresetFile();
-
-            if (Environment.CommandLine.ToLower().IndexOf("-createverifyfile") >= 0)
-            {
-                runSilent = true;
-                CreateVerifyFile();
-                System.Environment.Exit(1);
-            }
+            refreshServer_button_Click(null, null);
         }
 
         private void refreshServer_button_Click(object sender, EventArgs e)
@@ -158,7 +151,7 @@ namespace MurshunLauncherServer
             {
                 repoConfigPath_textBox.Text = selectFile.FileName;
 
-                ReadPresetFile();
+                refreshServer_button_Click(null, null);
             }
         }
 

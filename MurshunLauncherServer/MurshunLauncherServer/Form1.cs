@@ -92,16 +92,12 @@ namespace MurshunLauncherServer
             public bool copyMissions_checkBox;
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private async void button8_Click(object sender, EventArgs e)
         {
-            if (!VerifyMods(false) || !CopyMissions(true))
+            if (!await VerifyMods(false) || !CopyMissions(true))
             {
                 DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "", MessageBoxButtons.YesNo);
 
-                if (dialogResult == DialogResult.Yes)
-                {
-                    tabControl1.SelectedTab = tabPage3;
-                }
                 if (dialogResult == DialogResult.No)
                 {
                     return;
@@ -164,9 +160,9 @@ namespace MurshunLauncherServer
             }
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private async void button9_Click(object sender, EventArgs e)
         {
-            VerifyMods(false);
+            await VerifyMods(false);
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -270,7 +266,7 @@ namespace MurshunLauncherServer
             {
                 serverCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
-                ReadPresetFile();
+                refreshServer_button_Click(null, null);
             }
         }
 
@@ -315,19 +311,16 @@ namespace MurshunLauncherServer
             refreshServer_button_Click(null, null);
         }
 
-        private void createVerifyFile_button_Click(object sender, EventArgs e)
+        private async void createVerifyFile_button_Click(object sender, EventArgs e)
         {
-            Thread NewThread = new Thread(() => VerifyMods(true));
-            NewThread.Start();
+            await VerifyMods(true);
         }
 
-        private void refreshServer_button_Click(object sender, EventArgs e)
+        private async void refreshServer_button_Click(object sender, EventArgs e)
         {
-            ReadPresetFile();
-
             CheckSyncFolderSize();
 
-            VerifyMods(false);
+            await VerifyMods(false);
         }
 
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

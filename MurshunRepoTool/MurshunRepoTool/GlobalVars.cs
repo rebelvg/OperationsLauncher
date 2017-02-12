@@ -26,7 +26,5 @@ namespace MurshunLauncherServer
         string password = "";
         string verifyModsLink = "";
         string verifyModsPassword = "";
-
-        bool runSilent = false;
     }
 }

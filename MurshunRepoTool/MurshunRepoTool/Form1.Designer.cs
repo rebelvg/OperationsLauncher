@@ -219,7 +219,7 @@
             // columnHeader8
             // 
             this.columnHeader8.Text = "Preset Mods";
-            this.columnHeader8.Width = 265;
+            this.columnHeader8.Width = 582;
             // 
             // pathToModsFolder_textBox
             // 

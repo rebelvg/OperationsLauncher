@@ -103,20 +103,25 @@ namespace MurshunLauncherServer
             }
         }
 
-        public void ReadPresetFile()
+        public bool ReadPresetFile()
         {
             string murshunLauncherFilesPath = pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
             presetModsList = new List<string>();
 
-            if (File.Exists(murshunLauncherFilesPath))
+            if (!File.Exists(murshunLauncherFilesPath))
             {
-                dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
-
-                presetModsList = json.mods.ToObject<List<string>>();
+                MessageBox.Show("MurshunLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
+                return false;
             }
 
+            dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
+
+            presetModsList = json.mods.ToObject<List<string>>();
+
             RefreshPresetModsList();
+
+            return true;
         }
 
         public void RefreshPresetModsList()
@@ -184,125 +189,117 @@ namespace MurshunLauncherServer
             header.Width = -2;
         }
 
-        public bool VerifyMods(bool fullVerify)
+        public async Task<bool> VerifyMods(bool fullVerify)
         {
-            bool verifySuccess = true;
-
-            LockInterface("Verifying...");
+            if (!ReadPresetFile())
+                return false;
 
             string murshunLauncherFilesPath = pathToArma3ServerMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
-            if (File.Exists(murshunLauncherFilesPath))
+            Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(murshunLauncherFilesPath));
+
+            if (!await Task.Run(() => CheckLauncherFiles(json["verify_link"], GetMD5(murshunLauncherFilesPath))))
+                return false;
+
+            List<string> folderFiles = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+
+            folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ServerMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+
+            folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
+
+            clientModsFiles_listView.Items.Clear();
+            murshunLauncherFiles_listView.Items.Clear();
+
+            progressBar2.Minimum = 0;
+            progressBar2.Maximum = folderFiles.Count();
+            progressBar2.Value = 0;
+            progressBar2.Step = 1;
+
+            List<string> clientFiles = await Task.Run(() => GetVerifyList(folderFiles, fullVerify));
+
+            foreach (string X in clientFiles)
             {
-                Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(murshunLauncherFilesPath));
+                clientModsFiles_listView.Items.Add(X);
+            }
 
-                verifySuccess = CheckLauncherFiles(json["verify_link"], GetMD5(murshunLauncherFilesPath));
+            foreach (dynamic X in json["files"])
+            {
+                dynamic size = X.First.size;
+                dynamic date = X.First.date;
+                dynamic md5 = X.First.md5;
 
-                List<string> folderFiles = Directory.GetFiles(pathToArma3ServerMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+                if (!fullVerify)
+                    murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
+                else
+                    murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
+            }
 
-                folderFiles = folderFiles.Select(a => a.Replace(pathToArma3ServerMods_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
-                folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
+            List<string> jsonFiles = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
 
-                this.Invoke(new Action(() =>
+            List<string> missingFilesList = jsonFiles.Where(x => !folderFiles.Contains(x)).ToList();
+            List<string> excessFilesList = folderFiles.Where(x => !jsonFiles.Contains(x)).ToList();
+
+            clientMissingFiles_listView.Items.Clear();
+            clientExcessFiles_listView.Items.Clear();
+
+            foreach (string X in missingFilesList)
+            {
+                clientMissingFiles_listView.Items.Add(X);
+            }
+
+            foreach (string X in excessFilesList)
+            {
+                clientExcessFiles_listView.Items.Add(X);
+            }
+
+            clientMods_textBox.Text = "Client Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
+            murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
+
+            if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
+            {
+                if (tabControl1.SelectedTab != tabPage4)
                 {
-                    clientModsFiles_listView.Items.Clear();
-                    murshunLauncherFiles_listView.Items.Clear();
-
-                    progressBar2.Minimum = 0;
-                    progressBar2.Maximum = folderFiles.Count();
-                    progressBar2.Value = 0;
-                    progressBar2.Step = 1;
-                }));
-
-                List<string> clientFiles = new List<string>();
-
-                foreach (string X in folderFiles)
-                {
-                    FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
-
-                    ChangeHeader("Verifying... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
-
-                    if (!fullVerify)
-                        clientFiles.Add(X + ":" + file.Length);
-                    else
-                        clientFiles.Add(X + ":" + GetMD5(pathToArma3ServerMods_textBox.Text + X));
-
-                    this.Invoke(new Action(() => progressBar2.PerformStep()));
-
-                    ChangeHeader("Verifying... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                    MessageBox.Show("You have missing or excess files.");
                 }
 
-                this.Invoke(new Action(() =>
-                {
-                    foreach (string X in clientFiles)
-                    {
-                        clientModsFiles_listView.Items.Add(X);
-                    }
-
-                    foreach (dynamic X in json["files"])
-                    {
-                        dynamic size = X.First.size;
-                        dynamic date = X.First.date;
-                        dynamic md5 = X.First.md5;
-
-                        if (!fullVerify)
-                            murshunLauncherFiles_listView.Items.Add(X.Name + ":" + size);
-                        else
-                            murshunLauncherFiles_listView.Items.Add(X.Name + ":" + md5);
-                    }
-
-                    folderFiles = clientModsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-
-                    List<string> jsonFiles = murshunLauncherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-
-                    List<string> missingFilesList = jsonFiles.Where(x => !folderFiles.Contains(x)).ToList();
-                    List<string> excessFilesList = folderFiles.Where(x => !jsonFiles.Contains(x)).ToList();
-
-                    clientMissingFiles_listView.Items.Clear();
-                    clientExcessFiles_listView.Items.Clear();
-
-                    foreach (string X in missingFilesList)
-                    {
-                        clientMissingFiles_listView.Items.Add(X);
-                    }
-
-                    foreach (string X in excessFilesList)
-                    {
-                        clientExcessFiles_listView.Items.Add(X);
-                    }
-
-                    clientMods_textBox.Text = "Server Mods (" + clientModsFiles_listView.Items.Count + " files / " + clientMissingFiles_listView.Items.Count + " missing)";
-                    murshunLauncherFiles_textBox.Text = "MurshunLauncherFiles.json (" + murshunLauncherFiles_listView.Items.Count + " files / " + clientExcessFiles_listView.Items.Count + " excess)";
-
-                    if (clientMissingFiles_listView.Items.Count != 0 || clientExcessFiles_listView.Items.Count != 0)
-                    {
-                        if (tabControl1.SelectedTab != tabPage4)
-                        {
-                            MessageBox.Show("You have missing or excess files.");
-                            tabControl1.SelectedTab = tabPage4;
-                        }
-
-                        verifySuccess = false;
-                    }
-                }));
+                return false;
             }
-            else
+
+            return true;
+        }
+
+        public List<string> GetVerifyList(List<string> folderFiles, bool fullVerify)
+        {
+            LockInterface("Verifying...");
+
+            List<string> clientFiles = new List<string>();
+
+            foreach (string X in folderFiles)
             {
-                MessageBox.Show("MurshunLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
-                verifySuccess = false;
+                FileInfo file = new FileInfo(pathToArma3ServerMods_textBox.Text + X);
+
+                ChangeHeader("Verifying... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+
+                if (!fullVerify)
+                    clientFiles.Add(X + ":" + file.Length);
+                else
+                    clientFiles.Add(X + ":" + GetMD5(pathToArma3ServerMods_textBox.Text + X));
+
+                Invoke(new Action(() => progressBar2.PerformStep()));
+
+                ChangeHeader("Verifying... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
             }
 
             UnlockInterface();
 
-            return verifySuccess;
+            return clientFiles;
         }
 
         public bool CheckLauncherFiles(string link, string localJsonMD5)
         {
-            bool success = false;
-
-            if (link == "")
+            if (string.IsNullOrEmpty(link))
                 return true;
 
             ChangeHeader("Connecting to the server... " + link);
@@ -315,19 +312,17 @@ namespace MurshunLauncherServer
 
                 if (modLineString != localJsonMD5)
                 {
-                    this.Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
-                }
-                else
-                {
-                    success = true;
+                    Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
+                    return false;
                 }
             }
             catch
             {
-                this.Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link)));
+                Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link)));
+                return false;
             }
 
-            return success;
+            return true;
         }
 
         public bool CopyMissions(bool auto)
@@ -400,27 +395,27 @@ namespace MurshunLauncherServer
 
         public void LockInterface(string text)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
-                this.Enabled = false;
+                tabControl1.Enabled = false;
                 ChangeHeader(text);
             }));
         }
 
         public void UnlockInterface()
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
-                this.Enabled = true;
+                tabControl1.Enabled = true;
                 ChangeHeader("Murshun Launcher Server");
             }));
         }
 
         public void ChangeHeader(string text)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
-                this.Text = text;
+                Text = text;
             }));
         }
     }

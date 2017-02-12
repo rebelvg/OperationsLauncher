@@ -65,17 +65,17 @@ namespace MurshunLauncherServer
             }
             catch
             {
-                PrintMessage("Saving xml settings failed.");
+                MessageBox.Show("Saving xml settings failed.");
             }
         }
 
-        public void ReadPresetFile()
+        public bool ReadPresetFile()
         {
             string murshunLauncherFilesPath = repoConfigPath_textBox.Text;
 
             presetModsList = new List<string>();
 
-            if (File.Exists(murshunLauncherFilesPath))
+            try
             {
                 dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
 
@@ -88,19 +88,20 @@ namespace MurshunLauncherServer
                 pathToModsFolder_textBox.Text = json["mods_folder"];
                 pathToSyncFolder_textBox.Text = json["sync_folder"];
             }
-            else
+            catch (Exception e)
             {
-                PrintMessage("Couldn't find the config to get the modlist.\n" + repoConfigPath_textBox.Text);
+                MessageBox.Show("There was an error reading the repo config.\n" + e.Message);
+                return false;
             }
 
             RefreshPresetModsList();
+
+            return true;
         }
 
         public bool SetLauncherFiles(string localJsonMD5)
         {
-            bool success = false;
-
-            if (verifyModsLink == "")
+            if (string.IsNullOrEmpty(localJsonMD5))
                 return true;
 
             ChangeHeader("Writing md5 to the server... " + verifyModsLink);
@@ -110,14 +111,14 @@ namespace MurshunLauncherServer
             try
             {
                 string modLineString = client.DownloadString(verifyModsLink + "?md5=" + localJsonMD5 + "&password=" + verifyModsPassword);
-                success = true;
             }
             catch
             {
-                this.Invoke(new Action(() => PrintMessage("There was an error on accessing the server.\n" + verifyModsLink)));
+                Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server.\n" + verifyModsLink)));
+                return false;
             }
 
-            return success;
+            return true;
         }
 
         public void RefreshPresetModsList()
@@ -182,17 +183,14 @@ namespace MurshunLauncherServer
 
         public bool CompareFolders()
         {
-            bool compareSuccess = true;
-
             if (!Directory.Exists(pathToModsFolder_textBox.Text) || !Directory.Exists(pathToSyncFolder_textBox.Text))
             {
                 MessageBox.Show("Server or Sync folder doesn't exist.");
                 return false;
             }
 
-            LockInterface("Comparing...");
-
-            ReadPresetFile();
+            if (!ReadPresetFile())
+                return false;
 
             List<string> folder_clientFilesList = Directory.GetFiles(pathToModsFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
@@ -214,6 +212,8 @@ namespace MurshunLauncherServer
             progressBar2.Value = 0;
             progressBar2.Step = 1;
 
+            LockInterface("Comparing...");
+
             foreach (string X in folder_clientFilesList)
             {
                 FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
@@ -233,6 +233,8 @@ namespace MurshunLauncherServer
 
                 ChangeHeader("Comparing... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
             }
+
+            UnlockInterface();
 
             folder_clientFilesList = compareClientFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
             folder_serverFilesList = compareServerFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
@@ -257,11 +259,9 @@ namespace MurshunLauncherServer
             compareServerMods_textBox.Text = "Sync Folder (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
 
             if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
-                compareSuccess = false;
+                return false;
 
-            UnlockInterface();
-
-            return compareSuccess;
+            return true;
         }
 
         private void CheckPath(string filePath)
@@ -310,19 +310,18 @@ namespace MurshunLauncherServer
                 if (Directory.Exists(pathToSyncFolder_textBox.Text) && pathToSyncFolder_textBox.Text.ToLower() != pathToModsFolder_textBox.Text.ToLower())
                     File.WriteAllText(pathToSyncFolder_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
 
-                PrintMessage("MurshunLauncherFiles.json was saved.");
+                MessageBox.Show("MurshunLauncherFiles.json was saved.");
             }
             catch (Exception e)
             {
-                PrintMessage("There was an error on saving of MurshunLauncherFiles.json.\n\n" + e.Message);
+                MessageBox.Show("There was an error on saving of MurshunLauncherFiles.json.\n\n" + e.Message);
             }
         }
 
-        public void CreateVerifyFile()
+        public async void CreateVerifyFile()
         {
-            LockInterface("Creating Verify File...");
-
-            ReadPresetFile();
+            if (!ReadPresetFile())
+                return;
 
             List<string> folderFiles = Directory.GetFiles(pathToModsFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
 
@@ -347,6 +346,19 @@ namespace MurshunLauncherServer
             progressBar2.Maximum = folderFiles.Count();
             progressBar2.Value = 0;
             progressBar2.Step = 1;
+
+            files = await Task.Run(() => BuildVerifyList(folderFiles, json_old, files));
+
+            string json_new = JsonConvert.SerializeObject(files, Formatting.Indented);
+
+            SetLauncherFiles(GetMD5String(json_new));
+
+            SaveLauncherFiles(json_new);
+        }
+
+        public Dictionary<string, dynamic> BuildVerifyList(List<string> folderFiles, Dictionary<string, dynamic> json_old, Dictionary<string, dynamic> files)
+        {
+            LockInterface("Building Verify File...");
 
             foreach (string X in folderFiles)
             {
@@ -373,51 +385,40 @@ namespace MurshunLauncherServer
 
                 files["files"][X] = data;
 
-                progressBar2.PerformStep();
+                Invoke(new Action(() => progressBar2.PerformStep()));
 
                 ChangeHeader("Reading... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
             }
 
-            string json_new = JsonConvert.SerializeObject(files, Formatting.Indented);
-
-            if (SetLauncherFiles(GetMD5String(json_new)))
-            {
-                SaveLauncherFiles(json_new);
-            }
-
             UnlockInterface();
+
+            return files;
         }
 
         public void LockInterface(string text)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
-                this.Enabled = false;
+                tabControl1.Enabled = false;
                 ChangeHeader(text);
             }));
         }
 
         public void UnlockInterface()
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
-                this.Enabled = true;
+                tabControl1.Enabled = true;
                 ChangeHeader("Murshun Repo Tool");
             }));
         }
 
         public void ChangeHeader(string text)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
-                this.Text = text;
+                Text = text;
             }));
-        }
-
-        public void PrintMessage(string message)
-        {
-            if (!runSilent)
-                MessageBox.Show(message);
         }
     }
 }
