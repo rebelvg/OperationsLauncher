@@ -121,7 +121,7 @@ namespace MurshunLauncher
             progressBar1.Value = 0;
             progressBar1.Step = 1;
 
-            List<string> clientFiles = await Task.Run(() => LongRunningOperationAsync1(folderFiles, fullVerify));
+            List<string> clientFiles = await Task.Run(() => GetVerifyList(folderFiles, fullVerify));
 
             foreach (string X in clientFiles)
             {
@@ -179,7 +179,7 @@ namespace MurshunLauncher
             return true;
         }
 
-        public List<string> LongRunningOperationAsync1(List<string> folderFiles, bool fullVerify)
+        public List<string> GetVerifyList(List<string> folderFiles, bool fullVerify)
         {
             LockInterface("Verifying...");
 
