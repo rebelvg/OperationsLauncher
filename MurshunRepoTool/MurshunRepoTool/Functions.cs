@@ -125,7 +125,7 @@ namespace MurshunLauncherServer
             SetColorOnText(pathToModsFolder_textBox);
             SetColorOnText(repoConfigPath_textBox);
 
-            SetColorOnPresetList(serverPresetMods_listView, pathToModsFolder_textBox.Text);
+            SetColorOnPresetList(presetMods_listView, pathToModsFolder_textBox.Text);
         }
 
         public void SetColorOnText(TextBox box)
