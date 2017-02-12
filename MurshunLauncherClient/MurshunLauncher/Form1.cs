@@ -96,25 +96,19 @@ namespace MurshunLauncher
             public string teamSpeakAppDataFolder_textBox = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TS3Client";
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private async void button3_Click(object sender, EventArgs e)
         {
-            VerifyMods(false);
+            await VerifyMods(false);
         }
 
-        private void launch_button_Click(object sender, EventArgs e)
+        private async void launch_button_Click(object sender, EventArgs e)
         {
-            ReadPresetFile();
-
-            if (!VerifyMods(false))
+            if (!await VerifyMods(false))
             {
                 if (debugMode)
                 {
                     DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "", MessageBoxButtons.YesNo);
 
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        tabControl1.SelectedTab = tabPage1;
-                    }
                     if (dialogResult == DialogResult.No)
                     {
                         return;
@@ -185,7 +179,7 @@ namespace MurshunLauncher
             {
                 clientCustomMods_listView.Items.Add(chosenFolder.SelectedPath);
 
-                ReadPresetFile();
+                refreshClient_button_Click(null, null);
             }
         }
 
@@ -276,13 +270,11 @@ namespace MurshunLauncher
             refreshClient_button_Click(null, null);
         }
 
-        private void refreshClient_button_Click(object sender, EventArgs e)
+        private async void refreshClient_button_Click(object sender, EventArgs e)
         {
-            ReadPresetFile();
-
             CheckSyncFolderSize();
 
-            VerifyMods(false);
+            await VerifyMods(false);
         }
 
         private void save_button_Click(object sender, EventArgs e)
@@ -290,10 +282,9 @@ namespace MurshunLauncher
             SaveXmlFile();
         }
 
-        private void fullVerify_button_Click(object sender, EventArgs e)
+        private async void fullVerify_button_Click(object sender, EventArgs e)
         {
-            Thread NewThread = new Thread(() => VerifyMods(true));
-            NewThread.Start();
+            await VerifyMods(true);
         }
 
         private void changePathToTeamSpeakFolder_button_Click(object sender, EventArgs e)
