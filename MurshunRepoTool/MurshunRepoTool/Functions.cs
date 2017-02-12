@@ -104,8 +104,6 @@ namespace MurshunLauncherServer
             if (string.IsNullOrEmpty(localJsonMD5))
                 return true;
 
-            ChangeHeader("Writing md5 to the server... " + verifyModsLink);
-
             WebClient client = new WebClient();
 
             try
