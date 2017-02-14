@@ -101,7 +101,7 @@ namespace MurshunLauncherServer
 
         public bool SetLauncherFiles(string localJsonMD5)
         {
-            if (string.IsNullOrEmpty(localJsonMD5))
+            if (string.IsNullOrEmpty(verifyModsLink))
                 return true;
 
             WebClient client = new WebClient();
