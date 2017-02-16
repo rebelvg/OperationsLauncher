@@ -87,7 +87,7 @@ namespace MurshunLauncherServer
             CompareFolders();
         }
 
-        private void button10_Click(object sender, EventArgs e)
+        private async void button10_Click(object sender, EventArgs e)
         {
             if (!Directory.Exists(pathToModsFolder_textBox.Text) || !Directory.Exists(pathToSyncFolder_textBox.Text))
             {
@@ -99,26 +99,36 @@ namespace MurshunLauncherServer
 
             if (dialogResult == DialogResult.Yes)
             {
-                progressBar2.Minimum = 0;
-                progressBar2.Maximum = compareExcessFiles_listView.Items.Count + compareMissingFiles_listView.Items.Count;
-                progressBar2.Value = 0;
-                progressBar2.Step = 1;
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = compareExcessFiles_listView.Items.Count + compareMissingFiles_listView.Items.Count;
+                progressBar1.Value = 0;
+                progressBar1.Step = 1;
+
+                LockInterface("Copying...");
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
                 {
-                    File.Delete(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
+                    await Task.Run(() =>
+                    {
+                        File.Delete(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
+                    });
 
-                    progressBar2.PerformStep();
+                    progressBar1.PerformStep();
                 }
 
                 foreach (ListViewItem item in compareMissingFiles_listView.Items)
                 {
                     CheckPath(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
 
-                    File.Copy(pathToModsFolder_textBox.Text + item.Text.Split(':')[0], pathToSyncFolder_textBox.Text + item.Text.Split(':')[0], true);
+                    await Task.Run(() =>
+                    {
+                        File.Copy(pathToModsFolder_textBox.Text + item.Text.Split(':')[0], pathToSyncFolder_textBox.Text + item.Text.Split(':')[0], true);
+                    });
 
-                    progressBar2.PerformStep();
+                    progressBar1.PerformStep();
                 }
+
+                UnlockInterface();
 
                 MessageBox.Show("Done.");
             }

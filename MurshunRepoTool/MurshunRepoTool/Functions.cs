@@ -205,10 +205,10 @@ namespace MurshunLauncherServer
             compareClientFiles_listView.Items.Clear();
             compareServerFiles_listView.Items.Clear();
 
-            progressBar2.Minimum = 0;
-            progressBar2.Maximum = folder_clientFilesList.Count() + folder_serverFilesList.Count();
-            progressBar2.Value = 0;
-            progressBar2.Step = 1;
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = folder_clientFilesList.Count() + folder_serverFilesList.Count();
+            progressBar1.Value = 0;
+            progressBar1.Step = 1;
 
             LockInterface("Comparing...");
 
@@ -217,9 +217,9 @@ namespace MurshunLauncherServer
                 FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
                 compareClientFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
 
-                progressBar2.PerformStep();
+                progressBar1.PerformStep();
 
-                ChangeHeader("Comparing... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                ChangeHeader("Comparing... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
             }
 
             foreach (string X in folder_serverFilesList)
@@ -227,9 +227,9 @@ namespace MurshunLauncherServer
                 FileInfo file = new FileInfo(pathToSyncFolder_textBox.Text + X);
                 compareServerFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
 
-                progressBar2.PerformStep();
+                progressBar1.PerformStep();
 
-                ChangeHeader("Comparing... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                ChangeHeader("Comparing... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
             }
 
             UnlockInterface();
@@ -340,10 +340,10 @@ namespace MurshunLauncherServer
             if (File.Exists(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json"))
                 json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json"));
 
-            progressBar2.Minimum = 0;
-            progressBar2.Maximum = folderFiles.Count();
-            progressBar2.Value = 0;
-            progressBar2.Step = 1;
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = folderFiles.Count();
+            progressBar1.Value = 0;
+            progressBar1.Step = 1;
 
             files = await Task.Run(() => BuildVerifyList(folderFiles, json_old, files));
 
@@ -362,7 +362,7 @@ namespace MurshunLauncherServer
             {
                 FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
 
-                ChangeHeader("Reading... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
                 Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
 
@@ -383,9 +383,9 @@ namespace MurshunLauncherServer
 
                 files["files"][X] = data;
 
-                Invoke(new Action(() => progressBar2.PerformStep()));
+                Invoke(new Action(() => progressBar1.PerformStep()));
 
-                ChangeHeader("Reading... (" + progressBar2.Value + "/" + progressBar2.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
             }
 
             UnlockInterface();

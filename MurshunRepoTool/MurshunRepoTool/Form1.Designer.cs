@@ -47,7 +47,7 @@
             this.pathToModsFolder_textBox = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.createVerifyFile_button2 = new System.Windows.Forms.Button();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.syncFolders_button = new System.Windows.Forms.Button();
             this.compareServerMods_textBox = new System.Windows.Forms.TextBox();
             this.compareFolders_button = new System.Windows.Forms.Button();
@@ -232,7 +232,7 @@
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.createVerifyFile_button2);
-            this.tabPage4.Controls.Add(this.progressBar2);
+            this.tabPage4.Controls.Add(this.progressBar1);
             this.tabPage4.Controls.Add(this.syncFolders_button);
             this.tabPage4.Controls.Add(this.compareServerMods_textBox);
             this.tabPage4.Controls.Add(this.compareFolders_button);
@@ -257,12 +257,12 @@
             this.createVerifyFile_button2.UseVisualStyleBackColor = true;
             this.createVerifyFile_button2.Click += new System.EventHandler(this.createVerifyFile_button2_Click);
             // 
-            // progressBar2
+            // progressBar1
             // 
-            this.progressBar2.Location = new System.Drawing.Point(567, 6);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(471, 23);
-            this.progressBar2.TabIndex = 19;
+            this.progressBar1.Location = new System.Drawing.Point(567, 6);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(471, 23);
+            this.progressBar1.TabIndex = 19;
             // 
             // syncFolders_button
             // 
@@ -423,7 +423,7 @@
         private System.Windows.Forms.Button syncFolders_button;
         private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox repoConfigPath_textBox;
         private System.Windows.Forms.Button saveSettings_button;
