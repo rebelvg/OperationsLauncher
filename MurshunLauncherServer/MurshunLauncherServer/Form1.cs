@@ -94,7 +94,7 @@ namespace MurshunLauncherServer
 
         private async void button8_Click(object sender, EventArgs e)
         {
-            if (!await VerifyMods(false) || !CopyMissions(true))
+            if (!await VerifyMods(false))
             {
                 DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "", MessageBoxButtons.YesNo);
 
@@ -333,25 +333,6 @@ namespace MurshunLauncherServer
             else
             {
                 defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text + " -nologs";
-            }
-        }
-
-        private void copyMissions_button_Click(object sender, EventArgs e)
-        {
-            CopyMissions(false);
-        }
-
-        private void changePathToMissionFolder_button_Click(object sender, EventArgs e)
-        {
-            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
-            chosenFolder.Description = "Select mission folder.";
-            chosenFolder.UseDescriptionForTitle = true;
-
-            if (chosenFolder.ShowDialog().Value)
-            {
-                missionFolder_textBox.Text = chosenFolder.SelectedPath;
-
-                refreshServer_button_Click(null, null);
             }
         }
     }

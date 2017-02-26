@@ -17,11 +17,13 @@ namespace MurshunUploader
         public Form1()
         {
             InitializeComponent();
+            
+            password_textBox.Text = Properties.Settings.Default.password;
 
             label2.Text = "Version " + version;
         }
 
-        string version = "1.0";
+        string version = "1.01";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -283,10 +285,13 @@ namespace MurshunUploader
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.password = password_textBox.Text;
+            Properties.Settings.Default.Save();
+
             OpenFileDialog selectFile = new OpenFileDialog();
 
             selectFile.Title = "Select mission file";
-            selectFile.Filter = "Pbo File (.pbo) | *.pbo";
+            selectFile.Filter = "PBO File (.pbo) | *.pbo";
             selectFile.RestoreDirectory = true;
 
             if (selectFile.ShowDialog() == DialogResult.OK)

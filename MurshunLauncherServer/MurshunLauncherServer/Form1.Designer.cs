@@ -31,14 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.copyMissions_checkBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.changePathToMissionFolder_button = new System.Windows.Forms.Button();
-            this.missionFolder_textBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.xmlPath_textBox = new System.Windows.Forms.TextBox();
             this.saveSettings_button = new System.Windows.Forms.Button();
-            this.copyMissions_button = new System.Windows.Forms.Button();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.label13 = new System.Windows.Forms.Label();
             this.defaultStartLineServer_textBox = new System.Windows.Forms.TextBox();
@@ -105,14 +100,9 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.copyMissions_checkBox);
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.changePathToMissionFolder_button);
-            this.tabPage3.Controls.Add(this.missionFolder_textBox);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.xmlPath_textBox);
             this.tabPage3.Controls.Add(this.saveSettings_button);
-            this.tabPage3.Controls.Add(this.copyMissions_button);
             this.tabPage3.Controls.Add(this.linkLabel8);
             this.tabPage3.Controls.Add(this.label13);
             this.tabPage3.Controls.Add(this.defaultStartLineServer_textBox);
@@ -148,43 +138,6 @@
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // copyMissions_checkBox
-            // 
-            this.copyMissions_checkBox.AutoSize = true;
-            this.copyMissions_checkBox.Location = new System.Drawing.Point(772, 636);
-            this.copyMissions_checkBox.Name = "copyMissions_checkBox";
-            this.copyMissions_checkBox.Size = new System.Drawing.Size(93, 17);
-            this.copyMissions_checkBox.TabIndex = 64;
-            this.copyMissions_checkBox.Text = "Copy Missions";
-            this.copyMissions_checkBox.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 514);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
-            this.label1.TabIndex = 63;
-            this.label1.Text = "Mission Folder";
-            // 
-            // changePathToMissionFolder_button
-            // 
-            this.changePathToMissionFolder_button.Location = new System.Drawing.Point(420, 530);
-            this.changePathToMissionFolder_button.Name = "changePathToMissionFolder_button";
-            this.changePathToMissionFolder_button.Size = new System.Drawing.Size(26, 20);
-            this.changePathToMissionFolder_button.TabIndex = 62;
-            this.changePathToMissionFolder_button.Text = "...";
-            this.changePathToMissionFolder_button.UseVisualStyleBackColor = true;
-            this.changePathToMissionFolder_button.Click += new System.EventHandler(this.changePathToMissionFolder_button_Click);
-            // 
-            // missionFolder_textBox
-            // 
-            this.missionFolder_textBox.Location = new System.Drawing.Point(7, 530);
-            this.missionFolder_textBox.Name = "missionFolder_textBox";
-            this.missionFolder_textBox.ReadOnly = true;
-            this.missionFolder_textBox.Size = new System.Drawing.Size(406, 20);
-            this.missionFolder_textBox.TabIndex = 61;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -211,16 +164,6 @@
             this.saveSettings_button.TabIndex = 51;
             this.saveSettings_button.Text = "Save Settings";
             this.saveSettings_button.UseVisualStyleBackColor = true;
-            // 
-            // copyMissions_button
-            // 
-            this.copyMissions_button.Location = new System.Drawing.Point(902, 588);
-            this.copyMissions_button.Name = "copyMissions_button";
-            this.copyMissions_button.Size = new System.Drawing.Size(136, 25);
-            this.copyMissions_button.TabIndex = 46;
-            this.copyMissions_button.Text = "COPY MISSIONS";
-            this.copyMissions_button.UseVisualStyleBackColor = true;
-            this.copyMissions_button.Click += new System.EventHandler(this.copyMissions_button_Click);
             // 
             // linkLabel8
             // 
@@ -328,11 +271,11 @@
             // hideWindow_checkBox
             // 
             this.hideWindow_checkBox.AutoSize = true;
-            this.hideWindow_checkBox.Location = new System.Drawing.Point(772, 659);
+            this.hideWindow_checkBox.Location = new System.Drawing.Point(803, 659);
             this.hideWindow_checkBox.Name = "hideWindow_checkBox";
-            this.hideWindow_checkBox.Size = new System.Drawing.Size(124, 17);
+            this.hideWindow_checkBox.Size = new System.Drawing.Size(90, 17);
             this.hideWindow_checkBox.TabIndex = 34;
-            this.hideWindow_checkBox.Text = "Hide Server Window";
+            this.hideWindow_checkBox.Text = "Hide Window";
             this.hideWindow_checkBox.UseVisualStyleBackColor = true;
             // 
             // removeUncheckedServerMod_button
@@ -723,15 +666,10 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox defaultStartLineServer_textBox;
         private System.Windows.Forms.LinkLabel linkLabel8;
-        private System.Windows.Forms.Button copyMissions_button;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button saveSettings_button;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox xmlPath_textBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button changePathToMissionFolder_button;
-        private System.Windows.Forms.TextBox missionFolder_textBox;
-        private System.Windows.Forms.CheckBox copyMissions_checkBox;
     }
 }
 

@@ -37,8 +37,6 @@ namespace MurshunLauncherServer
                 serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
                 serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
                 hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
-                missionFolder_textBox.Text = LauncherSettings.missionFolder;
-                copyMissions_checkBox.Checked = LauncherSettings.copyMissions_checkBox;
 
                 foreach (string X in LauncherSettings.serverCustomMods_listView)
                 {
@@ -88,8 +86,6 @@ namespace MurshunLauncherServer
                 LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
                 LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
                 LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
-                LauncherSettings.missionFolder = missionFolder_textBox.Text;
-                LauncherSettings.copyMissions_checkBox = copyMissions_checkBox.Checked;
 
                 System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
@@ -131,7 +127,6 @@ namespace MurshunLauncherServer
             SetColorOnText(serverConfig_textBox);
             SetColorOnText(serverCfg_textBox);
             SetColorOnText(serverProfiles_textBox);
-            SetColorOnText(missionFolder_textBox);
 
             SetColorOnPresetList(presetMods_listView, pathToMods_textBox.Text);
 
@@ -323,40 +318,6 @@ namespace MurshunLauncherServer
             }
 
             return true;
-        }
-
-        public bool CopyMissions(bool auto)
-        {
-            bool copySuccess = true;
-
-            if (auto && !copyMissions_checkBox.Checked)
-                return true;
-
-            string arma3ClientMissionFolder = missionFolder_textBox.Text.ToLower();
-            string arma3ServerMissionFolder = pathToArma3_textBox.Text.ToLower().Replace("arma3server.exe", "mpmissions");
-
-            if (arma3ClientMissionFolder == arma3ServerMissionFolder)
-                return true;
-
-            try
-            {
-                List<string> clientMissionList = Directory.GetFiles(arma3ClientMissionFolder, "*", SearchOption.TopDirectoryOnly).Where(s => s.Contains(".pbo")).ToList();
-
-                foreach (string X in clientMissionList)
-                {
-                    File.Copy(X, X.Replace(arma3ClientMissionFolder, arma3ServerMissionFolder), true);
-                }
-
-                if (!auto)
-                    MessageBox.Show(clientMissionList.Count + " missions synced.");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error copying missions.\n\n" + e);
-                copySuccess = false;
-            }
-
-            return copySuccess;
         }
 
         public void CheckSyncFolderSize()
