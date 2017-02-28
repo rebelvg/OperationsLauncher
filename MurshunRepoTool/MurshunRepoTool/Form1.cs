@@ -108,6 +108,8 @@ namespace MurshunLauncherServer
 
                 foreach (ListViewItem item in compareExcessFiles_listView.Items)
                 {
+                    ChangeHeader("Deleting... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + item.Text);
+
                     await Task.Run(() =>
                     {
                         File.Delete(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
@@ -118,6 +120,8 @@ namespace MurshunLauncherServer
 
                 foreach (ListViewItem item in compareMissingFiles_listView.Items)
                 {
+                    ChangeHeader("Copying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + item.Text);
+
                     CheckPath(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
 
                     await Task.Run(() =>
