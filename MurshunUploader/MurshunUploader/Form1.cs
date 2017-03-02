@@ -23,7 +23,7 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.01";
+        string version = "1.02";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -296,7 +296,7 @@ namespace MurshunUploader
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
-                EditMissionBriefName(selectFile.FileName, " " + DateTime.Now.ToString("yyyyMMddHmmss"));
+                EditMissionBriefName(selectFile.FileName, " " + DateTime.Now.ToString("yyyy.MM.dd H:mm:ss"));
             }
         }
     }
