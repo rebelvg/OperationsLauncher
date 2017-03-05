@@ -162,6 +162,8 @@ namespace MurshunLauncher
                 myProcess.StartInfo.FileName = pathToArma3_textBox.Text;
                 myProcess.StartInfo.Arguments = modLine;
                 myProcess.Start();
+
+                launch_button.Enabled = false;
             }
             else
             {
@@ -306,6 +308,16 @@ namespace MurshunLauncher
                     MessageBox.Show("This folder doesn't have plugins folder in it.");
                 }
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(pathToArma3_textBox.Text));
+
+            if (processes.Count() > 0)
+                launch_button.Enabled = false;
+            else
+                launch_button.Enabled = true;
         }
     }
 }
