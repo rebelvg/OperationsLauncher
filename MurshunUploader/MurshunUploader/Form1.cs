@@ -23,7 +23,7 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.02";
+        string version = "1.03";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -243,7 +243,7 @@ namespace MurshunUploader
             }
             catch (Exception e)
             {
-                MessageBox.Show("Writing error.\n" + e.Message);
+                MessageBox.Show("Upload error.\n" + e.Message);
                 return;
             }
 
@@ -278,7 +278,7 @@ namespace MurshunUploader
             }
             catch (Exception e)
             {
-                MessageBox.Show("Writing error.\n" + e.Message);
+                MessageBox.Show("Upload error.\n" + e.Message);
                 return;
             }
         }
@@ -296,7 +296,7 @@ namespace MurshunUploader
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
-                EditMissionBriefName(selectFile.FileName, " " + DateTime.Now.ToString("yyyy.MM.dd H:mm:ss"));
+                EditMissionBriefName(selectFile.FileName, " " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss"));
             }
         }
     }
