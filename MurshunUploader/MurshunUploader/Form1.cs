@@ -23,7 +23,7 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.03";
+        string version = "1.04";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -256,7 +256,7 @@ namespace MurshunUploader
             {
                 WebClient Client = new WebClient();
 
-                byte[] result = Client.UploadFile("http://main.klpq.men/arma/upload/upload.php?password=" + password_textBox.Text + "&version=" + version, file);
+                byte[] result = Client.UploadFile("http://arma.klpq.men/upload/?password=" + password_textBox.Text + "&version=" + version, file);
 
                 string webReturn = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
 
