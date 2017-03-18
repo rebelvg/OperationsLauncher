@@ -96,7 +96,7 @@ namespace MurshunLauncherServer
         {
             if (!await VerifyMods(false))
             {
-                DialogResult dialogResult = MessageBox.Show("Launch the server anyway?", "", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Verify returned errors.", "Launch anyway?", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.No)
                 {
@@ -134,6 +134,19 @@ namespace MurshunLauncherServer
 
             modLine = modLine + "\"";
 
+            if (Environment.Is64BitOperatingSystem)
+            {
+                if (!pathToArma3_textBox.Text.Contains("x64"))
+                {
+                    DialogResult dialogResult = MessageBox.Show("You're trying to launch x86 executable on a x64 operation system.", "Launch anyway?", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+            }
+
             if (File.Exists(pathToArma3_textBox.Text))
             {
                 Process myProcess = new Process();
@@ -153,10 +166,12 @@ namespace MurshunLauncherServer
                 {
 
                 }
+
+                launch_button.Enabled = false;
             }
             else
             {
-                MessageBox.Show("arma3server.exe not found.");
+                MessageBox.Show(Path.GetFileName(pathToArma3_textBox.Text) + " not found.");
             }
         }
 
@@ -283,7 +298,7 @@ namespace MurshunLauncherServer
         {
             try
             {
-                Process[] processes = Process.GetProcessesByName("arma3server");
+                Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(pathToArma3_textBox.Text));
 
                 foreach (Process process in processes)
                 {
@@ -291,9 +306,9 @@ namespace MurshunLauncherServer
                 }
 
                 if (processes.Count() > 0)
-                    MessageBox.Show("Server process closed.");
+                    MessageBox.Show(processes.Count() + " process closed.");
                 else
-                    MessageBox.Show("Server process not found.");
+                    MessageBox.Show("Process not found.");
             }
             catch
             {
@@ -334,6 +349,16 @@ namespace MurshunLauncherServer
             {
                 defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text + " -nologs";
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(pathToArma3_textBox.Text));
+
+            if (processes.Count() > 0)
+                launch_button.Enabled = false;
+            else
+                launch_button.Enabled = true;
         }
     }
 }

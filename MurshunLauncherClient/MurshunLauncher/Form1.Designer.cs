@@ -203,7 +203,7 @@
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Size = new System.Drawing.Size(82, 23);
             this.refresh_button.TabIndex = 33;
-            this.refresh_button.Text = "Refresh";
+            this.refresh_button.Text = "Verify";
             this.refresh_button.UseVisualStyleBackColor = true;
             this.refresh_button.Click += new System.EventHandler(this.refreshClient_button_Click);
             // 

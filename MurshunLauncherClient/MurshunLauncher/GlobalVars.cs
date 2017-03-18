@@ -18,7 +18,7 @@ namespace MurshunLauncher
 {
     public partial class Form1 : Form
     {
-        string launcherVersion = "0.288";
+        string launcherVersion = "0.289";
 
         List<string> presetModsList = new List<string>();
 

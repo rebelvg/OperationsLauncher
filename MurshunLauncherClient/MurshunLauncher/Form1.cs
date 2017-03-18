@@ -107,7 +107,7 @@ namespace MurshunLauncher
             {
                 if (debugMode)
                 {
-                    DialogResult dialogResult = MessageBox.Show("Launch the client anyway?", "", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("Verify returned errors.", "Launch anyway?", MessageBoxButtons.YesNo);
 
                     if (dialogResult == DialogResult.No)
                     {
@@ -155,6 +155,19 @@ namespace MurshunLauncher
                 }
             }
 
+            if (Environment.Is64BitOperatingSystem)
+            {
+                if (!pathToArma3_textBox.Text.Contains("x64"))
+                {
+                    DialogResult dialogResult = MessageBox.Show("You're trying to launch x86 executable on a x64 operation system.", "Launch anyway?", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+            }
+
             if (File.Exists(pathToArma3_textBox.Text))
             {
                 Process myProcess = new Process();
@@ -167,7 +180,7 @@ namespace MurshunLauncher
             }
             else
             {
-                MessageBox.Show("arma3.exe not found.");
+                MessageBox.Show(Path.GetFileName(pathToArma3_textBox.Text) + " not found.");
             }
         }
 
