@@ -201,7 +201,7 @@ namespace MurshunLauncherServer
 
             selectFile.Title = "Select arma3server.exe";
             selectFile.Filter = "Executable File (.exe) | *.exe";
-            selectFile.RestoreDirectory = true;
+            selectFile.InitialDirectory = Path.GetDirectoryName(pathToArma3_textBox.Text);
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
@@ -215,7 +215,7 @@ namespace MurshunLauncherServer
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select server mods folder.";
-            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.SelectedPath = pathToMods_textBox.Text;
 
             if (chosenFolder.ShowDialog().Value)
             {
@@ -231,7 +231,7 @@ namespace MurshunLauncherServer
 
             selectFile.Title = "Select Config";
             selectFile.Filter = "Config File (.cfg) | *.cfg";
-            selectFile.RestoreDirectory = true;
+            selectFile.InitialDirectory = Path.GetDirectoryName(pathToArma3_textBox.Text);
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
@@ -247,7 +247,7 @@ namespace MurshunLauncherServer
 
             selectFile.Title = "Select Cfg";
             selectFile.Filter = "Cfg File (.cfg) | *.cfg";
-            selectFile.RestoreDirectory = true;
+            selectFile.InitialDirectory = Path.GetDirectoryName(pathToArma3_textBox.Text);
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
@@ -261,7 +261,7 @@ namespace MurshunLauncherServer
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select profiles folder.";
-            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.SelectedPath = Path.GetDirectoryName(pathToArma3_textBox.Text) + @"\";
 
             if (chosenFolder.ShowDialog().Value)
             {

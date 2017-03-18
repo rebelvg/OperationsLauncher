@@ -159,7 +159,7 @@ namespace MurshunLauncherServer
 
             selectFile.Title = "Select repo config.";
             selectFile.Filter = "Repo Config (.json) | *.json";
-            selectFile.RestoreDirectory = true;
+            selectFile.InitialDirectory = Path.GetDirectoryName(repoConfigPath_textBox.Text);
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {

@@ -204,7 +204,7 @@ namespace MurshunLauncher
 
             selectFile.Title = "Select arma3.exe";
             selectFile.Filter = "Executable File (.exe) | *.exe";
-            selectFile.RestoreDirectory = true;
+            selectFile.InitialDirectory = Path.GetDirectoryName(pathToArma3_textBox.Text);
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
@@ -218,7 +218,7 @@ namespace MurshunLauncher
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
             chosenFolder.Description = "Select client mods folder.";
-            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.SelectedPath = pathToMods_textBox.Text;
 
             if (chosenFolder.ShowDialog().Value)
             {
