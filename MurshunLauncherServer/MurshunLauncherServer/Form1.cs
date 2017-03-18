@@ -138,7 +138,7 @@ namespace MurshunLauncherServer
             {
                 if (!pathToArma3_textBox.Text.Contains("x64"))
                 {
-                    DialogResult dialogResult = MessageBox.Show("You're trying to launch x86 executable on a x64 operation system.", "Launch anyway?", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("You're trying to launch x86 executable on a x64 operating system.", "Launch anyway?", MessageBoxButtons.YesNo);
 
                     if (dialogResult == DialogResult.No)
                     {
