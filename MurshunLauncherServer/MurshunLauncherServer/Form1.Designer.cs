@@ -194,7 +194,7 @@
             this.defaultStartLineServer_textBox.ReadOnly = true;
             this.defaultStartLineServer_textBox.Size = new System.Drawing.Size(439, 20);
             this.defaultStartLineServer_textBox.TabIndex = 43;
-            this.defaultStartLineServer_textBox.Text = "-port=2302 -nofilepatching -loadmissiontomemory -nologs";
+            this.defaultStartLineServer_textBox.Text = "-port=2302 -nofilepatching -nologs";
             // 
             // label12
             // 
