@@ -274,7 +274,7 @@ namespace MurshunUploader
             {
                 MessageBox.Show("Upload error.\n" + e.Message);
                 return false;
-            }            
+            }
 
             return true;
         }
