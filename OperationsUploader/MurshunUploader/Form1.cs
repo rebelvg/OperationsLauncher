@@ -17,13 +17,13 @@ namespace MurshunUploader
         public Form1()
         {
             InitializeComponent();
-            
+
             password_textBox.Text = OperationsUploader.Properties.Settings.Default.password;
 
             label2.Text = "Version " + version;
         }
 
-        string version = "1.04";
+        string version = "1.0.5";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -249,9 +249,11 @@ namespace MurshunUploader
             }
 
             Upload(tempPath);
+
+            DeleteTempFile(tempPath);
         }
 
-        public void Upload(string file)
+        public bool Upload(string file)
         {
             try
             {
@@ -271,18 +273,25 @@ namespace MurshunUploader
             catch (Exception e)
             {
                 MessageBox.Show("Upload error.\n" + e.Message);
-                return;
-            }
+                return false;
+            }            
 
+            return true;
+        }
+
+        public bool DeleteTempFile(string file)
+        {
             try
             {
                 File.Delete(file);
             }
             catch (Exception e)
             {
-                MessageBox.Show("Upload error.\n" + e.Message);
-                return;
+                MessageBox.Show("Error.\n" + e.Message);
+                return false;
             }
+
+            return true;
         }
 
         private void button1_Click(object sender, EventArgs e)
