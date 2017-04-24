@@ -67,13 +67,14 @@ namespace MurshunUploader
 
         public int Filesize { get; set; }
         public int Descpos { get; set; }
+        public int Fileposition { get; set; }
 
-        public FileArch(string filename, int filesize, int descpos)
+        public FileArch(string filename, int filesize, int descpos, int fileposition)
         {
             Filename = filename;
-
             Filesize = filesize;
             Descpos = descpos;
+            Fileposition = fileposition;
         }
     }
 

@@ -23,11 +23,12 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.0.5";
+        string version = "1.0.6";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
             byte[] tempbytearr = new byte[bytecount];
+
             for (int i = 0; i <= bytecount - 1; i++)
             {
                 tempbytearr[i] = importarray[offsetinarray];
@@ -103,22 +104,156 @@ namespace MurshunUploader
             }
         }
 
-        public void EditMissionBriefName(string path, string newName)
+        public dynamic GetFileAsString(string fileName)
         {
-            byte[] archive = File.ReadAllBytes(path);
-            int missionsqmid = 0;
-            string briefingName;
-            int originalbriefingnamelg = 0;
-            int addonsdeploc = 0;
-            int briefinglocation = 0;
-            int fileposition = 0;
-            int MLdatastart = 9;
-            int addonsdepsize = 0;
+            string file = null;
 
-            List<FileArch> FileList = new List<FileArch>();
+            for (int i = 0; i < FileList.Count; i++)
+            {
+                if (FileList[i].Filename == fileName)
+                {
+                    file = Encoding.UTF8.GetString(TempArrayHex(FileList[i].Filesize, archive, FileList[i].Fileposition));
+                    break;
+                }
+            }
+
+            if (file == null)
+                MessageBox.Show(fileName + " not found.");
+
+            return file;
+        }
+
+        public void InsertString(string Filename, string FileString)
+        {
+            int filetoreplaceid = 0;
+            for (int i = 0; i < FileList.Count; i++) if (FileList[i].Filename == Filename) filetoreplaceid = i;
+
+            int footersize = archive.Length - FileList[filetoreplaceid].Fileposition - FileList[filetoreplaceid].Filesize;
+            FileList[filetoreplaceid].Filesize = Encoding.UTF8.GetBytes(FileString).Length;
+            byte[] outputfilebytes = new byte[FileList[filetoreplaceid].Fileposition + FileList[filetoreplaceid].Filesize + footersize];
+            for (int i = 0; i < 4; i++) archive[FileList[filetoreplaceid].Descpos + i] = ReturnToSender(FileList[filetoreplaceid].Filesize)[i];
+
+            System.Buffer.BlockCopy(archive, 0, outputfilebytes, 0, FileList[filetoreplaceid].Fileposition);
+            System.Buffer.BlockCopy(Encoding.UTF8.GetBytes(FileString), 0, outputfilebytes, FileList[filetoreplaceid].Fileposition, FileList[filetoreplaceid].Filesize);
+            System.Buffer.BlockCopy(archive, archive.Length - footersize, outputfilebytes, FileList[filetoreplaceid].Fileposition + FileList[filetoreplaceid].Filesize, footersize);
+            archive = new byte[outputfilebytes.Length];
+            System.Buffer.BlockCopy(outputfilebytes, 0, archive, 0, outputfilebytes.Length);
+        }
+
+        public bool IsBinarizedMissionSQM()
+        {
+            int? missionsqmid = null;
+
+            for (int i = 0; i < FileList.Count; i++)
+            {
+                if (FileList[i].Filename == "mission.sqm")
+                {
+                    missionsqmid = i;
+                }
+            }
+
+            if (missionsqmid != null)
+            {
+                if (TempArrayHex(6, archive, FileList[missionsqmid.Value].Fileposition).SequenceEqual(new byte[] { 0x00, 0x72, 0x61, 0x50, 0x00, 0x00 }))
+                {
+                    MessageBox.Show("Mission is binarized. Disable binarization in the editor.");
+                    return true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("mission.sqm not found.");
+                return false;
+            }
+
+            return false;
+        }
+
+        byte[] archive;
+        List<FileArch> FileList = new List<FileArch>();
+
+        public dynamic GetMissionValue(string missionSQM, List<string> classes, string valueName)
+        {
+            string classLevel = missionSQM;
+            int i = 0;
+
+            foreach (string className in classes)
+            {
+                try
+                {
+                    string tabs = String.Concat(Enumerable.Repeat("\t", i));
+                    classLevel = classLevel.Split(new string[] { "class " + className + "\r\n" + tabs + "{" }, StringSplitOptions.None)[1];
+                    classLevel = classLevel.Split(new string[] { "\r\n" + tabs + "};" }, StringSplitOptions.None)[0];
+                }
+                catch
+                {
+                    MessageBox.Show(className + " class not found.");
+                    return null;
+                }
+
+                i++;
+            }
+
+            if (classLevel.IndexOf(valueName + "=") == -1)
+            {
+                return null;
+            }
+
+            string value = classLevel.Split(new string[] { valueName + "=\"" }, StringSplitOptions.None)[1];
+            value = value.Split(new string[] { "\";" }, StringSplitOptions.None)[0];
+
+            return value;
+        }
+
+        public string SetMissionValue(string missionSQM, List<string> classes, string valueName, string value)
+        {
+            string newMissionSQM = missionSQM;
+            string classLevel = missionSQM;
+            string newClassLevel;
+
+            int i = 0;
+
+            foreach (string className in classes)
+            {
+                try
+                {
+                    string tabs = String.Concat(Enumerable.Repeat("\t", i));
+                    classLevel = classLevel.Split(new string[] { "class " + className + "\r\n" + tabs + "{" }, StringSplitOptions.None)[1];
+                    classLevel = classLevel.Split(new string[] { "\r\n" + tabs + "};" }, StringSplitOptions.None)[0];
+                }
+                catch
+                {
+                    MessageBox.Show(className + " class not found.");
+                    return null;
+                }
+
+                i++;
+            }
+
+            if (classLevel.IndexOf(valueName + "=") == -1)
+            {
+                string tabs = String.Concat(Enumerable.Repeat("\t", i));
+                newClassLevel = classLevel + "\r\n" + tabs + valueName + "=\"" + value + "\";";
+                return newMissionSQM.Replace(classLevel, newClassLevel);
+            }
+
+            string oldValue = classLevel.Split(new string[] { valueName + "=\"" }, StringSplitOptions.None)[1];
+            oldValue = oldValue.Split(new string[] { "\";" }, StringSplitOptions.None)[0];
+
+            newClassLevel = classLevel.Replace(valueName + "=\"" + oldValue + "\";", valueName + "=\"" + value + "\";");
+
+            return newMissionSQM.Replace(classLevel, newClassLevel);
+        }
+
+        public bool EditMission(string path)
+        {
+            archive = File.ReadAllBytes(path);
+
+            int fileposition = 0;
+            int fileloc = 0;
+            int MLdatastart = 0;
+
             var pattern = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            var patternbriefing = new byte[] { 0x62, 0x72, 0x69, 0x65, 0x66, 0x69, 0x6E, 0x67, 0x4E, 0x61, 0x6D, 0x65, 0x3D, 0x22 };
-            var patternaddondep = new byte[] { 0x61, 0x64, 0x64, 0x6F, 0x6E, 0x73, 0x5B, 0x5D, 0x3D, 0x0D, 0x0A, 0x7B, 0x0D, 0x0A };
 
             try
             {
@@ -127,12 +262,15 @@ namespace MurshunUploader
             catch
             {
                 MessageBox.Show("Can't read pbo header.");
-                return;
+                return false;
             }
 
+            fileloc = MLdatastart;
+
+            int wordlength = 0;
             while (fileposition < MLdatastart - 21)
             {
-                int wordlength = 0;
+                wordlength = 0;
 
                 while (archive[fileposition + wordlength] != 0x00)
                 {
@@ -140,117 +278,85 @@ namespace MurshunUploader
                 }
 
                 if (wordlength != 0)
-                    FileList.Add(new FileArch(Encoding.UTF8.GetString(TempArrayHex(wordlength, archive, fileposition)), ParseOffset(archive, fileposition + wordlength + 17), fileposition + wordlength + 17));
+                {
+                    FileList.Add(new FileArch(Encoding.UTF8.GetString(TempArrayHex(wordlength, archive, fileposition)), ParseOffset(archive, fileposition + wordlength + 17), fileposition + wordlength + 17, fileloc));
+                    fileloc += ParseOffset(archive, fileposition + wordlength + 17);
+                }
 
                 fileposition += wordlength + 21;
             }
 
-            MLdatastart = 0;
+            if (IsBinarizedMissionSQM())
+                return false;
 
-            foreach (FileArch Filoo in FileList)
+            string missionSQM = GetFileAsString("mission.sqm");
+
+            if (missionSQM == null)
+                return false;
+
+            string briefingName = GetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "briefingName");
+
+            if (briefingName == null)
+                return false;
+
+            //string newBriefingName = briefingName + " " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
+
+            //missionSQM = SetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "briefingName", newBriefingName);
+
+            string author = GetMissionValue(missionSQM, new List<string> { "ScenarioData" }, "author");
+
+            if (author == null)
             {
-                MLdatastart += Filoo.Filename.Length + 21;
+                MessageBox.Show("author not found.");
+                return false;
             }
 
-            MLdatastart += 21;
+            string overviewText = GetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText");
+            string newOverviewText = "Uploaded at " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss") + ". Author - " + author + ".";
 
-            for (int i = 0; i < FileList.Count; i++)
+            if (overviewText != null)
             {
-                if (FileList[i].Filename != "mission.sqm")
-                {
-                    MLdatastart += FileList[i].Filesize;
-                }
-                else
-                {
-                    missionsqmid = i;
-                    break;
-                }
+                newOverviewText = overviewText + " " + newOverviewText;
             }
 
-            if (TempArrayHex(6, archive, MLdatastart).SequenceEqual(new byte[] { 0x00, 0x72, 0x61, 0x50, 0x00, 0x00 }))
-            {
-                MessageBox.Show("Mission is binarized. Disable binarization in the editor.");
-                return;
-            }
+            missionSQM = SetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText", newOverviewText);
 
-            try
-            {
-                briefinglocation = archive.Locate(patternbriefing, MLdatastart)[0] + 14;
-            }
-            catch
-            {
-                MessageBox.Show("Can't find briefing name. Please add briefing name.");
-                return;
-            }
-
-            try
-            {
-                while (!(archive[briefinglocation + originalbriefingnamelg] == 0x22 && archive[briefinglocation + originalbriefingnamelg + 1] == 0x3B))
-                {
-                    originalbriefingnamelg++;
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Briefing name doesn't end. Out of bounds.");
-                return;
-            }
-
-            briefingName = Encoding.UTF8.GetString(TempArrayHex(originalbriefingnamelg, archive, briefinglocation));
-
-            MessageBox.Show("Old briefing name - " + briefingName + ".\n" + "New briefing name - " + briefingName + newName + ".");
-
-            if (checkBoxaddons.Checked)
+            if (clearDependencies_checkBox.Checked)
             {
                 try
                 {
-                    addonsdeploc = archive.Locate(patternaddondep, MLdatastart)[0] + 14;
-
-                    try
-                    {
-                        while (!(archive[addonsdeploc + addonsdepsize] == 0x7D && archive[addonsdeploc + addonsdepsize + 1] == 0x3B))
-                        {
-                            addonsdepsize++;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Addons array doesn't end.\n" + e.Message);
-                        return;
-                    }
-
-                    string addondep = "";
-                    addondep = Encoding.UTF8.GetString(TempArrayHex(addonsdepsize, archive, addonsdeploc));
-                    MessageBox.Show("Old dependencies - {\n" + addondep + "}\n\nNew dependencies -  NONE.");
+                    string addons = missionSQM.Split(new string[] { "addons[]=\r\n{" }, StringSplitOptions.None)[1];
+                    addons = addons.Split(new string[] { "};" }, StringSplitOptions.None)[0];
+                    missionSQM = missionSQM.Replace("addons[]=\r\n{" + addons + "};", "addons[]={};");
                 }
                 catch
                 {
-                    MessageBox.Show("Can't find addons dependencies array.");
-                    return;
+                    MessageBox.Show("Clearing dependencies failed.");
+                    return false;
                 }
             }
 
-            for (int i = 0; i < 4; i++)
-                archive[FileList[missionsqmid].Descpos + i] = ReturnToSender(FileList[missionsqmid].Filesize - addonsdepsize + newName.Length)[i];
+            Clipboard.SetText(missionSQM);
 
-            string tempPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Path.GetFileName(path);
+            InsertString("mission.sqm", missionSQM);
+
+            string timeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + Path.GetFileName(path);
 
             try
             {
-                File.WriteAllBytes(tempPath, TempArrayHex(addonsdeploc, archive, 0));
-                AppendAllBytes(tempPath, TempArrayHex(briefinglocation + originalbriefingnamelg - addonsdeploc - addonsdepsize, archive, addonsdeploc + addonsdepsize));
-                AppendAllBytes(tempPath, Encoding.UTF8.GetBytes(newName));
-                AppendAllBytes(tempPath, TempArrayHex(archive.Length - briefinglocation - originalbriefingnamelg, archive, briefinglocation + originalbriefingnamelg));
+                File.WriteAllBytes(timeFile, archive);
             }
             catch (Exception e)
             {
                 MessageBox.Show("Upload error.\n" + e.Message);
-                return;
+                return false;
             }
 
-            Upload(tempPath);
+            Upload(timeFile);
 
-            DeleteTempFile(tempPath);
+            //DeleteTempFile(timeFile);
+
+            return true;
         }
 
         public bool Upload(string file)
@@ -307,7 +413,10 @@ namespace MurshunUploader
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
-                EditMissionBriefName(selectFile.FileName, " " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss"));
+                if (!directUpload_checkBox.Checked)
+                    EditMission(selectFile.FileName);
+                else
+                    Upload(selectFile.FileName);
             }
         }
     }

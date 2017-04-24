@@ -33,7 +33,8 @@
             this.password_textBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.checkBoxaddons = new System.Windows.Forms.CheckBox();
+            this.directUpload_checkBox = new System.Windows.Forms.CheckBox();
+            this.clearDependencies_checkBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -71,22 +72,33 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Version 0.9.9";
             // 
-            // checkBoxaddons
+            // directUpload_checkBox
             // 
-            this.checkBoxaddons.AutoSize = true;
-            this.checkBoxaddons.Location = new System.Drawing.Point(15, 313);
-            this.checkBoxaddons.Name = "checkBoxaddons";
-            this.checkBoxaddons.Size = new System.Drawing.Size(122, 17);
-            this.checkBoxaddons.TabIndex = 5;
-            this.checkBoxaddons.Text = "Clear Dependencies";
-            this.checkBoxaddons.UseVisualStyleBackColor = true;
+            this.directUpload_checkBox.AutoSize = true;
+            this.directUpload_checkBox.Location = new System.Drawing.Point(15, 313);
+            this.directUpload_checkBox.Name = "directUpload_checkBox";
+            this.directUpload_checkBox.Size = new System.Drawing.Size(140, 17);
+            this.directUpload_checkBox.TabIndex = 6;
+            this.directUpload_checkBox.Text = "Direct Upload (Fallback)";
+            this.directUpload_checkBox.UseVisualStyleBackColor = true;
+            // 
+            // clearDependencies_checkBox
+            // 
+            this.clearDependencies_checkBox.AutoSize = true;
+            this.clearDependencies_checkBox.Location = new System.Drawing.Point(15, 336);
+            this.clearDependencies_checkBox.Name = "clearDependencies_checkBox";
+            this.clearDependencies_checkBox.Size = new System.Drawing.Size(122, 17);
+            this.clearDependencies_checkBox.TabIndex = 5;
+            this.clearDependencies_checkBox.Text = "Clear Dependencies";
+            this.clearDependencies_checkBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(391, 385);
-            this.Controls.Add(this.checkBoxaddons);
+            this.Controls.Add(this.directUpload_checkBox);
+            this.Controls.Add(this.clearDependencies_checkBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.password_textBox);
@@ -105,7 +117,8 @@
         private System.Windows.Forms.TextBox password_textBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox checkBoxaddons;
+        private System.Windows.Forms.CheckBox directUpload_checkBox;
+        private System.Windows.Forms.CheckBox clearDependencies_checkBox;
     }
 }
 
