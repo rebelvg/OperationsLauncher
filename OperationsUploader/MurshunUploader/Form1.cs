@@ -248,6 +248,7 @@ namespace MurshunUploader
         public bool EditMission(string path)
         {
             archive = File.ReadAllBytes(path);
+            FileList = new List<FileArch> { };
 
             int fileposition = 0;
             int fileloc = 0;
@@ -340,11 +341,11 @@ namespace MurshunUploader
 
             InsertString("mission.sqm", missionSQM);
 
-            string timeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + Path.GetFileName(path);
+            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + Path.GetFileName(path);
 
             try
             {
-                File.WriteAllBytes(timeFile, archive);
+                File.WriteAllBytes(tempFile, archive);
             }
             catch (Exception e)
             {
@@ -352,9 +353,9 @@ namespace MurshunUploader
                 return false;
             }
 
-            Upload(timeFile);
+            Upload(tempFile);
 
-            //DeleteTempFile(timeFile);
+            DeleteTempFile(tempFile);
 
             return true;
         }
