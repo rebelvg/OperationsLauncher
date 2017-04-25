@@ -245,6 +245,20 @@ namespace MurshunUploader
             return newMissionSQM.Replace(classLevel, newClassLevel);
         }
 
+        public string AppendMissionValue(string missionSQM, List<string> classes, string valueName, string value)
+        {
+            string oldValue = GetMissionValue(missionSQM, classes, valueName);
+
+            string newValue = value;
+
+            if (oldValue != null)
+            {
+                newValue = oldValue + " " + newValue;
+            }
+
+            return SetMissionValue(missionSQM, classes, valueName, newValue);
+        }
+
         public bool EditMission(string path)
         {
             archive = File.ReadAllBytes(path);
@@ -293,15 +307,18 @@ namespace MurshunUploader
             string missionSQM = GetFileAsString("mission.sqm");
 
             if (missionSQM == null)
+            {
+                MessageBox.Show("mission.sqm not found.");
                 return false;
+            }
 
             string briefingName = GetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "briefingName");
 
             if (briefingName == null)
+            {
+                MessageBox.Show("briefingName not found.");
                 return false;
-
-            //string newBriefingName = briefingName + " " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
-            //missionSQM = SetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "briefingName", newBriefingName);
+            }
 
             string author = GetMissionValue(missionSQM, new List<string> { "ScenarioData" }, "author");
 
@@ -311,15 +328,9 @@ namespace MurshunUploader
                 return false;
             }
 
-            string overviewText = GetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText");
-            string newOverviewText = "Uploaded at " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss") + ". Author - " + author + ".";
-
-            if (overviewText != null)
-            {
-                newOverviewText = overviewText + " " + newOverviewText;
-            }
-
-            missionSQM = SetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText", newOverviewText);
+            string newOverviewText = "Uploaded at " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss") + " Author - " + author;
+            missionSQM = AppendMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText", newOverviewText);
+            missionSQM = AppendMissionValue(missionSQM, new List<string> { "ScenarioData" }, "overviewText", newOverviewText);
 
             if (clearDependencies_checkBox.Checked)
             {
