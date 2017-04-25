@@ -301,7 +301,6 @@ namespace MurshunUploader
                 return false;
 
             //string newBriefingName = briefingName + " " + DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
-
             //missionSQM = SetMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "briefingName", newBriefingName);
 
             string author = GetMissionValue(missionSQM, new List<string> { "ScenarioData" }, "author");
