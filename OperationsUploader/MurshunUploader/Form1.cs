@@ -347,8 +347,6 @@ namespace MurshunUploader
                 }
             }
 
-            Clipboard.SetText(missionSQM);
-
             InsertString("mission.sqm", missionSQM);
 
             string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + Path.GetFileName(path);
