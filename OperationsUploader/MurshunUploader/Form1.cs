@@ -332,6 +332,8 @@ namespace MurshunUploader
             missionSQM = AppendMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText", newOverviewText);
             missionSQM = AppendMissionValue(missionSQM, new List<string> { "ScenarioData" }, "overviewText", newOverviewText);
 
+            MessageBox.Show("New description:\n" + newOverviewText);
+
             if (clearDependencies_checkBox.Checked)
             {
                 try
@@ -340,9 +342,9 @@ namespace MurshunUploader
                     addons = addons.Split(new string[] { "};" }, StringSplitOptions.None)[0];
                     missionSQM = missionSQM.Replace("addons[]=\r\n{" + addons + "};", "addons[]={};");
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show("Clearing dependencies failed.");
+                    MessageBox.Show("Clearing dependencies failed.\n" + e.Message);
                     return false;
                 }
             }
