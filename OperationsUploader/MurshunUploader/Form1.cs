@@ -376,7 +376,7 @@ namespace MurshunUploader
             {
                 WebClient Client = new WebClient();
 
-                byte[] result = Client.UploadFile("http://arma.klpq.men/upload/?password=" + password_textBox.Text + "&version=" + version, file);
+                byte[] result = Client.UploadFile("http://arma.main.klpq.men/upload/?password=" + password_textBox.Text + "&version=" + version, file);
 
                 string webReturn = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
 
