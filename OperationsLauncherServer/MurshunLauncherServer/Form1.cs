@@ -69,6 +69,8 @@ namespace MurshunLauncherServer
                         MessageBox.Show("Saving xml settings failed.");
                     }
                 }
+
+                label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {
@@ -357,6 +359,11 @@ namespace MurshunLauncherServer
                 launch_button.Enabled = false;
             else
                 launch_button.Enabled = true;
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher");
         }
     }
 }

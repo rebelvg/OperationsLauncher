@@ -81,6 +81,8 @@
             this.modsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -102,6 +104,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.linkLabel4);
+            this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.xmlPath_textBox);
             this.tabPage3.Controls.Add(this.saveSettings_button);
@@ -603,6 +607,26 @@
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 695);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(75, 13);
+            this.label3.TabIndex = 58;
+            this.label3.Text = "Version 0.0.00";
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.Location = new System.Drawing.Point(4, 674);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(40, 13);
+            this.linkLabel4.TabIndex = 59;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "GitHub";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -679,6 +703,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox xmlPath_textBox;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel linkLabel4;
     }
 }
 

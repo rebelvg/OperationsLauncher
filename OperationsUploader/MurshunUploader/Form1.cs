@@ -23,7 +23,7 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.0.6";
+        string version = "1.0.7";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
