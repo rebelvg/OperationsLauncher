@@ -138,9 +138,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(8, 123);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(142, 13);
+            this.label7.Size = new System.Drawing.Size(129, 13);
             this.label7.TabIndex = 44;
-            this.label7.Text = "TeamSpeak AppData Folder";
+            this.label7.Text = "TeamSpeak Profile Folder";
             // 
             // changePathToTeamSpeakFolder_button
             // 
