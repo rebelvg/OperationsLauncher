@@ -88,8 +88,6 @@ namespace MurshunLauncherServer
             public string serverProfiles_textBox;
             public string serverProfileName_textBox;
             public bool hideWindow_checkBox;
-            public string missionFolder = Directory.GetCurrentDirectory() + "\\mpmissions";
-            public bool copyMissions_checkBox;
         }
 
         private async void button8_Click(object sender, EventArgs e)
