@@ -279,7 +279,7 @@ namespace MurshunLauncherServer
             }
         }
 
-        public string GetMD5(string filename)
+        public string GetMD5FromPath(string filename)
         {
             using (var md5 = MD5.Create())
             {
@@ -290,7 +290,7 @@ namespace MurshunLauncherServer
             }
         }
 
-        public string GetMD5String(string text)
+        public string GetMD5FromBuffer(string text)
         {
             using (var md5 = MD5.Create())
             {
@@ -349,7 +349,7 @@ namespace MurshunLauncherServer
 
             string json_new = JsonConvert.SerializeObject(files, Formatting.Indented);
 
-            SetLauncherFiles(GetMD5String(json_new));
+            SetLauncherFiles(GetMD5FromBuffer(json_new));
 
             SaveLauncherFiles(json_new);
         }
@@ -374,11 +374,11 @@ namespace MurshunLauncherServer
                     if (json_old["files"][X].date == file.LastWriteTimeUtc)
                         data["md5"] = json_old["files"][X].md5;
                     else
-                        data["md5"] = GetMD5(pathToModsFolder_textBox.Text + X);
+                        data["md5"] = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
                 }
                 catch
                 {
-                    data["md5"] = GetMD5(pathToModsFolder_textBox.Text + X);
+                    data["md5"] = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
                 }
 
                 files["files"][X] = data;
