@@ -120,6 +120,15 @@ namespace MurshunLauncherServer
             return true;
         }
 
+        public dynamic ReturnPresetFile()
+        {
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
+
+            dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(murshunLauncherFilesPath));
+
+            return json;
+        }
+
         public void RefreshPresetModsList()
         {
             SetColorOnText(pathToArma3_textBox);
@@ -361,6 +370,44 @@ namespace MurshunLauncherServer
                 tabControl1.Enabled = false;
                 ChangeHeader(text);
             }));
+        }
+
+        public void DownloadMissions()
+        {
+            Thread thread = new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        dynamic presetFile = ReturnPresetFile();
+
+                        WebClient client = new WebClient();
+
+                        string response = client.DownloadString((string)presetFile["missions_link"]);
+
+                        List<string> missions = JsonConvert.DeserializeObject<List<string>>(response);
+
+                        foreach (string mission in missions)
+                        {
+                            if (!File.Exists(Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + mission))
+                            {
+                                using (client = new WebClient())
+                                {
+                                    client.DownloadFile((string)presetFile["missions_link"] + "/" + mission, Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + mission);
+                                }
+                            }
+                        }
+                    }
+                    catch { }
+
+                    Thread.Sleep(30000);
+                }
+            });
+
+            thread.IsBackground = true;
+
+            thread.Start();
         }
 
         public void UnlockInterface()

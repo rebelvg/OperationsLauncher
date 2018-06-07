@@ -26,5 +26,6 @@ namespace MurshunLauncherServer
         string password = "";
         string verifyModsLink = "";
         string verifyModsPassword = "";
+        string missionsLink = "";
     }
 }

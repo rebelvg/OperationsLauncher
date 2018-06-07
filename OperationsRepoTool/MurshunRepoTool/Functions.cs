@@ -85,6 +85,7 @@ namespace MurshunLauncherServer
                 password = json["password"];
                 verifyModsLink = json["verify_link"];
                 verifyModsPassword = json["verify_password"];
+                missionsLink = json["missions_link"];
                 pathToModsFolder_textBox.Text = json["mods_folder"];
                 pathToSyncFolder_textBox.Text = json["sync_folder"];
             }
@@ -332,6 +333,7 @@ namespace MurshunLauncherServer
             files["server"] = server;
             files["password"] = password;
             files["verify_link"] = verifyModsLink;
+            files["missions_link"] = missionsLink;
             files["mods"] = presetModsList;
             files["files"] = new Dictionary<string, dynamic>();
 

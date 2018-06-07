@@ -77,6 +77,8 @@ namespace MurshunLauncherServer
                 MessageBox.Show("Launcher crashed while initializing. Try running it as administrator.\n\n" + e.Message);
                 System.Environment.Exit(1);
             }
+
+            DownloadMissions();
         }
 
         public class MurshunLauncherXmlSettings

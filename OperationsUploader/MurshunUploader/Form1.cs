@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace MurshunUploader
 {
@@ -23,7 +24,7 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.0.7";
+        string version = "1.0.8";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -374,18 +375,21 @@ namespace MurshunUploader
         {
             try
             {
-                WebClient Client = new WebClient();
+                dynamic presetFile = ReturnPresetFile();
 
-                byte[] result = Client.UploadFile("http://arma.main.klpq.men/upload/?password=" + password_textBox.Text + "&version=" + version, file);
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add("auth", password_textBox.Text);
+                    client.Headers.Add("filename", Path.GetFileNameWithoutExtension(file));
 
-                string webReturn = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
+                    using (Stream fileStream = File.OpenRead(file))
+                    using (Stream requestStream = client.OpenWrite(new Uri((string)presetFile["missions_link"]), "POST"))
+                    {
+                        fileStream.CopyTo(requestStream);
+                    }
+                }
 
-                HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
-
-                htmlDoc.LoadHtml(webReturn);
-                webReturn = htmlDoc.DocumentNode.InnerText;
-
-                MessageBox.Show(webReturn);
+                MessageBox.Show("Upload Done!");
             }
             catch (Exception e)
             {
@@ -409,6 +413,15 @@ namespace MurshunUploader
             }
 
             return true;
+        }
+
+        public dynamic ReturnPresetFile()
+        {
+            string murshunLauncherFilesPath = Directory.GetCurrentDirectory() + "\\MurshunLauncherFiles.json";
+
+            dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(murshunLauncherFilesPath));
+
+            return json;
         }
 
         private void button1_Click(object sender, EventArgs e)
