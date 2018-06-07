@@ -105,11 +105,15 @@ namespace MurshunLauncherServer
             if (string.IsNullOrEmpty(verifyModsLink))
                 return true;
 
-            WebClient client = new WebClient();
-
             try
             {
-                string modLineString = client.DownloadString(verifyModsLink + "?md5=" + localJsonMD5 + "&password=" + verifyModsPassword);
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add("auth", verifyModsPassword);
+                    client.Headers.Add("hash", localJsonMD5);
+
+                    client.UploadString(verifyModsLink, "POST");
+                }
             }
             catch
             {
