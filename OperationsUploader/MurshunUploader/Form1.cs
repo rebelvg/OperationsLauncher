@@ -334,7 +334,12 @@ namespace MurshunUploader
             missionSQM = AppendMissionValue(missionSQM, new List<string> { "Mission", "Intel" }, "overviewText", newOverviewText);
             missionSQM = AppendMissionValue(missionSQM, new List<string> { "ScenarioData" }, "overviewText", newOverviewText);
 
-            MessageBox.Show("New description:\n" + newOverviewText);
+            DialogResult dialogResult = MessageBox.Show("New description:\n" + newOverviewText, "Want to proceed?", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.No)
+            {
+                return false;
+            }
 
             if (clearDependencies_checkBox.Checked)
             {
@@ -353,26 +358,12 @@ namespace MurshunUploader
 
             InsertString("mission.sqm", missionSQM);
 
-            string tempFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + Path.GetFileName(path);
-
-            try
-            {
-                File.WriteAllBytes(tempFile, archive);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Upload error.\n" + e.Message);
-                return false;
-            }
-
-            Upload(tempFile);
-
-            DeleteTempFile(tempFile);
+            Upload(archive, Path.GetFileNameWithoutExtension(path));
 
             return true;
         }
 
-        public bool Upload(string file)
+        public bool Upload(byte[] mission, string missionName)
         {
             try
             {
@@ -381,35 +372,23 @@ namespace MurshunUploader
                 using (WebClient client = new WebClient())
                 {
                     client.Headers.Add("auth", password_textBox.Text);
-                    client.Headers.Add("filename", Path.GetFileNameWithoutExtension(file));
+                    client.Headers.Add("filename", missionName);
 
-                    using (Stream fileStream = File.OpenRead(file))
-                    using (Stream requestStream = client.OpenWrite(new Uri((string)presetFile["missions_link"]), "POST"))
-                    {
-                        fileStream.CopyTo(requestStream);
-                    }
+                    client.UploadData(new Uri((string)presetFile["missions_link"]), mission);
                 }
 
                 MessageBox.Show("Upload Done!");
             }
+            catch (WebException e)
+            {
+                dynamic resp = new StreamReader(e.Response.GetResponseStream()).ReadToEnd();
+                dynamic obj = JsonConvert.DeserializeObject(resp);
+                MessageBox.Show((string)obj.error[0]);
+                return false;
+            }
             catch (Exception e)
             {
                 MessageBox.Show("Upload error.\n" + e.Message);
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool DeleteTempFile(string file)
-        {
-            try
-            {
-                File.Delete(file);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error.\n" + e.Message);
                 return false;
             }
 
@@ -445,9 +424,13 @@ namespace MurshunUploader
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
                 if (!directUpload_checkBox.Checked)
+                {
                     EditMission(selectFile.FileName);
+                }
                 else
-                    Upload(selectFile.FileName);
+                {
+                    Upload(File.ReadAllBytes(selectFile.FileName), Path.GetFileNameWithoutExtension(selectFile.FileName));
+                }
             }
         }
     }
