@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using System.Xml;
 
 namespace MurshunUploader
 {
@@ -417,7 +418,13 @@ namespace MurshunUploader
 
         public dynamic ReturnPresetFile()
         {
-            string murshunLauncherFilesPath = Directory.GetCurrentDirectory() + "\\MurshunLauncherFiles.json";
+            XmlDocument xmlDoc = new XmlDocument();
+
+            string xmpPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher\\MurshunLauncher.xml";
+
+            xmlDoc.Load(xmpPath);
+
+            string murshunLauncherFilesPath = xmlDoc.GetElementsByTagName("pathToArma3ClientMods_textBox")[0].InnerText + "\\MurshunLauncherFiles.json";
 
             dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(murshunLauncherFilesPath));
 
