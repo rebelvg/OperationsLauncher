@@ -83,7 +83,7 @@ namespace MurshunLauncherServer
 
         public class MurshunLauncherXmlSettings
         {
-            public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server.exe";
+            public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server_x64.exe";
             public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
             public List<string> serverCustomMods_listView;
             public List<string> serverCheckedModsList_listView;
