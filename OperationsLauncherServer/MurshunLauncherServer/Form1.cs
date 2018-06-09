@@ -164,10 +164,7 @@ namespace MurshunLauncherServer
                     myProcess.ProcessorAffinity = (System.IntPtr)12;
                     myProcess.PriorityClass = ProcessPriorityClass.BelowNormal;
                 }
-                catch
-                {
-
-                }
+                catch { }
 
                 launch_button.Enabled = false;
             }

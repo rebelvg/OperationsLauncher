@@ -22,11 +22,16 @@ namespace MurshunLauncher
         {
             InitializeComponent();
 
-#if TRACE
-            debugMode = false;
-#else
-            debugMode = true;
-#endif
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (!args.Contains("--debug"))
+            {
+                debugMode = false;
+            }
+            else
+            {
+                debugMode = true;
+            }
 
             try
             {
