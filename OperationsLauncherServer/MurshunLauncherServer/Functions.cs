@@ -386,15 +386,17 @@ namespace MurshunLauncherServer
 
                         string response = client.DownloadString((string)presetFile["missions_link"]);
 
-                        List<string> missions = JsonConvert.DeserializeObject<List<string>>(response);
+                        List<dynamic> missions = JsonConvert.DeserializeObject<List<dynamic>>(response);
 
-                        foreach (string mission in missions)
+                        foreach (dynamic mission in missions)
                         {
-                            if (!File.Exists(Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + mission))
+                            string missionPath = Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + (string)mission["file"];
+
+                            if (!File.Exists(missionPath) || GetMD5(missionPath) != (string)mission["hash"])
                             {
                                 using (client = new WebClient())
                                 {
-                                    client.DownloadFile((string)presetFile["missions_link"] + "/" + mission, Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + mission);
+                                    client.DownloadFile((string)presetFile["missions_link"] + "/" + (string)mission["file"], missionPath);
                                 }
                             }
                         }
