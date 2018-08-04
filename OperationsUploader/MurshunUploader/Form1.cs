@@ -11,6 +11,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace MurshunUploader
 {
@@ -25,7 +26,7 @@ namespace MurshunUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.0.8";
+        string version = "1.0.9";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -367,14 +368,14 @@ namespace MurshunUploader
         {
             try
             {
-                dynamic presetFile = ReturnPresetFile();
+                LauncherConfigJson presetFile = ReturnPresetFile();
 
                 using (WebClient client = new WebClient())
                 {
                     client.Headers.Add("auth", password_textBox.Text);
                     client.Headers.Add("filename", missionName);
 
-                    client.UploadData(new Uri((string)presetFile["missions_link"]), mission);
+                    client.UploadData(new Uri(presetFile.missions_link), mission);
                 }
 
                 MessageBox.Show("Upload Done!");
@@ -384,28 +385,44 @@ namespace MurshunUploader
                 dynamic resp = new StreamReader(e.Response.GetResponseStream()).ReadToEnd();
                 dynamic obj = JsonConvert.DeserializeObject(resp);
                 MessageBox.Show((string)obj.error[0]);
+
                 return false;
             }
             catch (Exception e)
             {
                 MessageBox.Show("Upload error.\n" + e.Message);
+
                 return false;
             }
 
             return true;
         }
 
-        public dynamic ReturnPresetFile()
+        public class MurshunLauncherXmlSettings
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
+        }
 
-            string xmpPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher\\MurshunLauncher.xml";
+        public struct LauncherConfigJson
+        {
+            public string missions_link;
+        }
 
-            xmlDoc.Load(xmpPath);
+        public LauncherConfigJson ReturnPresetFile()
+        {
+            string xmlPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher\\MurshunLauncher.xml";
 
-            string murshunLauncherFilesPath = xmlDoc.GetElementsByTagName("pathToArma3ClientMods_textBox")[0].InnerText + "\\MurshunLauncherFiles.json";
+            XmlSerializer serializer = new XmlSerializer(typeof(MurshunLauncherXmlSettings));
 
-            dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(murshunLauncherFilesPath));
+            StreamReader reader = new StreamReader(xmlPath);
+
+            MurshunLauncherXmlSettings LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
+
+            reader.Close();
+
+            string murshunLauncherFilesPath = LauncherSettings.pathToArma3ClientMods_textBox + "\\MurshunLauncherFiles.json";
+
+            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
             return json;
         }
