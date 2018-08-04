@@ -210,6 +210,11 @@ namespace MurshunLauncherServer
             header.Width = -2;
         }
 
+        public Int32 GetUnixTime(DateTime date)
+        {
+            return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
+
         public async Task<bool> VerifyMods(bool fullVerify)
         {
             if (!ReadPresetFile())
@@ -250,7 +255,7 @@ namespace MurshunLauncherServer
                 string md5 = X.Value.md5;
 
                 if (!fullVerify)
-                    launcherFiles_listView.Items.Add(X.Key + ":" + size);
+                    launcherFiles_listView.Items.Add(X.Key + ":" + size + ":" + date);
                 else
                     launcherFiles_listView.Items.Add(X.Key + ":" + md5);
             }
@@ -304,7 +309,7 @@ namespace MurshunLauncherServer
                 ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
                 if (!fullVerify)
-                    clientFiles.Add(X + ":" + file.Length);
+                    clientFiles.Add(X + ":" + file.Length + ":" + GetUnixTime(file.LastWriteTimeUtc));
                 else
                     clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X));
 

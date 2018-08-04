@@ -393,6 +393,11 @@ namespace MurshunLauncherServer
             public string md5;
         }
 
+        public Int32 GetUnixTime(DateTime date)
+        {
+            return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
+
         public LauncherConfigJson BuildVerifyList(List<string> folderFiles, LauncherConfigJson json_old, LauncherConfigJson json)
         {
             LockInterface("Building Verify File...");
@@ -406,11 +411,11 @@ namespace MurshunLauncherServer
                 LauncherConfigJsonFile data = new LauncherConfigJsonFile();
 
                 data.size = file.Length;
-                data.date = file.LastWriteTimeUtc.ToString();
+                data.date = GetUnixTime(file.LastWriteTimeUtc).ToString();
 
                 try
                 {
-                    if (json_old.files[X].date == file.LastWriteTimeUtc.ToString())
+                    if (json_old.files[X].date == GetUnixTime(file.LastWriteTimeUtc).ToString())
                         data.md5 = json_old.files[X].md5;
                     else
                         data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
