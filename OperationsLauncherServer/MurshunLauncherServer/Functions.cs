@@ -99,6 +99,23 @@ namespace MurshunLauncherServer
             }
         }
 
+        public struct LauncherConfigJsonFile
+        {
+            public long size;
+            public string date;
+            public string md5;
+        }
+
+        public struct LauncherConfigJson
+        {
+            public string server;
+            public string password;
+            public string verify_link;
+            public string missions_link;
+            public string[] mods;
+            public Dictionary<string, LauncherConfigJsonFile> files;
+        }
+
         public bool ReadPresetFile()
         {
             string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
@@ -111,9 +128,9 @@ namespace MurshunLauncherServer
                 return false;
             }
 
-            dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
+            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
-            presetModsList = json.mods.ToObject<List<string>>();
+            presetModsList = json.mods.ToList();
 
             RefreshPresetModsList();
 
@@ -200,9 +217,9 @@ namespace MurshunLauncherServer
 
             string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
 
-            Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(murshunLauncherFilesPath));
+            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
-            if (!await Task.Run(() => CheckLauncherFiles(json["verify_link"], GetMD5(murshunLauncherFilesPath))))
+            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(murshunLauncherFilesPath))))
                 return false;
 
             List<string> folderFiles = Directory.GetFiles(pathToMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
@@ -226,16 +243,16 @@ namespace MurshunLauncherServer
                 modsFiles_listView.Items.Add(X);
             }
 
-            foreach (dynamic X in json["files"])
+            foreach (KeyValuePair<string, LauncherConfigJsonFile> X in json.files)
             {
-                dynamic size = X.First.size;
-                dynamic date = X.First.date;
-                dynamic md5 = X.First.md5;
+                long size = X.Value.size;
+                string date = X.Value.date;
+                string md5 = X.Value.md5;
 
                 if (!fullVerify)
-                    launcherFiles_listView.Items.Add(X.Name + ":" + size);
+                    launcherFiles_listView.Items.Add(X.Key + ":" + size);
                 else
-                    launcherFiles_listView.Items.Add(X.Name + ":" + md5);
+                    launcherFiles_listView.Items.Add(X.Key + ":" + md5);
             }
 
             folderFiles = modsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();

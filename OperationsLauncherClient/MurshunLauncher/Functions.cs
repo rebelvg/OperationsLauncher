@@ -96,7 +96,7 @@ namespace MurshunLauncher
         }
 
         public struct LauncherConfigJsonFile {
-            public int size;
+            public long size;
             public string date;
             public string md5;
         }
@@ -145,7 +145,7 @@ namespace MurshunLauncher
 
             foreach (KeyValuePair<string, LauncherConfigJsonFile> X in json.files)
             {
-                int size = X.Value.size;
+                long size = X.Value.size;
                 string date = X.Value.date;
                 string md5 = X.Value.md5;
 

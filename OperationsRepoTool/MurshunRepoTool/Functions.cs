@@ -69,6 +69,18 @@ namespace MurshunLauncherServer
             }
         }
 
+        public struct RepoConfigJson
+        {
+            public string server;
+            public string password;
+            public string verify_link;
+            public string verify_password;
+            public string missions_link;
+            public string[] mods;
+            public string mods_folder;
+            public string sync_folder;
+        }
+
         public bool ReadPresetFile()
         {
             string murshunLauncherFilesPath = repoConfigPath_textBox.Text;
@@ -77,17 +89,17 @@ namespace MurshunLauncherServer
 
             try
             {
-                dynamic json = JsonConvert.DeserializeObject(File.ReadAllText(murshunLauncherFilesPath));
+                RepoConfigJson json = JsonConvert.DeserializeObject<RepoConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
-                presetModsList = json.mods.ToObject<List<string>>();
+                presetModsList = json.mods.ToList();
 
-                server = json["server"];
-                password = json["password"];
-                verifyModsLink = json["verify_link"];
-                verifyModsPassword = json["verify_password"];
-                missionsLink = json["missions_link"];
-                pathToModsFolder_textBox.Text = json["mods_folder"];
-                pathToSyncFolder_textBox.Text = json["sync_folder"];
+                server = json.server;
+                password = json.password;
+                verifyModsLink = json.verify_link;
+                verifyModsPassword = json.verify_password;
+                missionsLink = json.missions_link;
+                pathToModsFolder_textBox.Text = json.mods_folder;
+                pathToSyncFolder_textBox.Text = json.sync_folder;
             }
             catch (Exception e)
             {
@@ -115,8 +127,10 @@ namespace MurshunLauncherServer
                     client.UploadString(verifyModsLink, "POST");
                 }
             }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show(e.Message);
+
                 Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server.\n" + verifyModsLink)));
                 return false;
             }
@@ -321,6 +335,16 @@ namespace MurshunLauncherServer
             }
         }
 
+        public struct LauncherConfigJson
+        {
+            public string server;
+            public string password;
+            public string verify_link;
+            public string missions_link;
+            public string[] mods;
+            public Dictionary<string, LauncherConfigJsonFile> files;
+        }
+
         public async void CreateVerifyFile()
         {
             if (!ReadPresetFile())
@@ -332,35 +356,44 @@ namespace MurshunLauncherServer
 
             folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
 
-            Dictionary<string, dynamic> files = new Dictionary<string, dynamic>();
+            LauncherConfigJson json = new LauncherConfigJson();
 
-            files["server"] = server;
-            files["password"] = password;
-            files["verify_link"] = verifyModsLink;
-            files["missions_link"] = missionsLink;
-            files["mods"] = presetModsList;
-            files["files"] = new Dictionary<string, dynamic>();
+            json.server = server;
+            json.password = password;
+            json.verify_link = verifyModsLink;
+            json.missions_link = missionsLink;
+            json.mods = presetModsList.ToArray();
+            json.files = new Dictionary<string, LauncherConfigJsonFile>();
 
-            Dictionary<string, dynamic> json_old = new Dictionary<string, dynamic>();
+            LauncherConfigJson json_old = new LauncherConfigJson();
 
-            if (File.Exists(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json"))
-                json_old = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json"));
+            string murshunLauncherFilesPath = pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json";
+
+            if (File.Exists(murshunLauncherFilesPath))
+                json_old = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
             progressBar1.Minimum = 0;
             progressBar1.Maximum = folderFiles.Count();
             progressBar1.Value = 0;
             progressBar1.Step = 1;
 
-            files = await Task.Run(() => BuildVerifyList(folderFiles, json_old, files));
+            json = await Task.Run(() => BuildVerifyList(folderFiles, json_old, json));
 
-            string json_new = JsonConvert.SerializeObject(files, Formatting.Indented);
+            string json_new = JsonConvert.SerializeObject(json, Formatting.Indented);
 
             SetLauncherFiles(GetMD5FromBuffer(json_new));
 
             SaveLauncherFiles(json_new);
         }
 
-        public Dictionary<string, dynamic> BuildVerifyList(List<string> folderFiles, Dictionary<string, dynamic> json_old, Dictionary<string, dynamic> files)
+        public struct LauncherConfigJsonFile
+        {
+            public long size;
+            public string date;
+            public string md5;
+        }
+
+        public LauncherConfigJson BuildVerifyList(List<string> folderFiles, LauncherConfigJson json_old, LauncherConfigJson json)
         {
             LockInterface("Building Verify File...");
 
@@ -370,24 +403,24 @@ namespace MurshunLauncherServer
 
                 ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
-                Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
+                LauncherConfigJsonFile data = new LauncherConfigJsonFile();
 
-                data["size"] = file.Length;
-                data["date"] = file.LastWriteTimeUtc;
+                data.size = file.Length;
+                data.date = file.LastWriteTimeUtc.ToString();
 
                 try
                 {
-                    if (json_old["files"][X].date == file.LastWriteTimeUtc)
-                        data["md5"] = json_old["files"][X].md5;
+                    if (json_old.files[X].date == file.LastWriteTimeUtc.ToString())
+                        data.md5 = json_old.files[X].md5;
                     else
-                        data["md5"] = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
+                        data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
                 }
                 catch
                 {
-                    data["md5"] = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
+                    data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
                 }
 
-                files["files"][X] = data;
+                json.files[X] = data;
 
                 Invoke(new Action(() => progressBar1.PerformStep()));
 
@@ -396,7 +429,7 @@ namespace MurshunLauncherServer
 
             UnlockInterface();
 
-            return files;
+            return json;
         }
 
         public void LockInterface(string text)
