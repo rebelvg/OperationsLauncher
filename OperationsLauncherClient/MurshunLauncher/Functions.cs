@@ -150,7 +150,7 @@ namespace MurshunLauncher
                 string md5 = X.Value.md5;
 
                 if (!fullVerify)
-                    launcherFiles_listView.Items.Add(X.Key + ":" + size + ":" + date);
+                    launcherFiles_listView.Items.Add(X.Key + ":" + size);
                 else
                     launcherFiles_listView.Items.Add(X.Key + ":" + md5);
             }
@@ -211,7 +211,7 @@ namespace MurshunLauncher
                 ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
                 if (!fullVerify)
-                    clientFiles.Add(X + ":" + file.Length + ":" + GetUnixTime(file.LastWriteTimeUtc));
+                    clientFiles.Add(X + ":" + file.Length);
                 else
                     clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X));
 
