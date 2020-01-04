@@ -354,7 +354,11 @@ namespace MurshunLauncherServer
 
             folderFiles = folderFiles.Select(a => a.Replace(pathToModsFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
-            folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
+            Console.WriteLine(folderFiles.Count);
+
+            folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b.ToLower() + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
+
+            Console.WriteLine(folderFiles.Count);
 
             LauncherConfigJson json = new LauncherConfigJson();
 
