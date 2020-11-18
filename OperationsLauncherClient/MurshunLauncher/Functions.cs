@@ -244,19 +244,22 @@ namespace MurshunLauncher
                     return false;
                 }
             }
-            catch
+            catch(Exception error)
             {
                 Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link)));
+
+                Console.WriteLine(error);
+
                 return false;
             }
 
             return true;
         }
 
-        public void RefreshPresetModsList()
+        public void RefreshPresetModsList(bool btSyncFolderHasSyncFile)
         {
             SetColorOnText(pathToArma3_textBox);
-            SetColorOnText(pathToMods_textBox);
+            SetColorForBtSyncFolder(pathToMods_textBox, btSyncFolderHasSyncFile);
             SetColorOnText(teamSpeakFolder_textBox);
 
             SetColorOnPresetList(presetMods_listView, pathToMods_textBox.Text);
@@ -270,6 +273,14 @@ namespace MurshunLauncher
                 box.BackColor = Color.Green;
             else
                 box.BackColor = Color.Red;
+        }
+
+        public void SetColorForBtSyncFolder(TextBox box, bool btSyncFolderHasSyncFile = false) {
+            if (btSyncFolderHasSyncFile) {
+                box.BackColor = Color.Green;
+            } else {
+                box.BackColor = Color.Red;
+            }
         }
 
         public void SetColorOnPresetList(ListView list, string path)
@@ -346,7 +357,10 @@ namespace MurshunLauncher
 
             if (!File.Exists(murshunLauncherFilesPath))
             {
+                RefreshPresetModsList(false);
+
                 MessageBox.Show("MurshunLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
+
                 return false;
             }
 
@@ -357,7 +371,7 @@ namespace MurshunLauncher
             server = json.server;
             password = json.password;
 
-            RefreshPresetModsList();
+            RefreshPresetModsList(true);
 
             return true;
         }

@@ -103,7 +103,10 @@ namespace MurshunLauncherServer
             }
             catch (Exception e)
             {
+                RefreshPresetModsList();
+
                 MessageBox.Show("There was an error reading the repo config.\n" + e.Message);
+
                 return false;
             }
 

@@ -124,7 +124,10 @@ namespace MurshunLauncherServer
 
             if (!File.Exists(murshunLauncherFilesPath))
             {
+                RefreshPresetModsList(false);
+
                 MessageBox.Show("MurshunLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
+
                 return false;
             }
 
@@ -132,7 +135,7 @@ namespace MurshunLauncherServer
 
             presetModsList = json.mods.ToList();
 
-            RefreshPresetModsList();
+            RefreshPresetModsList(true);
 
             return true;
         }
@@ -146,10 +149,10 @@ namespace MurshunLauncherServer
             return json;
         }
 
-        public void RefreshPresetModsList()
+        public void RefreshPresetModsList(bool btSyncFolderHasSyncFile)
         {
             SetColorOnText(pathToArma3_textBox);
-            SetColorOnText(pathToMods_textBox);
+            SetColorOnText(pathToMods_textBox, btSyncFolderHasSyncFile);
             SetColorOnText(serverConfig_textBox);
             SetColorOnText(serverCfg_textBox);
             SetColorOnText(serverProfiles_textBox);
@@ -162,6 +165,14 @@ namespace MurshunLauncherServer
         public void SetColorOnText(TextBox box)
         {
             if (Directory.Exists(box.Text) || File.Exists(box.Text))
+                box.BackColor = Color.Green;
+            else
+                box.BackColor = Color.Red;
+        }
+
+        public void SetColorOnText(TextBox box, bool btSyncFolderHasSyncFile)
+        {
+            if (btSyncFolderHasSyncFile)
                 box.BackColor = Color.Green;
             else
                 box.BackColor = Color.Red;
