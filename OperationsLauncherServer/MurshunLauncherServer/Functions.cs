@@ -15,6 +15,64 @@ using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 using System.Security.Cryptography;
 
+class CustomReadStream : Stream
+{
+    Stream inner;
+    int maxBytes;
+    int bytesRead = 0;
+
+    public CustomReadStream(Stream inner, int maxBytes)
+    {
+        this.inner = inner;
+        this.maxBytes = maxBytes;
+    }
+
+    public override bool CanRead => inner.CanRead;
+
+    public override bool CanSeek => inner.CanSeek;
+
+    public override bool CanWrite => inner.CanWrite;
+
+    public override long Length => inner.Length;
+
+    public override long Position { get => inner.Position; set => inner.Position = value; }
+
+    public override void Flush()
+    {
+        inner.Flush();
+    }
+
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        var result = inner.Read(buffer, offset, count);
+
+        if (this.bytesRead > this.maxBytes)
+        {
+            return 0;
+        }
+
+        this.bytesRead += count;
+
+
+        return result;
+    }
+
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        return inner.Seek(offset, origin);
+    }
+
+    public override void SetLength(long value)
+    {
+        inner.SetLength(value);
+    }
+
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        inner.Write(buffer, offset, count);
+    }
+}
+
 namespace MurshunLauncherServer
 {
     public partial class Form1 : Form
@@ -118,7 +176,7 @@ namespace MurshunLauncherServer
 
         public bool ReadPresetFile()
         {
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
             presetModsList = new List<string>();
 
@@ -126,7 +184,7 @@ namespace MurshunLauncherServer
             {
                 RefreshPresetModsList(false);
 
-                MessageBox.Show("MurshunLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
+                MessageBox.Show("OperationsLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
 
                 return false;
             }
@@ -142,7 +200,7 @@ namespace MurshunLauncherServer
 
         public dynamic ReturnPresetFile()
         {
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
             dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(murshunLauncherFilesPath));
 
@@ -231,11 +289,11 @@ namespace MurshunLauncherServer
             if (!ReadPresetFile())
                 return false;
 
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
             LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
-            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(murshunLauncherFilesPath))))
+            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(murshunLauncherFilesPath, true))))
                 return false;
 
             List<string> folderFiles = Directory.GetFiles(pathToMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
@@ -292,7 +350,7 @@ namespace MurshunLauncherServer
             }
 
             modsFiles_textBox.Text = pathToMods_textBox.Text + " (" + modsFiles_listView.Items.Count + " files / " + missingFiles_listView.Items.Count + " missing)";
-            launcherFiles_textBox.Text = "MurshunLauncherFiles.json (" + launcherFiles_listView.Items.Count + " files / " + excessFiles_listView.Items.Count + " excess)";
+            launcherFiles_textBox.Text = "OperationsLauncherFiles.json (" + launcherFiles_listView.Items.Count + " files / " + excessFiles_listView.Items.Count + " excess)";
 
             if (missingFiles_listView.Items.Count != 0 || excessFiles_listView.Items.Count != 0)
             {
@@ -313,21 +371,40 @@ namespace MurshunLauncherServer
 
             List<string> clientFiles = new List<string>();
 
-            foreach (string X in folderFiles)
+            var chunkedList = new List<List<string>>();
+
+            for (int i = 0; i < folderFiles.Count; i += 4)
             {
-                FileInfo file = new FileInfo(pathToMods_textBox.Text + X);
-
-                ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
-
-                if (!fullVerify)
-                    clientFiles.Add(X + ":" + file.Length + ":" + GetUnixTime(file.LastWriteTimeUtc));
-                else
-                    clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X));
-
-                Invoke(new Action(() => progressBar1.PerformStep()));
-
-                ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                chunkedList.Add(folderFiles.GetRange(i, Math.Min(4, folderFiles.Count - i)));
             }
+
+            var tasks = new List<Task>();
+
+            foreach (List<string> chunkedFolderFiles in chunkedList)
+            {
+                var task = Task.Run(() =>
+                {
+                    foreach (string X in chunkedFolderFiles)
+                    {
+                        FileInfo file = new FileInfo(pathToMods_textBox.Text + X);
+
+                        ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+
+                        if (!fullVerify)
+                            clientFiles.Add(X + ":" + file.Length + ":" + GetUnixTime(file.LastWriteTimeUtc));
+                        else
+                            clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X, false));
+
+                        Invoke(new Action(() => progressBar1.PerformStep()));
+
+                        ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                    }
+                });
+
+                tasks.Add(task);
+            }                
+
+            Task.WaitAll(tasks.ToArray());
 
             UnlockInterface();
 
@@ -349,7 +426,7 @@ namespace MurshunLauncherServer
 
                 if (modLineString != localJsonMD5)
                 {
-                    Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
+                    Invoke(new Action(() => MessageBox.Show("Your OperationsLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
 
                     ChangeHeader("Verify failed, hashes do not match.");
 
@@ -391,13 +468,22 @@ namespace MurshunLauncherServer
             }
         }
 
-        public string GetMD5(string filename)
+        public string GetMD5(string filename, bool getFullHash)
         {
             using (var md5 = MD5.Create())
             {
                 using (var stream = File.OpenRead(filename))
                 {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                    if (getFullHash)
+                    {
+                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                    }
+
+                    long fileSize = new FileInfo(filename).Length;
+
+                    var shortStream = new CustomReadStream(stream, Convert.ToInt32(fileSize * 0.1));
+
+                    return BitConverter.ToString(md5.ComputeHash(shortStream)).Replace("-", "").ToLower();
                 }
             }
         }
@@ -431,7 +517,7 @@ namespace MurshunLauncherServer
                         {
                             string missionPath = Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + (string)mission["file"];
 
-                            if (!File.Exists(missionPath) || GetMD5(missionPath) != (string)mission["hash"])
+                            if (!File.Exists(missionPath) || GetMD5(missionPath, true) != (string)mission["hash"])
                             {
                                 using (client = new WebClient())
                                 {

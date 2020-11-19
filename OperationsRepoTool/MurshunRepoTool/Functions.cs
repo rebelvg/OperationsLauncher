@@ -15,6 +15,64 @@ using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 using System.Security.Cryptography;
 
+class CustomReadStream : Stream
+{
+    Stream inner;
+    int maxBytes;
+    int bytesRead = 0;
+
+    public CustomReadStream(Stream inner, int maxBytes)
+    {
+        this.inner = inner;
+        this.maxBytes = maxBytes;
+    }
+
+    public override bool CanRead => inner.CanRead;
+
+    public override bool CanSeek => inner.CanSeek;
+
+    public override bool CanWrite => inner.CanWrite;
+
+    public override long Length => inner.Length;
+
+    public override long Position { get => inner.Position; set => inner.Position = value; }
+
+    public override void Flush()
+    {
+        inner.Flush();
+    }
+
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        var result = inner.Read(buffer, offset, count);
+
+        if (this.bytesRead > this.maxBytes)
+        {
+            return 0;
+        }
+
+        this.bytesRead += count;
+
+
+        return result;
+    }
+
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        return inner.Seek(offset, origin);
+    }
+
+    public override void SetLength(long value)
+    {
+        inner.SetLength(value);
+    }
+
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        inner.Write(buffer, offset, count);
+    }
+}
+
 namespace MurshunLauncherServer
 {
     public partial class Form1 : Form
@@ -301,13 +359,22 @@ namespace MurshunLauncherServer
             }
         }
 
-        public string GetMD5FromPath(string filename)
+        public string GetMD5FromPath(string filename, bool getFullHash)
         {
             using (var md5 = MD5.Create())
             {
                 using (var stream = File.OpenRead(filename))
                 {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                    if (getFullHash)
+                    {
+                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                    }
+
+                    long fileSize = new FileInfo(filename).Length;
+
+                    var shortStream = new CustomReadStream(stream, Convert.ToInt32(fileSize * 0.1));
+
+                    return BitConverter.ToString(md5.ComputeHash(shortStream)).Replace("-", "").ToLower();
                 }
             }
         }
@@ -317,6 +384,7 @@ namespace MurshunLauncherServer
             using (var md5 = MD5.Create())
             {
                 byte[] inputBytes = System.Text.Encoding.Default.GetBytes(text);
+
                 return BitConverter.ToString(md5.ComputeHash(inputBytes)).Replace("-", "").ToLower();
             }
         }
@@ -325,16 +393,16 @@ namespace MurshunLauncherServer
         {
             try
             {
-                File.WriteAllText(pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+                File.WriteAllText(pathToModsFolder_textBox.Text + "\\OperationsLauncherFiles.json", json_new);
 
                 if (Directory.Exists(pathToSyncFolder_textBox.Text) && pathToSyncFolder_textBox.Text.ToLower() != pathToModsFolder_textBox.Text.ToLower())
-                    File.WriteAllText(pathToSyncFolder_textBox.Text + "\\MurshunLauncherFiles.json", json_new);
+                    File.WriteAllText(pathToSyncFolder_textBox.Text + "\\OperationsLauncherFiles.json", json_new);
 
-                MessageBox.Show("MurshunLauncherFiles.json was saved.");
+                MessageBox.Show("OperationsLauncherFiles.json was saved.");
             }
             catch (Exception e)
             {
-                MessageBox.Show("There was an error on saving of MurshunLauncherFiles.json.\n\n" + e.Message);
+                MessageBox.Show("There was an error on saving of OperationsLauncherFiles.json.\n\n" + e.Message);
             }
         }
 
@@ -357,11 +425,7 @@ namespace MurshunLauncherServer
 
             folderFiles = folderFiles.Select(a => a.Replace(pathToModsFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
 
-            Console.WriteLine(folderFiles.Count);
-
             folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b.ToLower() + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
-
-            Console.WriteLine(folderFiles.Count);
 
             LauncherConfigJson json = new LauncherConfigJson();
 
@@ -372,9 +436,12 @@ namespace MurshunLauncherServer
             json.mods = presetModsList.ToArray();
             json.files = new Dictionary<string, LauncherConfigJsonFile>();
 
-            LauncherConfigJson json_old = new LauncherConfigJson();
+            LauncherConfigJson json_old = new LauncherConfigJson() {
+                mods = new string[0],
+                files = new Dictionary<string, LauncherConfigJsonFile>()
+            };
 
-            string murshunLauncherFilesPath = pathToModsFolder_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToModsFolder_textBox.Text + "\\OperationsLauncherFiles.json";
 
             if (File.Exists(murshunLauncherFilesPath))
                 json_old = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
@@ -409,35 +476,52 @@ namespace MurshunLauncherServer
         {
             LockInterface("Building Verify File...");
 
-            foreach (string X in folderFiles)
+            var chunkedList = new List<List<string>>();
+
+            for (int i = 0; i < folderFiles.Count; i += 4)
             {
-                FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
-
-                ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
-
-                LauncherConfigJsonFile data = new LauncherConfigJsonFile();
-
-                data.size = file.Length;
-                data.date = GetUnixTime(file.LastWriteTimeUtc).ToString();
-
-                try
-                {
-                    if (json_old.files[X].date == GetUnixTime(file.LastWriteTimeUtc).ToString())
-                        data.md5 = json_old.files[X].md5;
-                    else
-                        data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
-                }
-                catch
-                {
-                    data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X);
-                }
-
-                json.files[X] = data;
-
-                Invoke(new Action(() => progressBar1.PerformStep()));
-
-                ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                chunkedList.Add(folderFiles.GetRange(i, Math.Min(4, folderFiles.Count - i)));
             }
+
+            var tasks = new List<Task>();
+
+            foreach (List<string> chunkedFolderFiles in chunkedList) {
+                foreach (string X in chunkedFolderFiles)
+                {
+                    var task = Task.Run(() => {
+                        FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
+
+                        ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+
+                        LauncherConfigJsonFile data = new LauncherConfigJsonFile();
+
+                        data.size = file.Length;
+                        data.date = GetUnixTime(file.LastWriteTimeUtc).ToString();
+
+                        try
+                        {
+                            if (json_old.files[X].date == GetUnixTime(file.LastWriteTimeUtc).ToString())
+                                data.md5 = json_old.files[X].md5;
+                            else
+                                throw new Exception("need_to_refresh_md5");
+                        }
+                        catch
+                        {
+                            data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X, false);
+                        }
+
+                        json.files[X] = data;
+
+                        Invoke(new Action(() => progressBar1.PerformStep()));
+
+                        ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                    });
+
+                    tasks.Add(task);                        
+                }
+            }
+
+            Task.WaitAll(tasks.ToArray());
 
             UnlockInterface();
 

@@ -172,7 +172,7 @@ namespace MurshunLauncher
             if (!ReadPresetFile())
                 return false;
 
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
             LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
@@ -233,7 +233,7 @@ namespace MurshunLauncher
             }
 
             modsFiles_textBox.Text = pathToMods_textBox.Text + " (" + modsFiles_listView.Items.Count + " files / " + missingFiles_listView.Items.Count + " missing)";
-            launcherFiles_textBox.Text = "MurshunLauncherFiles.json (" + launcherFiles_listView.Items.Count + " files / " + excessFiles_listView.Items.Count + " excess)";
+            launcherFiles_textBox.Text = "OperationsLauncherFiles.json (" + launcherFiles_listView.Items.Count + " files / " + excessFiles_listView.Items.Count + " excess)";
 
             if (missingFiles_listView.Items.Count != 0 || excessFiles_listView.Items.Count != 0)
             {
@@ -314,7 +314,7 @@ namespace MurshunLauncher
 
                 if (modLineString != localJsonMD5)
                 {
-                    Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
+                    Invoke(new Action(() => MessageBox.Show("Your OperationsLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
 
                     ChangeHeader("Verify failed, hashes do not match.");
 
@@ -428,7 +428,7 @@ namespace MurshunLauncher
 
         public bool ReadPresetFile()
         {
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\MurshunLauncherFiles.json";
+            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
             presetModsList = new List<string>();
 
@@ -436,7 +436,7 @@ namespace MurshunLauncher
             {
                 RefreshPresetModsList(false);
 
-                MessageBox.Show("MurshunLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
+                MessageBox.Show("OperationsLauncherFiles.json not found. Select your BTsync folder as Arma 3 Mods folder.");
 
                 return false;
             }

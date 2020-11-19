@@ -30,9 +30,9 @@ namespace MurshunLauncherServer
                     System.Environment.Exit(1);
                 }
 
-                string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
+                string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher";
 
-                xmlPath_textBox.Text = iniDirectoryPath + "\\MurshunRepoTool.xml";
+                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsRepoTool.xml";
 
                 if (!Directory.Exists(iniDirectoryPath))
                 {
@@ -79,7 +79,7 @@ namespace MurshunLauncherServer
 
         public class MurshunLauncherXmlSettings
         {
-            public string modListLink = Directory.GetCurrentDirectory() + "\\MurshunRepoToolConfig.json";
+            public string modListLink = Directory.GetCurrentDirectory() + "\\OperationsRepoToolConfig.json";
         }
 
         private void button9_Click(object sender, EventArgs e)
