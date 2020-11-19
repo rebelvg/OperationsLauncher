@@ -141,13 +141,13 @@ namespace MurshunLauncherServer
 
         public bool ReadPresetFile()
         {
-            string murshunLauncherFilesPath = repoConfigPath_textBox.Text;
+            string operationsLauncherFilesPath = repoConfigPath_textBox.Text;
 
             presetModsList = new List<string>();
 
             try
             {
-                RepoConfigJson json = JsonConvert.DeserializeObject<RepoConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
+                RepoConfigJson json = JsonConvert.DeserializeObject<RepoConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
                 presetModsList = json.mods.ToList();
 
@@ -441,10 +441,10 @@ namespace MurshunLauncherServer
                 files = new Dictionary<string, LauncherConfigJsonFile>()
             };
 
-            string murshunLauncherFilesPath = pathToModsFolder_textBox.Text + "\\OperationsLauncherFiles.json";
+            string operationsLauncherFilesPath = pathToModsFolder_textBox.Text + "\\OperationsLauncherFiles.json";
 
-            if (File.Exists(murshunLauncherFilesPath))
-                json_old = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
+            if (File.Exists(operationsLauncherFilesPath))
+                json_old = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
             progressBar1.Minimum = 0;
             progressBar1.Maximum = folderFiles.Count();
@@ -517,7 +517,7 @@ namespace MurshunLauncherServer
                         ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
                     });
 
-                    tasks.Add(task);                        
+                    tasks.Add(task);
                 }
             }
 

@@ -176,11 +176,11 @@ namespace MurshunLauncherServer
 
         public bool ReadPresetFile()
         {
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
+            string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
             presetModsList = new List<string>();
 
-            if (!File.Exists(murshunLauncherFilesPath))
+            if (!File.Exists(operationsLauncherFilesPath))
             {
                 RefreshPresetModsList(false);
 
@@ -189,7 +189,7 @@ namespace MurshunLauncherServer
                 return false;
             }
 
-            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
+            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
             presetModsList = json.mods.ToList();
 
@@ -200,9 +200,9 @@ namespace MurshunLauncherServer
 
         public dynamic ReturnPresetFile()
         {
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
+            string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
-            dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(murshunLauncherFilesPath));
+            dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(operationsLauncherFilesPath));
 
             return json;
         }
@@ -289,11 +289,11 @@ namespace MurshunLauncherServer
             if (!ReadPresetFile())
                 return false;
 
-            string murshunLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
+            string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
-            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
+            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
-            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(murshunLauncherFilesPath, true))))
+            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(operationsLauncherFilesPath, true))))
                 return false;
 
             List<string> folderFiles = Directory.GetFiles(pathToMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
@@ -402,7 +402,7 @@ namespace MurshunLauncherServer
                 });
 
                 tasks.Add(task);
-            }                
+            }
 
             Task.WaitAll(tasks.ToArray());
 

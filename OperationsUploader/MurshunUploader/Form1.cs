@@ -420,9 +420,9 @@ namespace MurshunUploader
 
             reader.Close();
 
-            string murshunLauncherFilesPath = LauncherSettings.pathToArma3ClientMods_textBox + "\\MurshunLauncherFiles.json";
+            string operationsLauncherFilesPath = LauncherSettings.pathToArma3ClientMods_textBox + "\\MurshunLauncherFiles.json";
 
-            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
+            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
             return json;
         }
