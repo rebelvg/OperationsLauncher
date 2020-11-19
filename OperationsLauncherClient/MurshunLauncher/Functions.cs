@@ -15,6 +15,63 @@ using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 using System.Security.Cryptography;
 
+class CustomReadStream : Stream
+{
+    Stream inner;
+    int maxBytes;
+    int bytesRead = 0;
+
+    public CustomReadStream(Stream inner, int maxBytes)
+    {
+        this.inner = inner;
+        this.maxBytes = maxBytes;
+    }
+
+    public override bool CanRead => inner.CanRead;
+
+    public override bool CanSeek => inner.CanSeek;
+
+    public override bool CanWrite => inner.CanWrite;
+
+    public override long Length => inner.Length;
+
+    public override long Position { get => inner.Position; set => inner.Position = value; }
+
+    public override void Flush()
+    {
+        inner.Flush();
+    }
+
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        var result = inner.Read(buffer, offset, count);
+
+        if (this.bytesRead > this.maxBytes) {
+            return 0;
+        }
+
+        this.bytesRead += count;
+
+
+        return result;
+    }
+
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        return inner.Seek(offset, origin);
+    }
+
+    public override void SetLength(long value)
+    {
+        inner.SetLength(value);
+    }
+
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        inner.Write(buffer, offset, count);
+    }
+}
+
 namespace MurshunLauncher
 {
     public partial class Form1 : Form
@@ -119,7 +176,7 @@ namespace MurshunLauncher
 
             LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(murshunLauncherFilesPath));
 
-            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(murshunLauncherFilesPath))))
+            if (!await Task.Run(() => CheckLauncherFiles(json.verify_link, GetMD5(murshunLauncherFilesPath, true))))
                 return false;
 
             List<string> folderFiles = Directory.GetFiles(pathToMods_textBox.Text, "*", SearchOption.AllDirectories).ToList();
@@ -202,23 +259,40 @@ namespace MurshunLauncher
         {
             LockInterface("Verifying...");
 
+            var chunkedList = new List<List<string>>();
+
+            for (int i = 0; i < folderFiles.Count; i += 4)
+            {
+                chunkedList.Add(folderFiles.GetRange(i, Math.Min(4, folderFiles.Count - i)));
+            }
+
+            var tasks = new List<Task>();
+
             List<string> clientFiles = new List<string>();
 
-            foreach (string X in folderFiles)
-            {
-                FileInfo file = new FileInfo(pathToMods_textBox.Text + X);
+            foreach (List<string> chunkedFolderFiles in chunkedList) {
+                var task = Task.Run(() => {
+                    foreach (string X in chunkedFolderFiles)
+                    {
+                        FileInfo file = new FileInfo(pathToMods_textBox.Text + X);
 
-                ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                        ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
-                if (!fullVerify)
-                    clientFiles.Add(X + ":" + file.Length);
-                else
-                    clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X));
+                        if (!fullVerify)
+                            clientFiles.Add(X + ":" + file.Length);
+                        else
+                            clientFiles.Add(X + ":" + GetMD5(pathToMods_textBox.Text + X, false));
 
-                Invoke(new Action(() => progressBar1.PerformStep()));
+                        Invoke(new Action(() => progressBar1.PerformStep()));
 
-                ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                        ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                    }
+                });
+
+                tasks.Add(task);
             }
+
+            Task.WaitAll(tasks.ToArray());
 
             UnlockInterface();
 
@@ -241,14 +315,17 @@ namespace MurshunLauncher
                 if (modLineString != localJsonMD5)
                 {
                     Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
+
+                    ChangeHeader("Verify failed, hashes do not match.");
+
                     return false;
                 }
             }
             catch(Exception error)
             {
-                Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link)));
+                Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link + "\n\nError: " + error.Message)));
 
-                Console.WriteLine(error);
+                ChangeHeader("Verify failed " + error.Message);
 
                 return false;
             }
@@ -376,13 +453,21 @@ namespace MurshunLauncher
             return true;
         }
 
-        public string GetMD5(string filename)
+        public string GetMD5(string filename, bool getFullHash)
         {
             using (var md5 = MD5.Create())
             {
                 using (var stream = File.OpenRead(filename))
                 {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                    if (getFullHash) {
+                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                    }
+
+                    long fileSize = new FileInfo(filename).Length;
+
+                    var shortStream = new CustomReadStream(stream, Convert.ToInt32(fileSize * 0.1));
+
+                    return BitConverter.ToString(md5.ComputeHash(shortStream)).Replace("-", "").ToLower();
                 }
             }
         }
@@ -415,7 +500,7 @@ namespace MurshunLauncher
             string acre32mods = pathToMods_textBox.Text + @"\@acre2\plugin" + acre32plugin;
             string acre64mods = pathToMods_textBox.Text + @"\@acre2\plugin" + acre64plugin;
 
-            if (File.Exists(tspath + acre32plugin) && File.Exists(tspath + acre64plugin) && GetMD5(tspath + acre32plugin) == GetMD5(acre32mods) && GetMD5(tspath + acre64plugin) == GetMD5(acre64mods))
+            if (File.Exists(tspath + acre32plugin) && File.Exists(tspath + acre64plugin) && GetMD5(tspath + acre32plugin, true) == GetMD5(acre32mods, true) && GetMD5(tspath + acre64plugin, true) == GetMD5(acre64mods, true))
                 return true;
 
             try

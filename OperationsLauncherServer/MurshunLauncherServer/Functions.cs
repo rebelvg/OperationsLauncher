@@ -350,12 +350,18 @@ namespace MurshunLauncherServer
                 if (modLineString != localJsonMD5)
                 {
                     Invoke(new Action(() => MessageBox.Show("Your MurshunLauncherFiles.json is not up-to-date. Launch BTsync to update.")));
+
+                    ChangeHeader("Verify failed, hashes do not match.");
+
                     return false;
                 }
             }
-            catch
+            catch (Exception error)
             {
-                Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link)));
+                Invoke(new Action(() => MessageBox.Show("Couldn't connect to the server to check the integrity of your files. " + link + "\n\nError: " + error.Message)));
+
+                ChangeHeader("Verify failed " + error.Message);
+
                 return false;
             }
 
