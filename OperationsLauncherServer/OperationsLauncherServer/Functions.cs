@@ -525,12 +525,22 @@ namespace OperationsLauncherServer
                             {
                                 using (client = new WebClient())
                                 {
-                                    client.DownloadFile((string)presetFile["missions_link"] + "/" + (string)mission["file"], missionPath);
+                                    try
+                                    {
+                                        client.DownloadFile((string)presetFile["missions_link"] + "/" + (string)mission["file"], missionPath);
+
+                                    }
+                                    catch (Exception error)
+                                    {
+                                        Console.WriteLine(error.Message);
+                                    }
                                 }
                             }
                         }
                     }
-                    catch { }
+                    catch (Exception error) {
+                        Console.WriteLine(error.Message);
+                    }
 
                     Thread.Sleep(30000);
                 }

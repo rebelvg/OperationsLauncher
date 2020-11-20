@@ -21,12 +21,13 @@ namespace OperationsUploader
         {
             InitializeComponent();
 
+            password_textBox.PasswordChar = '*';
             password_textBox.Text = OperationsUploader.Properties.Settings.Default.password;
 
             label2.Text = "Version " + version;
         }
 
-        string version = "0.4.1";
+        string version = "0.4.2";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {

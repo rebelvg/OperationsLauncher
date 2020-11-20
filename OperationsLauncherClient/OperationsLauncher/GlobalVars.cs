@@ -18,7 +18,7 @@ namespace OperationsLauncher
 {
     public partial class Form1 : Form
     {
-        string launcherVersion = "0.4.1";
+        string launcherVersion = "0.4.2";
 
         List<string> presetModsList = new List<string>();
 
