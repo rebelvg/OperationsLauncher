@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.25618.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurshunLauncherServer", "MurshunLauncherServer\MurshunLauncherServer.csproj", "{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationsLauncherServer", "OperationsLauncherServer\OperationsLauncherServer.csproj", "{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

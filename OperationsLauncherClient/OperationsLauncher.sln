@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurshunLauncher", "MurshunLauncher\MurshunLauncher.csproj", "{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationsLauncher", "OperationsLauncher\OperationsLauncher.csproj", "{0E5ADC8C-7440-44C0-B184-A1AC7E150EF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurshunLauncherServer", "..\OperationsLauncherServer\MurshunLauncherServer\MurshunLauncherServer.csproj", "{38173C9C-D4EB-4E14-A603-F5A6734D50D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationsLauncherServer", "..\OperationsLauncherServer\OperationsLauncherServer\OperationsLauncherServer.csproj", "{38173C9C-D4EB-4E14-A603-F5A6734D50D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurshunRepoTool", "..\OperationsRepoTool\MurshunRepoTool\MurshunRepoTool.csproj", "{ED6F2B82-0C36-46B7-9E46-A3C0336A3412}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationsRepoTool", "..\OperationsRepoTool\OperationsRepoTool\OperationsRepoTool.csproj", "{ED6F2B82-0C36-46B7-9E46-A3C0336A3412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurshunUploader", "..\OperationsUploader\MurshunUploader\MurshunUploader.csproj", "{6DEC2966-6551-4F81-95B3-CC284DF695C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationsUploader", "..\OperationsUploader\OperationsUploader\OperationsUploader.csproj", "{6DEC2966-6551-4F81-95B3-CC284DF695C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
