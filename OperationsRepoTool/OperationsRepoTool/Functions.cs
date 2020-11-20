@@ -73,7 +73,7 @@ class CustomReadStream : Stream
     }
 }
 
-namespace OperationsLauncherServer
+namespace OperationsRepoTool
 {
     public partial class Form1 : Form
     {

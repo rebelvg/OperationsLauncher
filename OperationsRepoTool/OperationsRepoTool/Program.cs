@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OperationsLauncherServer
+namespace OperationsRepoTool
 {
     static class Program
     {

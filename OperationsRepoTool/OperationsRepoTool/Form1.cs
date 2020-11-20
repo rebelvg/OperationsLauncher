@@ -14,7 +14,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
-namespace OperationsLauncherServer
+namespace OperationsRepoTool
 {
     public partial class Form1 : Form
     {
