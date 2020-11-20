@@ -73,19 +73,19 @@ class CustomReadStream : Stream
     }
 }
 
-namespace MurshunLauncherServer
+namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
         public void ReadXmlFile()
         {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
             StreamReader reader = new StreamReader(xmlPath_textBox.Text);
 
             try
             {
-                LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
+                LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
                 reader.Close();
 
                 repoConfigPath_textBox.Text = LauncherSettings.modListLink;
@@ -111,11 +111,11 @@ namespace MurshunLauncherServer
         {
             try
             {
-                LauncherSettings = new MurshunLauncherXmlSettings();
+                LauncherSettings = new OperationsLauncherXmlSettings();
 
                 LauncherSettings.modListLink = repoConfigPath_textBox.Text;
 
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
                 System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
                 serializer.Serialize(writer, LauncherSettings);

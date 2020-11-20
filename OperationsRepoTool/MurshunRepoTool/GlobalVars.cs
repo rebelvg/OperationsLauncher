@@ -14,13 +14,13 @@ using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
-namespace MurshunLauncherServer
+namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
         List<string> presetModsList = new List<string>();
 
-        MurshunLauncherXmlSettings LauncherSettings;
+        OperationsLauncherXmlSettings LauncherSettings;
 
         string server = "";
         string password = "";

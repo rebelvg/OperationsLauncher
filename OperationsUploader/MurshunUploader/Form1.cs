@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace MurshunUploader
+namespace OperationsUploader
 {
     public partial class Form1 : Form
     {
@@ -398,7 +398,7 @@ namespace MurshunUploader
             return true;
         }
 
-        public class MurshunLauncherXmlSettings
+        public class OperationsLauncherXmlSettings
         {
             public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
         }
@@ -410,17 +410,17 @@ namespace MurshunUploader
 
         public LauncherConfigJson ReturnPresetFile()
         {
-            string xmlPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher\\MurshunLauncher.xml";
+            string xmlPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher\\OperationsLauncher.xml";
 
-            XmlSerializer serializer = new XmlSerializer(typeof(MurshunLauncherXmlSettings));
+            XmlSerializer serializer = new XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
             StreamReader reader = new StreamReader(xmlPath);
 
-            MurshunLauncherXmlSettings LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
+            OperationsLauncherXmlSettings LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
 
             reader.Close();
 
-            string operationsLauncherFilesPath = LauncherSettings.pathToArma3ClientMods_textBox + "\\MurshunLauncherFiles.json";
+            string operationsLauncherFilesPath = LauncherSettings.pathToArma3ClientMods_textBox + "\\OperationsLauncherFiles.json";
 
             LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 

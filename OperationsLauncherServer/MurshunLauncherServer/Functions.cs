@@ -73,19 +73,19 @@ class CustomReadStream : Stream
     }
 }
 
-namespace MurshunLauncherServer
+namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
         public void ReadXmlFile()
         {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
             StreamReader reader = new StreamReader(xmlPath_textBox.Text);
 
             try
             {
-                LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
+                LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
                 reader.Close();
 
                 pathToArma3_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
@@ -133,7 +133,7 @@ namespace MurshunLauncherServer
         {
             try
             {
-                LauncherSettings = new MurshunLauncherXmlSettings();
+                LauncherSettings = new OperationsLauncherXmlSettings();
 
                 LauncherSettings.pathToArma3Server_textBox = pathToArma3_textBox.Text;
                 LauncherSettings.pathToArma3ServerMods_textBox = pathToMods_textBox.Text;
@@ -145,7 +145,7 @@ namespace MurshunLauncherServer
                 LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
                 LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
 
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
                 System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
                 serializer.Serialize(writer, LauncherSettings);

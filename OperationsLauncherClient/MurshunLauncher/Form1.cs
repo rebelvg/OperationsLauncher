@@ -14,7 +14,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
-namespace MurshunLauncher
+namespace OperationsLauncher
 {
     public partial class Form1 : Form
     {
@@ -41,9 +41,9 @@ namespace MurshunLauncher
                     System.Environment.Exit(1);
                 }
 
-                string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
+                string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher";
 
-                xmlPath_textBox.Text = iniDirectoryPath + "\\MurshunLauncher.xml";
+                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsLauncher.xml";
 
                 if (!Directory.Exists(iniDirectoryPath))
                 {
@@ -65,9 +65,9 @@ namespace MurshunLauncher
                 {
                     try
                     {
-                        LauncherSettings = new MurshunLauncherXmlSettings();
+                        LauncherSettings = new OperationsLauncherXmlSettings();
 
-                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
                         System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
                         serializer.Serialize(writer, LauncherSettings);
@@ -90,7 +90,7 @@ namespace MurshunLauncher
             }
         }
 
-        public class MurshunLauncherXmlSettings
+        public class OperationsLauncherXmlSettings
         {
             public string pathToArma3Client_textBox = Directory.GetCurrentDirectory() + "\\arma3_x64.exe";
             public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
@@ -259,7 +259,7 @@ namespace MurshunLauncher
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher");
+            System.Diagnostics.Process.Start("https://github.com/rebelvg/OperationsLauncher");
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

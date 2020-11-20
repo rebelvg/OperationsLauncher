@@ -72,19 +72,19 @@ class CustomReadStream : Stream
     }
 }
 
-namespace MurshunLauncher
+namespace OperationsLauncher
 {
     public partial class Form1 : Form
     {
         public void ReadXmlFile()
         {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
             StreamReader reader = new StreamReader(xmlPath_textBox.Text);
 
             try
             {
-                LauncherSettings = (MurshunLauncherXmlSettings)serializer.Deserialize(reader);
+                LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
                 reader.Close();
 
                 pathToArma3_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
@@ -130,7 +130,7 @@ namespace MurshunLauncher
         {
             try
             {
-                LauncherSettings = new MurshunLauncherXmlSettings();
+                LauncherSettings = new OperationsLauncherXmlSettings();
 
                 LauncherSettings.pathToArma3Client_textBox = pathToArma3_textBox.Text;
                 LauncherSettings.pathToArma3ClientMods_textBox = pathToMods_textBox.Text;
@@ -140,7 +140,7 @@ namespace MurshunLauncher
                 LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
                 LauncherSettings.teamSpeakAppDataFolder_textBox = teamSpeakFolder_textBox.Text;
 
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
                 System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
                 serializer.Serialize(writer, LauncherSettings);

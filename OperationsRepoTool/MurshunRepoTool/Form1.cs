@@ -14,7 +14,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
-namespace MurshunLauncherServer
+namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
@@ -54,9 +54,9 @@ namespace MurshunLauncherServer
                 {
                     try
                     {
-                        LauncherSettings = new MurshunLauncherXmlSettings();
+                        LauncherSettings = new OperationsLauncherXmlSettings();
 
-                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
                         System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
                         serializer.Serialize(writer, LauncherSettings);
@@ -77,7 +77,7 @@ namespace MurshunLauncherServer
             }
         }
 
-        public class MurshunLauncherXmlSettings
+        public class OperationsLauncherXmlSettings
         {
             public string modListLink = Directory.GetCurrentDirectory() + "\\OperationsRepoToolConfig.json";
         }

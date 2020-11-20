@@ -1,4 +1,4 @@
-﻿namespace MurshunUploader
+﻿namespace OperationsUploader
 {
     partial class Form1
     {
@@ -36,9 +36,9 @@
             this.directUpload_checkBox = new System.Windows.Forms.CheckBox();
             this.clearDependencies_checkBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.Location = new System.Drawing.Point(12, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(367, 293);
@@ -46,34 +46,34 @@
             this.button1.Text = "Select Mission";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
+            //
             // password_textBox
-            // 
+            //
             this.password_textBox.Location = new System.Drawing.Point(279, 311);
             this.password_textBox.Name = "password_textBox";
             this.password_textBox.Size = new System.Drawing.Size(100, 20);
             this.password_textBox.TabIndex = 2;
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(220, 314);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Password";
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 363);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Version 0.0.00";
-            // 
+            //
             // directUpload_checkBox
-            // 
+            //
             this.directUpload_checkBox.AutoSize = true;
             this.directUpload_checkBox.Location = new System.Drawing.Point(15, 313);
             this.directUpload_checkBox.Name = "directUpload_checkBox";
@@ -81,9 +81,9 @@
             this.directUpload_checkBox.TabIndex = 6;
             this.directUpload_checkBox.Text = "Direct Upload (Fallback)";
             this.directUpload_checkBox.UseVisualStyleBackColor = true;
-            // 
+            //
             // clearDependencies_checkBox
-            // 
+            //
             this.clearDependencies_checkBox.AutoSize = true;
             this.clearDependencies_checkBox.Location = new System.Drawing.Point(15, 336);
             this.clearDependencies_checkBox.Name = "clearDependencies_checkBox";
@@ -91,9 +91,9 @@
             this.clearDependencies_checkBox.TabIndex = 5;
             this.clearDependencies_checkBox.Text = "Clear Dependencies";
             this.clearDependencies_checkBox.UseVisualStyleBackColor = true;
-            // 
+            //
             // Form1
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(391, 385);
@@ -123,4 +123,3 @@
         private System.Windows.Forms.CheckBox clearDependencies_checkBox;
     }
 }
-

@@ -14,7 +14,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 
-namespace MurshunLauncherServer
+namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
@@ -30,9 +30,9 @@ namespace MurshunLauncherServer
                     System.Environment.Exit(1);
                 }
 
-                string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MurshunLauncher";
+                string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher";
 
-                xmlPath_textBox.Text = iniDirectoryPath + "\\MurshunLauncherServer.xml";
+                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsLauncherServer.xml";
 
                 if (!Directory.Exists(iniDirectoryPath))
                 {
@@ -54,9 +54,9 @@ namespace MurshunLauncherServer
                 {
                     try
                     {
-                        LauncherSettings = new MurshunLauncherXmlSettings();
+                        LauncherSettings = new OperationsLauncherXmlSettings();
 
-                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(MurshunLauncherXmlSettings));
+                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
 
                         System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
                         serializer.Serialize(writer, LauncherSettings);
@@ -81,7 +81,7 @@ namespace MurshunLauncherServer
             DownloadMissions();
         }
 
-        public class MurshunLauncherXmlSettings
+        public class OperationsLauncherXmlSettings
         {
             public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server_x64.exe";
             public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
@@ -362,7 +362,7 @@ namespace MurshunLauncherServer
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/rebelvg/MurshunLauncher");
+            System.Diagnostics.Process.Start("https://github.com/rebelvg/OperationsLauncher");
         }
     }
 }
