@@ -26,7 +26,7 @@ namespace OperationsUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.0.9";
+        string version = "1.1.0";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
