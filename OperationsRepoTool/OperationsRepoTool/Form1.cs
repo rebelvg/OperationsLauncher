@@ -87,7 +87,7 @@ namespace OperationsRepoTool
 
         private async void button10_Click(object sender, EventArgs e)
         {
-            if (!Directory.Exists(pathToModsFolder_textBox.Text) || !Directory.Exists(pathToSyncFolder_textBox.Text))
+            if (!Directory.Exists(repoConfigJson.mods_folder) || !Directory.Exists(repoConfigJson.sync_folder))
             {
                 MessageBox.Show("Server or Sync folder doesn't exist.");
                 return;
@@ -110,7 +110,7 @@ namespace OperationsRepoTool
 
                     await Task.Run(() =>
                     {
-                        File.Delete(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
+                        File.Delete(repoConfigJson.sync_folder + item.Text.Split(':')[0]);
                     });
 
                     progressBar1.PerformStep();
@@ -120,11 +120,11 @@ namespace OperationsRepoTool
                 {
                     ChangeHeader("Copying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + item.Text);
 
-                    CheckPath(pathToSyncFolder_textBox.Text + item.Text.Split(':')[0]);
+                    CheckPath(repoConfigJson.sync_folder + item.Text.Split(':')[0]);
 
                     await Task.Run(() =>
                     {
-                        File.Copy(pathToModsFolder_textBox.Text + item.Text.Split(':')[0], pathToSyncFolder_textBox.Text + item.Text.Split(':')[0], true);
+                        File.Copy(repoConfigJson.mods_folder + item.Text.Split(':')[0], repoConfigJson.sync_folder + item.Text.Split(':')[0], true);
                     });
 
                     progressBar1.PerformStep();

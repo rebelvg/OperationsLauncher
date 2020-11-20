@@ -18,12 +18,5 @@ namespace OperationsRepoTool
 {
     public partial class Form1 : Form
     {
-        List<string> presetModsList = new List<string>();
-
-        string server = "";
-        string password = "";
-        string verifyModsLink = "";
-        string verifyModsPassword = "";
-        string missionsLink = "";
     }
 }

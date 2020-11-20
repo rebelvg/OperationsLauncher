@@ -77,6 +77,8 @@ namespace OperationsRepoTool
 {
     public partial class Form1 : Form
     {
+        RepoConfigJson repoConfigJson;
+
         public class RepoToolSettingsJson
         {
             public string repoConfigPath = Directory.GetCurrentDirectory() + "\\OperationsRepoToolConfig.json";
@@ -131,29 +133,21 @@ namespace OperationsRepoTool
             public string verify_password;
             public string missions_link;
             public string[] mods;
+            public string[] steam_mods;
             public string mods_folder;
             public string sync_folder;
+            public string steam_mods_folder;
         }
 
         public bool ReadPresetFile()
         {
             string operationsLauncherFilesPath = repoConfigPath_textBox.Text;
 
-            presetModsList = new List<string>();
-
             try
             {
                 RepoConfigJson json = JsonConvert.DeserializeObject<RepoConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
-                presetModsList = json.mods.ToList();
-
-                server = json.server;
-                password = json.password;
-                verifyModsLink = json.verify_link;
-                verifyModsPassword = json.verify_password;
-                missionsLink = json.missions_link;
-                pathToModsFolder_textBox.Text = json.mods_folder;
-                pathToSyncFolder_textBox.Text = json.sync_folder;
+                repoConfigJson = json;
             }
             catch (Exception e)
             {
@@ -171,24 +165,22 @@ namespace OperationsRepoTool
 
         public bool SetLauncherFiles(string localJsonMD5)
         {
-            if (string.IsNullOrEmpty(verifyModsLink))
+            if (string.IsNullOrEmpty(repoConfigJson.verify_link))
                 return true;
 
             try
             {
                 using (WebClient client = new WebClient())
                 {
-                    client.Headers.Add("auth", verifyModsPassword);
+                    client.Headers.Add("auth", repoConfigJson.verify_password);
                     client.Headers.Add("hash", localJsonMD5);
 
-                    client.UploadString(verifyModsLink, "POST");
+                    client.UploadString(repoConfigJson.verify_link, "POST");
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
-
-                Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server.\n" + verifyModsLink)));
+                Invoke(new Action(() => MessageBox.Show("There was an error on accessing the server.\n" + e.Message)));
                 return false;
             }
 
@@ -197,11 +189,9 @@ namespace OperationsRepoTool
 
         public void RefreshPresetModsList()
         {
-            SetColorOnText(pathToSyncFolder_textBox);
-            SetColorOnText(pathToModsFolder_textBox);
             SetColorOnText(repoConfigPath_textBox);
 
-            SetColorOnPresetList(presetMods_listView, pathToModsFolder_textBox.Text);
+            SetColorOnPresetList(presetMods_listView, repoConfigJson.mods_folder, repoConfigJson.steam_mods_folder);
         }
 
         public void SetColorOnText(TextBox box)
@@ -212,18 +202,24 @@ namespace OperationsRepoTool
                 box.BackColor = Color.Red;
         }
 
-        public void SetColorOnPresetList(ListView list, string path)
+        public void SetColorOnPresetList(ListView list, string path, string steamPath)
         {
             list.Items.Clear();
 
-            foreach (string X in presetModsList)
+            foreach (string X in repoConfigJson.mods)
+            {
+                list.Items.Add(X);
+            }
+
+
+            foreach (string X in repoConfigJson.steam_mods)
             {
                 list.Items.Add(X);
             }
 
             foreach (ListViewItem X in list.Items)
             {
-                if (Directory.Exists(path + "\\" + X.Text + "\\addons"))
+                if (Directory.Exists(path + "\\" + X.Text + "\\addons") || Directory.Exists(steamPath + "\\" + X.Text + "\\addons"))
                 {
                     if (X.BackColor != Color.Green)
                         X.BackColor = Color.Green;
@@ -257,7 +253,7 @@ namespace OperationsRepoTool
 
         public bool CompareFolders()
         {
-            if (!Directory.Exists(pathToModsFolder_textBox.Text) || !Directory.Exists(pathToSyncFolder_textBox.Text))
+            if (!Directory.Exists(repoConfigJson.mods_folder) || !Directory.Exists(repoConfigJson.sync_folder))
             {
                 MessageBox.Show("Server or Sync folder doesn't exist.");
                 return false;
@@ -266,17 +262,17 @@ namespace OperationsRepoTool
             if (!ReadPresetFile())
                 return false;
 
-            List<string> folder_clientFilesList = Directory.GetFiles(pathToModsFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folder_clientFilesList = Directory.GetFiles(repoConfigJson.mods_folder, "*", SearchOption.AllDirectories).ToList();
 
-            folder_clientFilesList = folder_clientFilesList.Select(a => a.Replace(pathToModsFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folder_clientFilesList = folder_clientFilesList.Select(a => a.Replace(repoConfigJson.mods_folder, "")).Select(b => b.ToLower()).ToList();
 
-            folder_clientFilesList = folder_clientFilesList.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
+            folder_clientFilesList = folder_clientFilesList.Where(a => repoConfigJson.mods.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
 
-            List<string> folder_serverFilesList = Directory.GetFiles(pathToSyncFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folder_serverFilesList = Directory.GetFiles(repoConfigJson.sync_folder, "*", SearchOption.AllDirectories).ToList();
 
-            folder_serverFilesList = folder_serverFilesList.Select(a => a.Replace(pathToSyncFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
+            folder_serverFilesList = folder_serverFilesList.Select(a => a.Replace(repoConfigJson.sync_folder, "")).Select(b => b.ToLower()).ToList();
 
-            folder_serverFilesList = folder_serverFilesList.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
+            folder_serverFilesList = folder_serverFilesList.Where(a => repoConfigJson.mods.Any(b => a.StartsWith("\\" + b + "\\"))).ToList();
 
             compareClientFiles_listView.Items.Clear();
             compareServerFiles_listView.Items.Clear();
@@ -290,7 +286,7 @@ namespace OperationsRepoTool
 
             foreach (string X in folder_clientFilesList)
             {
-                FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
+                FileInfo file = new FileInfo(repoConfigJson.mods_folder + X);
                 compareClientFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
 
                 progressBar1.PerformStep();
@@ -300,7 +296,7 @@ namespace OperationsRepoTool
 
             foreach (string X in folder_serverFilesList)
             {
-                FileInfo file = new FileInfo(pathToSyncFolder_textBox.Text + X);
+                FileInfo file = new FileInfo(repoConfigJson.sync_folder + X);
                 compareServerFiles_listView.Items.Add(X + ":" + file.Length + ":" + file.LastWriteTimeUtc);
 
                 progressBar1.PerformStep();
@@ -389,10 +385,10 @@ namespace OperationsRepoTool
         {
             try
             {
-                File.WriteAllText(pathToModsFolder_textBox.Text + "\\OperationsLauncherFiles.json", json_new);
+                File.WriteAllText(repoConfigJson.mods_folder + "\\OperationsLauncherFiles.json", json_new);
 
-                if (Directory.Exists(pathToSyncFolder_textBox.Text) && pathToSyncFolder_textBox.Text.ToLower() != pathToModsFolder_textBox.Text.ToLower())
-                    File.WriteAllText(pathToSyncFolder_textBox.Text + "\\OperationsLauncherFiles.json", json_new);
+                if (Directory.Exists(repoConfigJson.sync_folder) && repoConfigJson.sync_folder.ToLower() != repoConfigJson.mods_folder.ToLower())
+                    File.WriteAllText(repoConfigJson.sync_folder + "\\OperationsLauncherFiles.json", json_new);
 
                 MessageBox.Show("OperationsLauncherFiles.json was saved.");
             }
@@ -409,7 +405,19 @@ namespace OperationsRepoTool
             public string verify_link;
             public string missions_link;
             public string[] mods;
-            public Dictionary<string, LauncherConfigJsonFile> files;
+            public string[] steamMods;
+            public List<LauncherConfigJsonFile> files;
+            public List<LauncherConfigJsonFile> steamFiles;
+        }
+
+        public List<string> GetFolderFilesToHash(string folderToParse, string[] modsList) {
+            List<string> folderFiles = Directory.GetFiles(folderToParse, "*", SearchOption.AllDirectories).ToList();
+
+            folderFiles = folderFiles.Select(a => a.Replace(folderToParse, "")).Select(b => b.ToLower()).ToList();
+
+            folderFiles = folderFiles.Where(a => modsList.Any(b => a.StartsWith("\\" + b.ToLower() + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
+
+            return folderFiles;
         }
 
         public async void CreateVerifyFile()
@@ -417,37 +425,40 @@ namespace OperationsRepoTool
             if (!ReadPresetFile())
                 return;
 
-            List<string> folderFiles = Directory.GetFiles(pathToModsFolder_textBox.Text, "*", SearchOption.AllDirectories).ToList();
+            List<string> folderFiles = GetFolderFilesToHash(repoConfigJson.mods_folder, repoConfigJson.mods);
 
-            folderFiles = folderFiles.Select(a => a.Replace(pathToModsFolder_textBox.Text, "")).Select(b => b.ToLower()).ToList();
-
-            folderFiles = folderFiles.Where(a => presetModsList.Any(b => a.StartsWith("\\" + b.ToLower() + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
+            List<string> steamFolderFiles = GetFolderFilesToHash(repoConfigJson.steam_mods_folder, repoConfigJson.steam_mods);
 
             LauncherConfigJson json = new LauncherConfigJson();
 
-            json.server = server;
-            json.password = password;
-            json.verify_link = verifyModsLink;
-            json.missions_link = missionsLink;
-            json.mods = presetModsList.ToArray();
-            json.files = new Dictionary<string, LauncherConfigJsonFile>();
+            json.server = repoConfigJson.server;
+            json.password = repoConfigJson.password;
+            json.verify_link = repoConfigJson.verify_link;
+            json.missions_link = repoConfigJson.missions_link;
+            json.mods = repoConfigJson.mods;
+            json.steamMods = repoConfigJson.steam_mods;
+            json.files = new List<LauncherConfigJsonFile>();
+            json.steamFiles = new List<LauncherConfigJsonFile>();
 
             LauncherConfigJson json_old = new LauncherConfigJson() {
                 mods = new string[0],
-                files = new Dictionary<string, LauncherConfigJsonFile>()
+                files = new List<LauncherConfigJsonFile>(),
+                steamFiles = new List<LauncherConfigJsonFile>()
             };
 
-            string operationsLauncherFilesPath = pathToModsFolder_textBox.Text + "\\OperationsLauncherFiles.json";
+            string operationsLauncherFilesPath = repoConfigJson.mods_folder + "\\OperationsLauncherFiles.json";
 
-            if (File.Exists(operationsLauncherFilesPath))
-                json_old = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
+            if (File.Exists(operationsLauncherFilesPath)) {
+                try {
+                    json_old = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
-            progressBar1.Minimum = 0;
-            progressBar1.Maximum = folderFiles.Count();
-            progressBar1.Value = 0;
-            progressBar1.Step = 1;
+                }
+                catch (Exception error) {
+                    Console.WriteLine(error.Message);
+                }
+            }
 
-            json = await Task.Run(() => BuildVerifyList(folderFiles, json_old, json));
+            json = await Task.Run(() => BuildVerifyList(folderFiles, steamFolderFiles, json_old, json));
 
             string json_new = JsonConvert.SerializeObject(json, Formatting.Indented);
 
@@ -458,6 +469,7 @@ namespace OperationsRepoTool
 
         public struct LauncherConfigJsonFile
         {
+            public string filePath;
             public long size;
             public string date;
             public string md5;
@@ -468,45 +480,48 @@ namespace OperationsRepoTool
             return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
 
-        public LauncherConfigJson BuildVerifyList(List<string> folderFiles, LauncherConfigJson json_old, LauncherConfigJson json)
-        {
-            LockInterface("Building Verify File...");
-
+        public List<LauncherConfigJsonFile> ProcessFilesList(string baseFolder, List<string> filesList, List<LauncherConfigJsonFile> oldFilesConfig) {
             var chunkedList = new List<List<string>>();
 
-            for (int i = 0; i < folderFiles.Count; i += 4)
+            for (int i = 0; i < filesList.Count; i += 4)
             {
-                chunkedList.Add(folderFiles.GetRange(i, Math.Min(4, folderFiles.Count - i)));
+                chunkedList.Add(filesList.GetRange(i, Math.Min(4, filesList.Count - i)));
             }
 
             var tasks = new List<Task>();
 
-            foreach (List<string> chunkedFolderFiles in chunkedList) {
+            var files = new List<LauncherConfigJsonFile>();
+
+            foreach (List<string> chunkedFolderFiles in chunkedList)
+            {
                 foreach (string X in chunkedFolderFiles)
                 {
                     var task = Task.Run(() => {
-                        FileInfo file = new FileInfo(pathToModsFolder_textBox.Text + X);
+                        FileInfo file = new FileInfo(baseFolder + X);
 
                         ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
                         LauncherConfigJsonFile data = new LauncherConfigJsonFile();
 
+                        data.filePath = X;
                         data.size = file.Length;
                         data.date = GetUnixTime(file.LastWriteTimeUtc).ToString();
 
                         try
                         {
-                            if (json_old.files[X].date == GetUnixTime(file.LastWriteTimeUtc).ToString())
-                                data.md5 = json_old.files[X].md5;
+                            var fileObj = oldFilesConfig.First(x => x.filePath == X);
+
+                            if (fileObj.date == GetUnixTime(file.LastWriteTimeUtc).ToString())
+                                data.md5 = fileObj.md5;
                             else
                                 throw new Exception("need_to_refresh_md5");
                         }
                         catch
                         {
-                            data.md5 = GetMD5FromPath(pathToModsFolder_textBox.Text + X, false);
+                            data.md5 = GetMD5FromPath(baseFolder + X, false);
                         }
 
-                        json.files[X] = data;
+                        files.Add(data);
 
                         Invoke(new Action(() => progressBar1.PerformStep()));
 
@@ -518,6 +533,21 @@ namespace OperationsRepoTool
             }
 
             Task.WaitAll(tasks.ToArray());
+
+            return files;
+        }
+
+        public LauncherConfigJson BuildVerifyList(List<string> folderFiles, List<string> steamFolderFiles, LauncherConfigJson json_old, LauncherConfigJson json)
+        {
+            LockInterface("Building Verify File...");
+
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
+            progressBar1.Value = 0;
+            progressBar1.Step = 1;
+
+            json.files = ProcessFilesList(repoConfigJson.mods_folder, folderFiles, json_old.files);
+            json.steamFiles = ProcessFilesList(repoConfigJson.steam_mods_folder, steamFolderFiles, json_old.steamFiles);
 
             UnlockInterface();
 
