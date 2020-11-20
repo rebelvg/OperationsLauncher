@@ -51,9 +51,9 @@ namespace OperationsLauncher
                     {
                         Directory.CreateDirectory(iniDirectoryPath);
                     }
-                    catch
+                    catch (Exception error)
                     {
-                        MessageBox.Show("Couldn't create a folder at " + iniDirectoryPath);
+                        MessageBox.Show("Couldn't create a folder at " + iniDirectoryPath, error.Message);
                     }
                 }
 

@@ -12,11 +12,17 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Xml;
 using System.Xml.Serialization;
+using Ookii.Dialogs.Wpf;
 
 namespace OperationsUploader
 {
     public partial class Form1 : Form
     {
+        string version = "0.4.3";
+
+        public string settingsJsonPath;
+        public string operationsFilesFolderPath;
+
         public Form1()
         {
             InitializeComponent();
@@ -24,10 +30,46 @@ namespace OperationsUploader
             password_textBox.PasswordChar = '*';
             password_textBox.Text = OperationsUploader.Properties.Settings.Default.password;
 
+            string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher";
+
+            settingsJsonPath = iniDirectoryPath + "\\OperationsUploader.json";
+
+            if (!Directory.Exists(iniDirectoryPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(iniDirectoryPath);
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show("Couldn't create a folder at " + iniDirectoryPath, error.Message);
+                }
+            }
+
+            if (File.Exists(settingsJsonPath))
+            {
+                ReadSettingsJson();
+            }
+            else
+            {
+                try
+                {
+                    var OperationsUploaderSettingsJson = new OperationsUploaderSettingsJson();
+
+                    string json = JsonConvert.SerializeObject(OperationsUploaderSettingsJson, Newtonsoft.Json.Formatting.Indented);
+
+                    File.WriteAllText(settingsJsonPath, json);
+
+                    ReadSettingsJson();
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show("Saving settings failed. " + error.Message);
+                }
+            }
+
             label2.Text = "Version " + version;
         }
-
-        string version = "0.4.2";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -399,28 +441,77 @@ namespace OperationsUploader
             return true;
         }
 
-        public class OperationsLauncherXmlSettings
-        {
-            public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
-        }
-
         public struct LauncherConfigJson
         {
             public string missions_link;
         }
 
-        public class LauncherSettingsJson
+        public class OperationsUploaderSettingsJson
         {
-            public string pathToArma3Mods = Directory.GetCurrentDirectory();
+            public string pathToRepo = Directory.GetCurrentDirectory();
+        }
+
+        public void ReadSettingsJson()
+        {
+            try
+            {
+                var OperationsUploaderSettingsJson = JsonConvert.DeserializeObject<OperationsUploaderSettingsJson>(File.ReadAllText(settingsJsonPath));
+
+                operationsFilesFolderPath = OperationsUploaderSettingsJson.pathToRepo;
+            }
+            catch (Exception error)
+            {
+                DialogResult dialogResult = MessageBox.Show("Create a new one? " + error.Message, "Settings file is corrupted.", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    SaveSettingsJson();
+                }
+                if (dialogResult == DialogResult.No)
+                {
+                    System.Environment.Exit(1);
+                }
+            }
+        }
+
+        public void SaveSettingsJson()
+        {
+            try
+            {
+                var LauncherSettingsJson = new OperationsUploaderSettingsJson();
+
+                LauncherSettingsJson.pathToRepo = operationsFilesFolderPath;
+
+                string json = JsonConvert.SerializeObject(LauncherSettingsJson, Newtonsoft.Json.Formatting.Indented);
+
+                File.WriteAllText(settingsJsonPath, json);
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Saving settings failed. " + error.Message);
+            }
         }
 
         public LauncherConfigJson ReturnPresetFile()
         {
-            string xmlPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher\\OperationsLauncher.json";
+            string operationsLauncherFilesPath = operationsFilesFolderPath + "\\OperationsLauncherFiles.json";
 
-            var LauncherSettingsJson = JsonConvert.DeserializeObject<LauncherSettingsJson>(File.ReadAllText(xmlPath));
+            if (!File.Exists(operationsLauncherFilesPath)) {
+                VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
+                chosenFolder.Description = "Select Repo Folder";
+                chosenFolder.UseDescriptionForTitle = true;
 
-            string operationsLauncherFilesPath = LauncherSettingsJson.pathToArma3Mods + "\\OperationsLauncherFiles.json";
+                if (chosenFolder.ShowDialog().Value)
+                {
+                    operationsFilesFolderPath = chosenFolder.SelectedPath;
+                }
+                else
+                {
+                    throw new Exception("bad_folder");
+                }
+            }
+
+            operationsLauncherFilesPath = operationsFilesFolderPath + "\\OperationsLauncherFiles.json";
 
             LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 
@@ -449,6 +540,11 @@ namespace OperationsUploader
                     Upload(File.ReadAllBytes(selectFile.FileName), Path.GetFileNameWithoutExtension(selectFile.FileName));
                 }
             }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettingsJson();
         }
     }
 }
