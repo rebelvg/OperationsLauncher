@@ -43,7 +43,7 @@ namespace OperationsLauncher
 
                 string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher";
 
-                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsLauncher.xml";
+                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsLauncher.json";
 
                 if (!Directory.Exists(iniDirectoryPath))
                 {
@@ -65,19 +65,17 @@ namespace OperationsLauncher
                 {
                     try
                     {
-                        LauncherSettings = new OperationsLauncherXmlSettings();
+                        var LauncherSettingsJson = new LauncherSettingsJson();
 
-                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
+                        string json = JsonConvert.SerializeObject(LauncherSettingsJson, Formatting.Indented);
 
-                        System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
-                        serializer.Serialize(writer, LauncherSettings);
-                        writer.Close();
+                        File.WriteAllText(xmlPath_textBox.Text, json);
 
                         ReadXmlFile();
                     }
-                    catch
+                    catch (Exception error)
                     {
-                        MessageBox.Show("Saving xml settings failed.");
+                        MessageBox.Show("Saving settings failed. " + error.Message);
                     }
                 }
 
@@ -88,17 +86,6 @@ namespace OperationsLauncher
                 MessageBox.Show("Launcher crashed while initializing. Try running it as administrator.\n\n" + e.Message);
                 System.Environment.Exit(1);
             }
-        }
-
-        public class OperationsLauncherXmlSettings
-        {
-            public string pathToArma3Client_textBox = Directory.GetCurrentDirectory() + "\\arma3_x64.exe";
-            public string pathToArma3ClientMods_textBox = Directory.GetCurrentDirectory();
-            public bool joinTheServer_checkBox;
-            public List<string> clientCustomMods_listView;
-            public List<string> clientCheckedModsList_listView;
-            public string advancedStartLine_textBox;
-            public string teamSpeakAppDataFolder_textBox = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TS3Client";
         }
 
         private async void button3_Click(object sender, EventArgs e)

@@ -76,24 +76,30 @@ namespace OperationsLauncher
 {
     public partial class Form1 : Form
     {
+        public class LauncherSettingsJson
+        {
+            public string pathToArma3Exe = Directory.GetCurrentDirectory() + "\\arma3_x64.exe";
+            public string pathToArma3Mods = Directory.GetCurrentDirectory();
+            public bool joinTheServer = false;
+            public string[] customMods = new string[0];
+            public string[] checkedCustomMods = new string[0];
+            public string advancedStartLine = "";
+            public string teamSpeakAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TS3Client";
+        }
+
         public void ReadXmlFile()
         {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
-
-            StreamReader reader = new StreamReader(xmlPath_textBox.Text);
-
             try
             {
-                LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
-                reader.Close();
+                var LauncherSettingsJson = JsonConvert.DeserializeObject<LauncherSettingsJson>(File.ReadAllText(xmlPath_textBox.Text));
 
-                pathToArma3_textBox.Text = LauncherSettings.pathToArma3Client_textBox;
-                pathToMods_textBox.Text = LauncherSettings.pathToArma3ClientMods_textBox;
-                joinTheServer_checkBox.Checked = LauncherSettings.joinTheServer_checkBox;
-                advancedStartLine_textBox.Text = LauncherSettings.advancedStartLine_textBox;
-                teamSpeakFolder_textBox.Text = LauncherSettings.teamSpeakAppDataFolder_textBox;
+                pathToArma3_textBox.Text = LauncherSettingsJson.pathToArma3Exe;
+                pathToMods_textBox.Text = LauncherSettingsJson.pathToArma3Mods;
+                joinTheServer_checkBox.Checked = LauncherSettingsJson.joinTheServer;
+                advancedStartLine_textBox.Text = LauncherSettingsJson.advancedStartLine;
+                teamSpeakFolder_textBox.Text = LauncherSettingsJson.teamSpeakAppDataFolder;
 
-                foreach (string X in LauncherSettings.clientCustomMods_listView)
+                foreach (string X in LauncherSettingsJson.customMods)
                 {
                     if (!customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).Contains(X))
                     {
@@ -103,17 +109,15 @@ namespace OperationsLauncher
 
                 foreach (ListViewItem X in customMods_listView.Items)
                 {
-                    if (LauncherSettings.clientCheckedModsList_listView.Contains(X.Text))
+                    if (LauncherSettingsJson.checkedCustomMods.Contains(X.Text))
                     {
                         X.Checked = true;
                     }
                 }
             }
-            catch
+            catch (Exception error)
             {
-                reader.Close();
-
-                DialogResult dialogResult = MessageBox.Show("Create a new one?", "Xml file is corrupted.", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Create a new one? " + error.Message, "Settings file is corrupted.", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -130,25 +134,23 @@ namespace OperationsLauncher
         {
             try
             {
-                LauncherSettings = new OperationsLauncherXmlSettings();
+                var LauncherSettingsJson = new LauncherSettingsJson();
 
-                LauncherSettings.pathToArma3Client_textBox = pathToArma3_textBox.Text;
-                LauncherSettings.pathToArma3ClientMods_textBox = pathToMods_textBox.Text;
-                LauncherSettings.joinTheServer_checkBox = joinTheServer_checkBox.Checked;
-                LauncherSettings.clientCustomMods_listView = customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.clientCheckedModsList_listView = customMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.advancedStartLine_textBox = advancedStartLine_textBox.Text;
-                LauncherSettings.teamSpeakAppDataFolder_textBox = teamSpeakFolder_textBox.Text;
+                LauncherSettingsJson.pathToArma3Exe = pathToArma3_textBox.Text;
+                LauncherSettingsJson.pathToArma3Mods = pathToMods_textBox.Text;
+                LauncherSettingsJson.joinTheServer = joinTheServer_checkBox.Checked;
+                LauncherSettingsJson.customMods = customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+                LauncherSettingsJson.checkedCustomMods = customMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+                LauncherSettingsJson.advancedStartLine = advancedStartLine_textBox.Text;
+                LauncherSettingsJson.teamSpeakAppDataFolder = teamSpeakFolder_textBox.Text;
 
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
+                string json = JsonConvert.SerializeObject(LauncherSettingsJson, Formatting.Indented);
 
-                System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
-                serializer.Serialize(writer, LauncherSettings);
-                writer.Close();
+                File.WriteAllText(xmlPath_textBox.Text, json);
             }
             catch
             {
-                MessageBox.Show("Saving xml settings failed.");
+                MessageBox.Show("Saving settings failed.");
             }
         }
 

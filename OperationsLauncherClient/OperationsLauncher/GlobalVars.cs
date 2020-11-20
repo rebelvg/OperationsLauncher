@@ -22,8 +22,6 @@ namespace OperationsLauncher
 
         List<string> presetModsList = new List<string>();
 
-        OperationsLauncherXmlSettings LauncherSettings;
-
         string server = "";
         string password = "";
 
