@@ -1,8 +1,9 @@
 {
   "server": "127.0.0.1",
   "password": "SERVER_PASSWORD",
-  "verify_link": "http://yourserver/verify.php",
+  "verify_link": "https://yourserver/verify",
   "verify_password": "REPO_PASSWORD",
+  "missions_link": "https://yourserver/missions",
   "mods": ["@cba_a3", "@ace3"],
   "mods_folder": "D:\\Arma 3 Repo",
   "sync_folder": ""

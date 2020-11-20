@@ -32,7 +32,7 @@ namespace OperationsRepoTool
 
                 string iniDirectoryPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher";
 
-                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsRepoTool.xml";
+                xmlPath_textBox.Text = iniDirectoryPath + "\\OperationsRepoTool.json";
 
                 if (!Directory.Exists(iniDirectoryPath))
                 {
@@ -54,19 +54,17 @@ namespace OperationsRepoTool
                 {
                     try
                     {
-                        LauncherSettings = new OperationsLauncherXmlSettings();
+                        var RepoToolSettingsJson = new RepoToolSettingsJson();
 
-                        System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
+                        string json = JsonConvert.SerializeObject(RepoToolSettingsJson, Formatting.Indented);
 
-                        System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
-                        serializer.Serialize(writer, LauncherSettings);
-                        writer.Close();
+                        File.WriteAllText(xmlPath_textBox.Text, json);
 
                         ReadXmlFile();
                     }
-                    catch
+                    catch (Exception error)
                     {
-                        MessageBox.Show("Saving xml settings failed.");
+                        MessageBox.Show("Saving settings failed. " + error.Message);
                     }
                 }
             }

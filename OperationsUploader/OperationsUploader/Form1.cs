@@ -26,7 +26,7 @@ namespace OperationsUploader
             label2.Text = "Version " + version;
         }
 
-        string version = "1.1.0";
+        string version = "0.4.1";
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)
         {
@@ -408,19 +408,18 @@ namespace OperationsUploader
             public string missions_link;
         }
 
+        public class LauncherSettingsJson
+        {
+            public string pathToArma3Mods = Directory.GetCurrentDirectory();
+        }
+
         public LauncherConfigJson ReturnPresetFile()
         {
-            string xmlPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher\\OperationsLauncher.xml";
+            string xmlPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OperationsLauncher\\OperationsLauncher.json";
 
-            XmlSerializer serializer = new XmlSerializer(typeof(OperationsLauncherXmlSettings));
+            var LauncherSettingsJson = JsonConvert.DeserializeObject<LauncherSettingsJson>(File.ReadAllText(xmlPath));
 
-            StreamReader reader = new StreamReader(xmlPath);
-
-            OperationsLauncherXmlSettings LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
-
-            reader.Close();
-
-            string operationsLauncherFilesPath = LauncherSettings.pathToArma3ClientMods_textBox + "\\OperationsLauncherFiles.json";
+            string operationsLauncherFilesPath = LauncherSettingsJson.pathToArma3Mods + "\\OperationsLauncherFiles.json";
 
             LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
 

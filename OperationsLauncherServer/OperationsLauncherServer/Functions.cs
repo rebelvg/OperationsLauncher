@@ -77,26 +77,34 @@ namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
+        public class LauncherSettingsJson
+        {          
+            public string pathToArma3Exe = Directory.GetCurrentDirectory() + "\\arma3server_x64.exe";
+            public string pathToArma3Mods = Directory.GetCurrentDirectory();
+            public string[] customMods = new string[0];
+            public string[] checkedCustomMods = new string[0];
+            public string serverConfig = "";
+            public string serverCfg = "";
+            public string serverProfiles = "";
+            public string serverProfileName = "";
+            public bool hideWindow = false;
+        }
+
         public void ReadXmlFile()
         {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
-
-            StreamReader reader = new StreamReader(xmlPath_textBox.Text);
-
             try
             {
-                LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
-                reader.Close();
+                var LauncherSettingsJson = JsonConvert.DeserializeObject<LauncherSettingsJson>(File.ReadAllText(xmlPath_textBox.Text));
 
-                pathToArma3_textBox.Text = LauncherSettings.pathToArma3Server_textBox;
-                pathToMods_textBox.Text = LauncherSettings.pathToArma3ServerMods_textBox;
-                serverConfig_textBox.Text = LauncherSettings.serverConfig_textBox;
-                serverCfg_textBox.Text = LauncherSettings.serverCfg_textBox;
-                serverProfiles_textBox.Text = LauncherSettings.serverProfiles_textBox;
-                serverProfileName_textBox.Text = LauncherSettings.serverProfileName_textBox;
-                hideWindow_checkBox.Checked = LauncherSettings.hideWindow_checkBox;
+                pathToArma3_textBox.Text = LauncherSettingsJson.pathToArma3Exe;
+                pathToMods_textBox.Text = LauncherSettingsJson.pathToArma3Mods;
+                serverConfig_textBox.Text = LauncherSettingsJson.serverConfig;
+                serverCfg_textBox.Text = LauncherSettingsJson.serverCfg;
+                serverProfiles_textBox.Text = LauncherSettingsJson.serverProfiles;
+                serverProfileName_textBox.Text = LauncherSettingsJson.serverProfileName;
+                hideWindow_checkBox.Checked = LauncherSettingsJson.hideWindow;
 
-                foreach (string X in LauncherSettings.serverCustomMods_listView)
+                foreach (string X in LauncherSettingsJson.customMods)
                 {
                     if (!customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).Contains(X))
                     {
@@ -106,17 +114,15 @@ namespace OperationsLauncherServer
 
                 foreach (ListViewItem X in customMods_listView.Items)
                 {
-                    if (LauncherSettings.serverCheckedModsList_listView.Contains(X.Text))
+                    if (LauncherSettingsJson.checkedCustomMods.Contains(X.Text))
                     {
                         X.Checked = true;
                     }
                 }
             }
-            catch
+            catch (Exception error)
             {
-                reader.Close();
-
-                DialogResult dialogResult = MessageBox.Show("Create a new one?", "Xml file is corrupted.", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Create a new one? " + error.Message, "Settings file is corrupted.", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -133,27 +139,25 @@ namespace OperationsLauncherServer
         {
             try
             {
-                LauncherSettings = new OperationsLauncherXmlSettings();
+                var LauncherSettingsJson = new LauncherSettingsJson();
 
-                LauncherSettings.pathToArma3Server_textBox = pathToArma3_textBox.Text;
-                LauncherSettings.pathToArma3ServerMods_textBox = pathToMods_textBox.Text;
-                LauncherSettings.serverCustomMods_listView = customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.serverCheckedModsList_listView = customMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToList();
-                LauncherSettings.serverConfig_textBox = serverConfig_textBox.Text;
-                LauncherSettings.serverCfg_textBox = serverCfg_textBox.Text;
-                LauncherSettings.serverProfiles_textBox = serverProfiles_textBox.Text;
-                LauncherSettings.serverProfileName_textBox = serverProfileName_textBox.Text;
-                LauncherSettings.hideWindow_checkBox = hideWindow_checkBox.Checked;
+                LauncherSettingsJson.pathToArma3Exe = pathToArma3_textBox.Text;
+                LauncherSettingsJson.pathToArma3Mods = pathToMods_textBox.Text;
+                LauncherSettingsJson.customMods = customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+                LauncherSettingsJson.checkedCustomMods = customMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+                LauncherSettingsJson.serverConfig = serverConfig_textBox.Text;
+                LauncherSettingsJson.serverCfg = serverCfg_textBox.Text;
+                LauncherSettingsJson.serverProfiles = serverProfiles_textBox.Text;
+                LauncherSettingsJson.serverProfileName = serverProfileName_textBox.Text;
+                LauncherSettingsJson.hideWindow = hideWindow_checkBox.Checked;
 
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
+                string json = JsonConvert.SerializeObject(LauncherSettingsJson, Formatting.Indented);
 
-                System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
-                serializer.Serialize(writer, LauncherSettings);
-                writer.Close();
+                File.WriteAllText(xmlPath_textBox.Text, json);
             }
-            catch
+            catch (Exception error)
             {
-                MessageBox.Show("Saving xml settings failed.");
+                MessageBox.Show("Saving settings failed. " + error.Message);
             }
         }
 

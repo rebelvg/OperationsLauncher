@@ -77,24 +77,22 @@ namespace OperationsRepoTool
 {
     public partial class Form1 : Form
     {
+        public class RepoToolSettingsJson
+        {
+            public string repoConfigPath = Directory.GetCurrentDirectory() + "\\OperationsRepoToolConfig.json";
+        }
+
         public void ReadXmlFile()
         {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
-
-            StreamReader reader = new StreamReader(xmlPath_textBox.Text);
-
             try
             {
-                LauncherSettings = (OperationsLauncherXmlSettings)serializer.Deserialize(reader);
-                reader.Close();
+                var RepoToolSettingsJson = JsonConvert.DeserializeObject<RepoToolSettingsJson>(File.ReadAllText(xmlPath_textBox.Text));
 
-                repoConfigPath_textBox.Text = LauncherSettings.modListLink;
+                repoConfigPath_textBox.Text = RepoToolSettingsJson.repoConfigPath;
             }
-            catch
+            catch (Exception error)
             {
-                reader.Close();
-
-                DialogResult dialogResult = MessageBox.Show("Create a new one?", "Xml file is corrupted.", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Create a new one? " + error.Message, "Settings file is corrupted.", MessageBoxButtons.YesNo);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -110,20 +108,18 @@ namespace OperationsRepoTool
         public void SaveXmlFile()
         {
             try
-            {
-                LauncherSettings = new OperationsLauncherXmlSettings();
+            {             
+                var RepoToolSettingsJson = new RepoToolSettingsJson();
 
-                LauncherSettings.modListLink = repoConfigPath_textBox.Text;
+                RepoToolSettingsJson.repoConfigPath = repoConfigPath_textBox.Text;
 
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(OperationsLauncherXmlSettings));
+                string json = JsonConvert.SerializeObject(RepoToolSettingsJson, Formatting.Indented);
 
-                System.IO.FileStream writer = System.IO.File.Create(xmlPath_textBox.Text);
-                serializer.Serialize(writer, LauncherSettings);
-                writer.Close();
+                File.WriteAllText(xmlPath_textBox.Text, json);
             }
-            catch
+            catch (Exception error)
             {
-                MessageBox.Show("Saving xml settings failed.");
+                MessageBox.Show("Saving settings failed. " + error.Message);
             }
         }
 

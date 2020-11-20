@@ -20,8 +20,6 @@ namespace OperationsRepoTool
     {
         List<string> presetModsList = new List<string>();
 
-        OperationsLauncherXmlSettings LauncherSettings;
-
         string server = "";
         string password = "";
         string verifyModsLink = "";

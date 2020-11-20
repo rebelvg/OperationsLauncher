@@ -148,9 +148,9 @@ namespace OperationsLauncher
 
                 File.WriteAllText(xmlPath_textBox.Text, json);
             }
-            catch
+            catch (Exception error)
             {
-                MessageBox.Show("Saving settings failed.");
+                MessageBox.Show("Saving settings failed. " + error.Message);
             }
         }
 
