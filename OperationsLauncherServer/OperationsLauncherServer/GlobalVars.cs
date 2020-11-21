@@ -18,6 +18,6 @@ namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
-        string launcherVersion = "0.4.4";
+        string launcherVersion = "0.4.5";
     }
 }
