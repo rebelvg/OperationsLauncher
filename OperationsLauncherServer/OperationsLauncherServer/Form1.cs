@@ -79,19 +79,6 @@ namespace OperationsLauncherServer
             DownloadMissions();
         }
 
-        public class OperationsLauncherXmlSettings
-        {
-            public string pathToArma3Server_textBox = Directory.GetCurrentDirectory() + "\\arma3server_x64.exe";
-            public string pathToArma3ServerMods_textBox = Directory.GetCurrentDirectory();
-            public List<string> serverCustomMods_listView;
-            public List<string> serverCheckedModsList_listView;
-            public string serverConfig_textBox;
-            public string serverCfg_textBox;
-            public string serverProfiles_textBox;
-            public string serverProfileName_textBox;
-            public bool hideWindow_checkBox;
-        }
-
         private async void button8_Click(object sender, EventArgs e)
         {
             if (!await VerifyMods(false))
@@ -211,7 +198,8 @@ namespace OperationsLauncherServer
         private void changePathToArma3ServerMods_button_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
-            chosenFolder.Description = "Select server mods folder.";
+            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.Description = "Select repo folder.";
             chosenFolder.SelectedPath = pathToMods_textBox.Text;
 
             if (chosenFolder.ShowDialog().Value)
@@ -257,6 +245,7 @@ namespace OperationsLauncherServer
         private void changeServerProfiles_button_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
+            chosenFolder.UseDescriptionForTitle = true;
             chosenFolder.Description = "Select profiles folder.";
             chosenFolder.SelectedPath = Path.GetDirectoryName(pathToArma3_textBox.Text) + @"\";
 
@@ -361,6 +350,21 @@ namespace OperationsLauncherServer
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/rebelvg/OperationsLauncher");
+        }
+
+        private void steamWorkshopFolderFindButton_Click(object sender, EventArgs e)
+        {
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
+            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.Description = "Select !Workshop folder.";
+            chosenFolder.SelectedPath = steamWorkshopFolderTextBox.Text;
+
+            if (chosenFolder.ShowDialog().Value)
+            {
+                steamWorkshopFolderTextBox.Text = chosenFolder.SelectedPath;
+
+                refreshServer_button_Click(null, null);
+            }
         }
     }
 }

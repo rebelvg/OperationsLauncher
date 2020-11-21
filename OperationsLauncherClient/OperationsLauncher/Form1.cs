@@ -138,12 +138,12 @@ namespace OperationsLauncher
 
             if (joinTheServer_checkBox.Checked)
             {
-                if (server != "")
+                if (repoConfigJson.serverHost != "")
                 {
-                    modLine = modLine + " -connect=" + server;
+                    modLine = modLine + " -connect=" + repoConfigJson.serverHost;
 
-                    if (password != "")
-                        modLine = modLine + " -password=" + password;
+                    if (repoConfigJson.serverPassword != "")
+                        modLine = modLine + " -password=" + repoConfigJson.serverPassword;
                 }
             }
 
@@ -209,7 +209,8 @@ namespace OperationsLauncher
         private void button4_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
-            chosenFolder.Description = "Select client mods folder.";
+            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.Description = "Select repo folder.";
             chosenFolder.SelectedPath = pathToMods_textBox.Text;
 
             if (chosenFolder.ShowDialog().Value)
@@ -297,6 +298,7 @@ namespace OperationsLauncher
         private void changePathToTeamSpeakFolder_button_Click(object sender, EventArgs e)
         {
             VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
+            chosenFolder.UseDescriptionForTitle = true;
             chosenFolder.Description = "Select teamspeak folder.";
             chosenFolder.UseDescriptionForTitle = true;
 
@@ -323,6 +325,21 @@ namespace OperationsLauncher
                 launch_button.Enabled = false;
             else
                 launch_button.Enabled = true;
+        }
+
+        private void steamWorkshopFolderFindButton_Click(object sender, EventArgs e)
+        {
+            VistaFolderBrowserDialog chosenFolder = new VistaFolderBrowserDialog();
+            chosenFolder.UseDescriptionForTitle = true;
+            chosenFolder.Description = "Select !Workshop folder.";
+            chosenFolder.SelectedPath = steamWorkshopFolderTextBox.Text;
+
+            if (chosenFolder.ShowDialog().Value)
+            {
+                steamWorkshopFolderTextBox.Text = chosenFolder.SelectedPath;
+
+                refreshClient_button_Click(null, null);
+            }
         }
     }
 }

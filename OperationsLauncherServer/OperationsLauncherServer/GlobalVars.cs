@@ -19,7 +19,5 @@ namespace OperationsLauncherServer
     public partial class Form1 : Form
     {
         string launcherVersion = "0.4.3";
-
-        List<string> presetModsList = new List<string>();
     }
 }

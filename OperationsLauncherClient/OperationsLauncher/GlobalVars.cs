@@ -20,11 +20,6 @@ namespace OperationsLauncher
     {
         string launcherVersion = "0.4.3";
 
-        List<string> presetModsList = new List<string>();
-
-        string server = "";
-        string password = "";
-
         bool debugMode;
     }
 }

@@ -418,7 +418,7 @@ namespace OperationsUploader
                     client.Headers.Add("auth", password_textBox.Text);
                     client.Headers.Add("filename", missionName);
 
-                    client.UploadData(new Uri(presetFile.missions_link), mission);
+                    client.UploadData(new Uri(presetFile.missionsLink), mission);
                 }
 
                 MessageBox.Show("Upload Done!");
@@ -443,7 +443,7 @@ namespace OperationsUploader
 
         public struct LauncherConfigJson
         {
-            public string missions_link;
+            public string missionsLink;
         }
 
         public class OperationsUploaderSettingsJson
