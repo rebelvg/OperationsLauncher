@@ -29,6 +29,11 @@ namespace SharedNamespace
         public List<LauncherConfigJsonFile> steamFiles;
     }
 
+    interface IMissionResponse {
+        string file { get; }
+        string hash { get; }
+    }
+
     class CustomReadStream : Stream
     {
         Stream inner;

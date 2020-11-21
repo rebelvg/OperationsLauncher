@@ -380,19 +380,19 @@ namespace OperationsLauncherServer
 
                         string response = client.DownloadString(repoConfigJson.missionsLink);
 
-                        List<dynamic> missions = JsonConvert.DeserializeObject<List<dynamic>>(response);
+                        var missions = JsonConvert.DeserializeObject<List<IMissionResponse>>(response);
 
-                        foreach (dynamic mission in missions)
+                        foreach (var mission in missions)
                         {
-                            string missionPath = Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + (string)mission["file"];
+                            string missionPath = Path.GetDirectoryName(pathToArma3_textBox.Text) + "/mpmissions/" + mission.file;
 
-                            if (!File.Exists(missionPath) || Shared.GetMD5(missionPath, true) != (string)mission["hash"])
+                            if (!File.Exists(missionPath) || Shared.GetMD5(missionPath, true) != mission.hash)
                             {
                                 using (client = new WebClient())
                                 {
                                     try
                                     {
-                                        client.DownloadFile(repoConfigJson.missionsLink + "/" + (string)mission["file"], missionPath);
+                                        client.DownloadFile(repoConfigJson.missionsLink + "/" + mission.file, missionPath);
 
                                     }
                                     catch (Exception error)
