@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Xml;
 using System.Xml.Serialization;
 using Ookii.Dialogs.Wpf;
+using SharedNamespace;
 
 namespace OperationsUploader
 {
@@ -439,11 +440,6 @@ namespace OperationsUploader
             }
 
             return true;
-        }
-
-        public struct LauncherConfigJson
-        {
-            public string missionsLink;
         }
 
         public class OperationsUploaderSettingsJson

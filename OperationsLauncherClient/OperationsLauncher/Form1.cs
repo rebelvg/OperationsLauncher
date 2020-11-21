@@ -280,8 +280,6 @@ namespace OperationsLauncher
 
         private async void refreshClient_button_Click(object sender, EventArgs e)
         {
-            CheckSyncFolderSize();
-
             await VerifyMods(false);
         }
 

@@ -319,8 +319,6 @@ namespace OperationsLauncherServer
 
         private async void refreshServer_button_Click(object sender, EventArgs e)
         {
-            CheckSyncFolderSize();
-
             await VerifyMods(false);
         }
 

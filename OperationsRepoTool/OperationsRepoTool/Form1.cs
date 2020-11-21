@@ -75,11 +75,6 @@ namespace OperationsRepoTool
             }
         }
 
-        public class OperationsLauncherXmlSettings
-        {
-            public string modListLink = Directory.GetCurrentDirectory() + "\\OperationsRepoToolConfig.json";
-        }
-
         private void button9_Click(object sender, EventArgs e)
         {
             CompareFolders();

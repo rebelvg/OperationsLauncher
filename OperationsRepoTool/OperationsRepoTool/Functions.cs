@@ -14,64 +14,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 using System.Security.Cryptography;
-
-class CustomReadStream : Stream
-{
-    Stream inner;
-    int maxBytes;
-    int bytesRead = 0;
-
-    public CustomReadStream(Stream inner, int maxBytes)
-    {
-        this.inner = inner;
-        this.maxBytes = maxBytes;
-    }
-
-    public override bool CanRead => inner.CanRead;
-
-    public override bool CanSeek => inner.CanSeek;
-
-    public override bool CanWrite => inner.CanWrite;
-
-    public override long Length => inner.Length;
-
-    public override long Position { get => inner.Position; set => inner.Position = value; }
-
-    public override void Flush()
-    {
-        inner.Flush();
-    }
-
-    public override int Read(byte[] buffer, int offset, int count)
-    {
-        var result = inner.Read(buffer, offset, count);
-
-        if (this.bytesRead > this.maxBytes)
-        {
-            return 0;
-        }
-
-        this.bytesRead += count;
-
-
-        return result;
-    }
-
-    public override long Seek(long offset, SeekOrigin origin)
-    {
-        return inner.Seek(offset, origin);
-    }
-
-    public override void SetLength(long value)
-    {
-        inner.SetLength(value);
-    }
-
-    public override void Write(byte[] buffer, int offset, int count)
-    {
-        inner.Write(buffer, offset, count);
-    }
-}
+using SharedNamespace;
 
 namespace OperationsRepoTool
 {
@@ -354,36 +297,6 @@ namespace OperationsRepoTool
             }
         }
 
-        public string GetMD5FromPath(string filename, bool getFullHash)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filename))
-                {
-                    if (getFullHash)
-                    {
-                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
-                    }
-
-                    long fileSize = new FileInfo(filename).Length;
-
-                    var shortStream = new CustomReadStream(stream, Convert.ToInt32(fileSize * 0.1));
-
-                    return BitConverter.ToString(md5.ComputeHash(shortStream)).Replace("-", "").ToLower();
-                }
-            }
-        }
-
-        public string GetMD5FromBuffer(string text)
-        {
-            using (var md5 = MD5.Create())
-            {
-                byte[] inputBytes = System.Text.Encoding.Default.GetBytes(text);
-
-                return BitConverter.ToString(md5.ComputeHash(inputBytes)).Replace("-", "").ToLower();
-            }
-        }
-
         public void SaveLauncherFiles(string json_new)
         {
             try
@@ -401,36 +314,14 @@ namespace OperationsRepoTool
             }
         }
 
-        public struct LauncherConfigJson
-        {
-            public string serverHost;
-            public string serverPassword;
-            public string verifyLink;
-            public string missionsLink;
-            public string[] mods;
-            public string[] steamMods;
-            public List<LauncherConfigJsonFile> files;
-            public List<LauncherConfigJsonFile> steamFiles;
-        }
-
-        public List<string> GetFolderFilesToHash(string folderToParse, string[] modsList) {
-            List<string> folderFiles = Directory.GetFiles(folderToParse, "*", SearchOption.AllDirectories).ToList();
-
-            folderFiles = folderFiles.Select(a => a.Replace(folderToParse, "")).Select(b => b.ToLower()).ToList();
-
-            folderFiles = folderFiles.Where(a => modsList.Any(b => a.StartsWith("\\" + b.ToLower() + "\\"))).Where(c => c.EndsWith(".pbo") || c.EndsWith(".dll")).ToList();
-
-            return folderFiles;
-        }
-
         public async void CreateVerifyFile()
         {
             if (!ReadPresetFile())
                 return;
 
-            List<string> folderFiles = GetFolderFilesToHash(repoConfigJson.modsFolder, repoConfigJson.mods);
+            List<string> folderFiles = Shared.GetFolderFilesToHash(repoConfigJson.modsFolder, repoConfigJson.mods);
 
-            List<string> steamFolderFiles = GetFolderFilesToHash(repoConfigJson.steamModsFolder, repoConfigJson.steamMods);
+            List<string> steamFolderFiles = Shared.GetFolderFilesToHash(repoConfigJson.steamModsFolder, repoConfigJson.steamMods);
 
             LauncherConfigJson json = new LauncherConfigJson();
 
@@ -465,22 +356,9 @@ namespace OperationsRepoTool
 
             string json_new = JsonConvert.SerializeObject(json, Formatting.Indented);
 
-            SetLauncherFiles(GetMD5FromBuffer(json_new));
+            SetLauncherFiles(Shared.GetMD5FromBuffer(json_new));
 
             SaveLauncherFiles(json_new);
-        }
-
-        public struct LauncherConfigJsonFile
-        {
-            public string filePath;
-            public long size;
-            public string date;
-            public string md5;
-        }
-
-        public Int32 GetUnixTime(DateTime date)
-        {
-            return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
 
         public List<LauncherConfigJsonFile> ProcessFilesList(string baseFolder, List<string> filesList, List<LauncherConfigJsonFile> oldFilesConfig) {
@@ -508,20 +386,20 @@ namespace OperationsRepoTool
 
                         data.filePath = X;
                         data.size = file.Length;
-                        data.date = GetUnixTime(file.LastWriteTimeUtc).ToString();
+                        data.date = Shared.GetUnixTime(file.LastWriteTimeUtc).ToString();
 
                         try
                         {
                             var fileObj = oldFilesConfig.First(x => x.filePath == X);
 
-                            if (fileObj.date == GetUnixTime(file.LastWriteTimeUtc).ToString())
+                            if (fileObj.date == Shared.GetUnixTime(file.LastWriteTimeUtc).ToString())
                                 data.md5 = fileObj.md5;
                             else
                                 throw new Exception("need_to_refresh_md5");
                         }
                         catch
                         {
-                            data.md5 = GetMD5FromPath(baseFolder + X, false);
+                            data.md5 = Shared.GetMD5(baseFolder + X, false);
                         }
 
                         files.Add(data);
