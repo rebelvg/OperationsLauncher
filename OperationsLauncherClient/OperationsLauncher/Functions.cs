@@ -82,7 +82,7 @@ namespace OperationsLauncher
         {
             public string pathToArma3Exe = Directory.GetCurrentDirectory() + "\\arma3_x64.exe";
             public string pathToArma3Mods = Directory.GetCurrentDirectory();
-            public string pathToSteamWorkshopFolder = Directory.GetCurrentDirectory();
+            public string pathToSteamWorkshopFolder = Directory.GetCurrentDirectory() + "\\!Workshop";
             public bool joinTheServer = false;
             public string[] customMods = new string[0];
             public string[] checkedCustomMods = new string[0];

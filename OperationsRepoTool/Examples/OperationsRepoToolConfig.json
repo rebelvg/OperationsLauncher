@@ -7,6 +7,6 @@
   "mods": ["@cba", "@ace"],
   "steamMods": ["@acre"],
   "modsFolder": "D:\\Arma 3 Repo",
-  "steamModsFolder": "",
+  "steamModsFolder": "D:\\Arma 3\\!Workshop",
   "syncFolder": ""
 }
