@@ -195,9 +195,7 @@ namespace OperationsLauncher
 
             string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
-            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
-
-            if (!await Task.Run(() => CheckLauncherFiles(json.verifyLink, GetMD5(operationsLauncherFilesPath, true))))
+            if (!await Task.Run(() => CheckLauncherFiles(repoConfigJson.verifyLink, GetMD5(operationsLauncherFilesPath, true))))
                 return false;
 
             List<string> folderFiles = GetFolderFilesToHash(pathToMods_textBox.Text, repoConfigJson.mods);
@@ -219,7 +217,7 @@ namespace OperationsLauncher
                 modsFiles_listView.Items.Add(X);
             }
 
-            foreach (LauncherConfigJsonFile X in json.files.Concat(json.steamFiles))
+            foreach (LauncherConfigJsonFile X in repoConfigJson.files.Concat(repoConfigJson.steamFiles))
             {
                 long size = X.size;
                 string date = X.date;
@@ -559,7 +557,7 @@ namespace OperationsLauncher
         {
             Invoke(new Action(() =>
             {
-                Text = text;
+                this.Text = text;
             }));
         }
     }

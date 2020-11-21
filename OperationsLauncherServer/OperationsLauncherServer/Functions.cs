@@ -206,15 +206,6 @@ namespace OperationsLauncherServer
             return true;
         }
 
-        public dynamic ReturnPresetFile()
-        {
-            string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
-
-            dynamic json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(operationsLauncherFilesPath));
-
-            return json;
-        }
-
         public void RefreshPresetModsList(bool btSyncFolderHasSyncFile)
         {
             SetColorOnText(pathToArma3_textBox);
@@ -288,11 +279,6 @@ namespace OperationsLauncherServer
             header.Width = -2;
         }
 
-        public Int32 GetUnixTime(DateTime date)
-        {
-            return (Int32)(date.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-        }
-
         public List<string> GetFolderFilesToHash(string folderToParse, string[] modsList)
         {
             List<string> folderFiles = Directory.GetFiles(folderToParse, "*", SearchOption.AllDirectories).ToList();
@@ -311,9 +297,7 @@ namespace OperationsLauncherServer
 
             string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
-            LauncherConfigJson json = JsonConvert.DeserializeObject<LauncherConfigJson>(File.ReadAllText(operationsLauncherFilesPath));
-
-            if (!await Task.Run(() => CheckLauncherFiles(json.verifyLink, GetMD5(operationsLauncherFilesPath, true))))
+            if (!await Task.Run(() => CheckLauncherFiles(repoConfigJson.verifyLink, GetMD5(operationsLauncherFilesPath, true))))
                 return false;
 
             List<string> folderFiles = GetFolderFilesToHash(pathToMods_textBox.Text, repoConfigJson.mods);
@@ -335,7 +319,7 @@ namespace OperationsLauncherServer
                 modsFiles_listView.Items.Add(X);
             }
 
-            foreach (LauncherConfigJsonFile X in json.files.Concat(json.steamFiles))
+            foreach (LauncherConfigJsonFile X in repoConfigJson.files.Concat(repoConfigJson.steamFiles))
             {
                 long size = X.size;
                 string date = X.date;
@@ -511,16 +495,7 @@ namespace OperationsLauncherServer
                     return BitConverter.ToString(md5.ComputeHash(shortStream)).Replace("-", "").ToLower();
                 }
             }
-        }
-
-        public void LockInterface(string text)
-        {
-            Invoke(new Action(() =>
-            {
-                tabControl1.Enabled = false;
-                ChangeHeader(text);
-            }));
-        }
+        }        
 
         public void DownloadMissions()
         {
@@ -530,11 +505,9 @@ namespace OperationsLauncherServer
                 {
                     try
                     {
-                        dynamic presetFile = ReturnPresetFile();
-
                         WebClient client = new WebClient();
 
-                        string response = client.DownloadString((string)presetFile["missions_link"]);
+                        string response = client.DownloadString(repoConfigJson.missionsLink);
 
                         List<dynamic> missions = JsonConvert.DeserializeObject<List<dynamic>>(response);
 
@@ -548,7 +521,7 @@ namespace OperationsLauncherServer
                                 {
                                     try
                                     {
-                                        client.DownloadFile((string)presetFile["missions_link"] + "/" + (string)mission["file"], missionPath);
+                                        client.DownloadFile(repoConfigJson.missionsLink + "/" + (string)mission["file"], missionPath);
 
                                     }
                                     catch (Exception error)
@@ -572,6 +545,15 @@ namespace OperationsLauncherServer
             thread.Start();
         }
 
+        public void LockInterface(string text)
+        {
+            Invoke(new Action(() =>
+            {
+                tabControl1.Enabled = false;
+                ChangeHeader(text);
+            }));
+        }
+
         public void UnlockInterface()
         {
             Invoke(new Action(() =>
@@ -585,7 +567,7 @@ namespace OperationsLauncherServer
         {
             Invoke(new Action(() =>
             {
-                Text = text;
+                this.Text = text;
             }));
         }
     }
