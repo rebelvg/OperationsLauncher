@@ -75,8 +75,6 @@ namespace OperationsLauncherServer
                 MessageBox.Show("Launcher crashed while initializing. Try running it as administrator.\n\n" + e.Message);
                 System.Environment.Exit(1);
             }
-
-            DownloadMissions();
         }
 
         private async void button8_Click(object sender, EventArgs e)
@@ -310,6 +308,8 @@ namespace OperationsLauncherServer
         private void Form1_Shown(object sender, EventArgs e)
         {
             refreshServer_button_Click(null, null);
+
+            DownloadMissions();
         }
 
         private async void createVerifyFile_button_Click(object sender, EventArgs e)
