@@ -29,6 +29,20 @@ namespace SharedNamespace
         public List<LauncherConfigJsonFile> steamFiles = new List<LauncherConfigJsonFile>();
     }
 
+    public struct RepoConfigJson
+    {
+        public string serverHost;
+        public string serverPassword;
+        public string verifyLink;
+        public string verifyPassword;
+        public string missionsLink;
+        public string[] mods;
+        public string[] steamMods;
+        public string modsFolder;
+        public string steamModsFolder;
+        public string syncFolder;
+    }
+
     interface IMissionResponse {
         string file { get; }
         string hash { get; }

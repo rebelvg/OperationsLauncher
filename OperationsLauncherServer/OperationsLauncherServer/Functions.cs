@@ -163,7 +163,12 @@ namespace OperationsLauncherServer
         {
             list.Items.Clear();
 
-            foreach (string X in repoConfigJson.mods.Concat(repoConfigJson.steamMods))
+            foreach (string X in repoConfigJson.mods)
+            {
+                list.Items.Add(X);
+            }
+
+            foreach (string X in repoConfigJson.steamMods)
             {
                 list.Items.Add(X);
             }

@@ -266,8 +266,6 @@ namespace OperationsLauncher
             var clientFiles = ProcessFilesList(pathToMods_textBox.Text, folderFiles, fullVerify);
             var steamClientFiles = ProcessFilesList(steamWorkshopFolderTextBox.Text, steamFolderFiles, fullVerify);
 
-            UnlockInterface();
-
             return clientFiles.Concat(steamClientFiles);
         }
 
@@ -339,7 +337,12 @@ namespace OperationsLauncher
         {
             list.Items.Clear();
 
-            foreach (string X in repoConfigJson.mods.Concat(repoConfigJson.steamMods))
+            foreach (string X in repoConfigJson.mods)
+            {
+                list.Items.Add(X);
+            }
+
+            foreach (string X in repoConfigJson.steamMods)
             {
                 list.Items.Add(X);
             }

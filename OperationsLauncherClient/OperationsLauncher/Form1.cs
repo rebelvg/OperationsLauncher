@@ -124,9 +124,14 @@ namespace OperationsLauncher
 
             modLine = modLine + " \"-mod=";
 
-            foreach (ListViewItem X in presetMods_listView.Items)
+            foreach (string X in repoConfigJson.mods)
             {
-                modLine = modLine + pathToMods_textBox.Text + "\\" + X.Text + ";";
+                modLine = modLine + pathToMods_textBox.Text + "\\" + X + ";";
+            }
+
+            foreach (string X in repoConfigJson.steamMods)
+            {
+                modLine = modLine + steamWorkshopFolderTextBox.Text + "\\" + X + ";";
             }
 
             foreach (ListViewItem X in customMods_listView.CheckedItems)

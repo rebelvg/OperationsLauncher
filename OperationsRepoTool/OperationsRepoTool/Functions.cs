@@ -66,21 +66,7 @@ namespace OperationsRepoTool
             {
                 MessageBox.Show("Saving settings failed. " + error.Message);
             }
-        }
-
-        public struct RepoConfigJson
-        {
-            public string serverHost;
-            public string serverPassword;
-            public string verifyLink;
-            public string verifyPassword;
-            public string missionsLink;
-            public string[] mods;
-            public string[] steamMods;
-            public string modsFolder;
-            public string steamModsFolder;
-            public string syncFolder;
-        }
+        }        
 
         public bool ReadPresetFile()
         {
@@ -111,8 +97,9 @@ namespace OperationsRepoTool
 
         public bool SetLauncherFiles(string localJsonMD5)
         {
-            if (string.IsNullOrEmpty(repoConfigJson.verifyLink))
+            if (string.IsNullOrEmpty(repoConfigJson.verifyLink)) {
                 return true;
+            }               
 
             try
             {
@@ -156,7 +143,6 @@ namespace OperationsRepoTool
             {
                 list.Items.Add(X);
             }
-
 
             foreach (string X in repoConfigJson.steamMods)
             {
@@ -205,8 +191,9 @@ namespace OperationsRepoTool
                 return false;
             }
 
-            if (!ReadPresetFile())
+            if (!ReadPresetFile()) {
                 return false;
+            }                
 
             List<string> folder_clientFilesList = Directory.GetFiles(repoConfigJson.modsFolder, "*", SearchOption.AllDirectories).ToList();
 
@@ -274,8 +261,9 @@ namespace OperationsRepoTool
             compareClientMods_textBox.Text = "Mods Folder (" + compareClientFiles_listView.Items.Count + " files / " + compareMissingFiles_listView.Items.Count + " missing)";
             compareServerMods_textBox.Text = "Sync Folder (" + compareServerFiles_listView.Items.Count + " files / " + compareExcessFiles_listView.Items.Count + " excess)";
 
-            if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0)
+            if (compareMissingFiles_listView.Items.Count != 0 || compareExcessFiles_listView.Items.Count != 0) {
                 return false;
+            }                
 
             return true;
         }
@@ -316,12 +304,28 @@ namespace OperationsRepoTool
 
         public async void CreateVerifyFile()
         {
-            if (!ReadPresetFile())
+            if (!ReadPresetFile()) {
                 return;
+            }
 
-            List<string> folderFiles = Shared.GetFolderFilesToHash(repoConfigJson.modsFolder, repoConfigJson.mods);
+            LockInterface("Building Verify File...");
 
-            List<string> steamFolderFiles = Shared.GetFolderFilesToHash(repoConfigJson.steamModsFolder, repoConfigJson.steamMods);
+            List<string> folderFiles;
+
+            List<string> steamFolderFiles;
+
+            try {
+                folderFiles = Shared.GetFolderFilesToHash(repoConfigJson.modsFolder, repoConfigJson.mods);
+
+                steamFolderFiles = Shared.GetFolderFilesToHash(repoConfigJson.steamModsFolder, repoConfigJson.steamMods);
+            }
+            catch (Exception error) {
+                MessageBox.Show(error.Message);
+
+                UnlockInterface();
+
+                return;
+            }            
 
             LauncherConfigJson json = new LauncherConfigJson();
 
@@ -359,6 +363,8 @@ namespace OperationsRepoTool
             SetLauncherFiles(Shared.GetMD5FromBuffer(json_new));
 
             SaveLauncherFiles(json_new);
+
+            UnlockInterface();
         }
 
         public List<LauncherConfigJsonFile> ProcessFilesList(string baseFolder, List<string> filesList, List<LauncherConfigJsonFile> oldFilesConfig) {
@@ -420,17 +426,15 @@ namespace OperationsRepoTool
 
         public LauncherConfigJson BuildVerifyList(List<string> folderFiles, List<string> steamFolderFiles, LauncherConfigJson json_old, LauncherConfigJson json)
         {
-            LockInterface("Building Verify File...");
-
-            progressBar1.Minimum = 0;
-            progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
-            progressBar1.Value = 0;
-            progressBar1.Step = 1;
+            Invoke(new Action(() => {
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
+                progressBar1.Value = 0;
+                progressBar1.Step = 1;
+            }));
 
             json.files = ProcessFilesList(repoConfigJson.modsFolder, folderFiles, json_old.files);
             json.steamFiles = ProcessFilesList(repoConfigJson.steamModsFolder, steamFolderFiles, json_old.steamFiles);
-
-            UnlockInterface();
 
             return json;
         }
