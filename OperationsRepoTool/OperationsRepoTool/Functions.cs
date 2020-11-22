@@ -141,25 +141,33 @@ namespace OperationsRepoTool
 
             foreach (string X in repoConfigJson.mods)
             {
-                list.Items.Add(X);
+                var listViewItem = list.Items.Add(X);
+
+                if (Directory.Exists(path + "\\" + listViewItem.Text + "\\addons"))
+                {
+                    if (listViewItem.BackColor != Color.Green)
+                        listViewItem.BackColor = Color.Green;
+                }
+                else
+                {
+                    if (listViewItem.BackColor != Color.Red)
+                        listViewItem.BackColor = Color.Red;
+                }
             }
 
             foreach (string X in repoConfigJson.steamMods)
             {
-                list.Items.Add(X);
-            }
+                var listViewItem = list.Items.Add(X);
 
-            foreach (ListViewItem X in list.Items)
-            {
-                if (Directory.Exists(path + "\\" + X.Text + "\\addons") || Directory.Exists(steamPath + "\\" + X.Text + "\\addons"))
+                if (Directory.Exists(steamPath + "\\" + listViewItem.Text + "\\addons"))
                 {
-                    if (X.BackColor != Color.Green)
-                        X.BackColor = Color.Green;
+                    if (listViewItem.BackColor != Color.Green)
+                        listViewItem.BackColor = Color.Green;
                 }
                 else
                 {
-                    if (X.BackColor != Color.Red)
-                        X.BackColor = Color.Red;
+                    if (listViewItem.BackColor != Color.Red)
+                        listViewItem.BackColor = Color.Red;
                 }
             }
         }
@@ -311,12 +319,10 @@ namespace OperationsRepoTool
             LockInterface("Building Verify File...");
 
             List<string> folderFiles;
-
             List<string> steamFolderFiles;
 
             try {
                 folderFiles = Shared.GetFolderFilesToHash(repoConfigJson.modsFolder, repoConfigJson.mods);
-
                 steamFolderFiles = Shared.GetFolderFilesToHash(repoConfigJson.steamModsFolder, repoConfigJson.steamMods);
             }
             catch (Exception error) {
@@ -338,11 +344,7 @@ namespace OperationsRepoTool
             json.files = new List<LauncherConfigJsonFile>();
             json.steamFiles = new List<LauncherConfigJsonFile>();
 
-            LauncherConfigJson json_old = new LauncherConfigJson() {
-                mods = new string[0],
-                files = new List<LauncherConfigJsonFile>(),
-                steamFiles = new List<LauncherConfigJsonFile>()
-            };
+            LauncherConfigJson json_old = new LauncherConfigJson();
 
             string operationsLauncherFilesPath = repoConfigJson.modsFolder + "\\OperationsLauncherFiles.json";
 
@@ -367,36 +369,34 @@ namespace OperationsRepoTool
             UnlockInterface();
         }
 
-        public List<LauncherConfigJsonFile> ProcessFilesList(string baseFolder, List<string> filesList, List<LauncherConfigJsonFile> oldFilesConfig) {
-            var chunkedList = new List<List<string>>();
-
-            for (int i = 0; i < filesList.Count; i += 4)
-            {
-                chunkedList.Add(filesList.GetRange(i, Math.Min(4, filesList.Count - i)));
-            }
-
-            var tasks = new List<Task>();
+        public List<LauncherConfigJsonFile> ProcessFilesList(string sourceType, string baseFolder, List<string> filesList, List<LauncherConfigJsonFile> oldFilesConfig) {
+            var chunkedList = Shared.SplitArrayIntoChunksOfLen(filesList, 4);
 
             var files = new List<LauncherConfigJsonFile>();
 
             foreach (List<string> chunkedFolderFiles in chunkedList)
             {
+                var tasks = new List<Task<LauncherConfigJsonFile>>();
+
                 foreach (string X in chunkedFolderFiles)
                 {
-                    var task = Task.Run(() => {
-                        FileInfo file = new FileInfo(baseFolder + X);
+                    FileInfo file = new FileInfo(baseFolder + X);
 
-                        ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                    ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
 
+                    var task = Task.Run(() =>
+                    {                     
                         LauncherConfigJsonFile data = new LauncherConfigJsonFile();
 
-                        data.filePath = X;
+                        var filePath = @"\" + sourceType + X;
+
+                        data.filePath = filePath;
                         data.size = file.Length;
                         data.date = Shared.GetUnixTime(file.LastWriteTimeUtc).ToString();
 
                         try
                         {
-                            var fileObj = oldFilesConfig.First(x => x.filePath == X);
+                            var fileObj = oldFilesConfig.First(x => x.filePath == filePath);
 
                             if (fileObj.date == Shared.GetUnixTime(file.LastWriteTimeUtc).ToString())
                                 data.md5 = fileObj.md5;
@@ -408,40 +408,40 @@ namespace OperationsRepoTool
                             data.md5 = Shared.GetMD5(baseFolder + X, false);
                         }
 
-                        files.Add(data);
-
-                        Invoke(new Action(() => progressBar1.PerformStep()));
-
-                        ChangeHeader("Reading... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                        return data;
                     });
 
                     tasks.Add(task);
-                }
-            }
+                }                
 
-            Task.WaitAll(tasks.ToArray());
+                Task.WaitAll(tasks.ToArray());
+
+                files.AddRange(tasks.Select(x => x.Result));
+
+                BeginInvoke(new Action(() => progressBar1.Value += tasks.Count));
+            }
 
             return files;
         }
 
         public LauncherConfigJson BuildVerifyList(List<string> folderFiles, List<string> steamFolderFiles, LauncherConfigJson json_old, LauncherConfigJson json)
         {
-            Invoke(new Action(() => {
+            BeginInvoke(new Action(() => {
                 progressBar1.Minimum = 0;
                 progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
                 progressBar1.Value = 0;
                 progressBar1.Step = 1;
             }));
 
-            json.files = ProcessFilesList(repoConfigJson.modsFolder, folderFiles, json_old.files);
-            json.steamFiles = ProcessFilesList(repoConfigJson.steamModsFolder, steamFolderFiles, json_old.steamFiles);
+            json.files = ProcessFilesList("repo", repoConfigJson.modsFolder, folderFiles, json_old.files);
+            json.steamFiles = ProcessFilesList("steam", repoConfigJson.steamModsFolder, steamFolderFiles, json_old.steamFiles);
 
             return json;
         }
 
         public void LockInterface(string text)
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
                 tabControl1.Enabled = false;
                 ChangeHeader(text);
@@ -450,7 +450,7 @@ namespace OperationsRepoTool
 
         public void UnlockInterface()
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
                 tabControl1.Enabled = true;
                 ChangeHeader("Operations Repo Tool");
@@ -459,9 +459,9 @@ namespace OperationsRepoTool
 
         public void ChangeHeader(string text)
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
-                Text = text;
+                this.Text = text;
             }));
         }
     }

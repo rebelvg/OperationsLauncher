@@ -34,6 +34,7 @@ namespace OperationsLauncherServer
             public string serverProfiles = "";
             public string serverProfileName = "";
             public bool hideServerWindow = false;
+            public bool removeNoLogs = false;
         }
 
         public void ReadXmlFile()
@@ -65,6 +66,10 @@ namespace OperationsLauncherServer
                     {
                         X.Checked = true;
                     }
+                }
+
+                if (LauncherSettingsJson.removeNoLogs) {
+                    defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text.Replace(" -nologs", "");
                 }
             }
             catch (Exception error)
@@ -98,6 +103,7 @@ namespace OperationsLauncherServer
                 LauncherSettingsJson.serverProfiles = serverProfiles_textBox.Text;
                 LauncherSettingsJson.serverProfileName = serverProfileName_textBox.Text;
                 LauncherSettingsJson.hideServerWindow = hideWindow_checkBox.Checked;
+                LauncherSettingsJson.removeNoLogs = !defaultStartLineServer_textBox.Text.Contains("-nologs");
 
                 string json = JsonConvert.SerializeObject(LauncherSettingsJson, Formatting.Indented);
 
@@ -138,7 +144,7 @@ namespace OperationsLauncherServer
             SetColorOnText(serverCfg_textBox);
             SetColorOnText(serverProfiles_textBox);
 
-            SetColorOnPresetList(presetMods_listView, pathToMods_textBox.Text, "");
+            SetColorOnPresetList(presetMods_listView, pathToMods_textBox.Text, steamWorkshopFolderTextBox.Text);
 
             SetColorOnCustomList(customMods_listView, columnHeader9);
         }
@@ -165,25 +171,33 @@ namespace OperationsLauncherServer
 
             foreach (string X in repoConfigJson.mods)
             {
-                list.Items.Add(X);
+                var listViewItem = list.Items.Add(X);
+
+                if (Directory.Exists(path + "\\" + listViewItem.Text + "\\addons"))
+                {
+                    if (listViewItem.BackColor != Color.Green)
+                        listViewItem.BackColor = Color.Green;
+                }
+                else
+                {
+                    if (listViewItem.BackColor != Color.Red)
+                        listViewItem.BackColor = Color.Red;
+                }
             }
 
             foreach (string X in repoConfigJson.steamMods)
             {
-                list.Items.Add(X);
-            }
+                var listViewItem = list.Items.Add(X);
 
-            foreach (ListViewItem X in list.Items)
-            {
-                if (Directory.Exists(path + "\\" + X.Text + "\\addons") || Directory.Exists(steamPath + "\\" + X.Text + "\\addons"))
+                if (Directory.Exists(steamPath + "\\" + listViewItem.Text + "\\addons"))
                 {
-                    if (X.BackColor != Color.Green)
-                        X.BackColor = Color.Green;
+                    if (listViewItem.BackColor != Color.Green)
+                        listViewItem.BackColor = Color.Green;
                 }
                 else
                 {
-                    if (X.BackColor != Color.Red)
-                        X.BackColor = Color.Red;
+                    if (listViewItem.BackColor != Color.Red)
+                        listViewItem.BackColor = Color.Red;
                 }
             }
         }
@@ -226,13 +240,11 @@ namespace OperationsLauncherServer
             }
 
             List<string> folderFiles;
-
             List<string> steamFolderFiles;
 
             try
             {
                 folderFiles = Shared.GetFolderFilesToHash(pathToMods_textBox.Text, repoConfigJson.mods);
-
                 steamFolderFiles = Shared.GetFolderFilesToHash(steamWorkshopFolderTextBox.Text, repoConfigJson.steamMods);
             }
             catch (Exception error)
@@ -260,25 +272,17 @@ namespace OperationsLauncherServer
 
             launcherFiles_listView.BeginUpdate();
 
-            foreach (LauncherConfigJsonFile X in repoConfigJson.files.Concat(repoConfigJson.steamFiles))
-            {
-                long size = X.size;
-                string date = X.date;
-                string md5 = X.md5;
+            List<string> allRepoFiles = repoConfigJson.files.Concat(repoConfigJson.steamFiles).Select(x => !fullVerify ? x.filePath + ":" + x.size : x.filePath + ":" + x.md5).ToList();
 
-                if (!fullVerify)
-                    launcherFiles_listView.Items.Add(X.filePath + ":" + size);
-                else
-                    launcherFiles_listView.Items.Add(X.filePath + ":" + md5);
+            foreach (string X in allRepoFiles)
+            {
+                launcherFiles_listView.Items.Add(X);
             }
 
             launcherFiles_listView.EndUpdate();
 
-            List<string> allRepoFiles = repoConfigJson.files.Concat(repoConfigJson.steamFiles).Select(x => x.filePath).ToList();
-            List<string> allLocalFiles = folderFiles.Concat(steamFolderFiles).ToList();
-
-            List<string> missingFilesList = allRepoFiles.Where(x => !allLocalFiles.Contains(x)).ToList();
-            List<string> excessFilesList = allLocalFiles.Where(x => !allRepoFiles.Contains(x)).ToList();
+            List<string> missingFilesList = allRepoFiles.Where(x => !clientFiles.Contains(x)).ToList();
+            List<string> excessFilesList = clientFiles.Where(x => !allRepoFiles.Contains(x)).ToList();
 
             missingFiles_listView.Items.Clear();
             excessFiles_listView.Items.Clear();
@@ -313,58 +317,56 @@ namespace OperationsLauncherServer
             return true;
         }
 
-        public List<string> ProcessFilesList(string baseFolder, List<string> filesList, bool fullVerify)
+        public List<string> ProcessFilesList(string sourceType, string baseFolder, List<string> filesList, bool fullVerify)
         {
-            var chunkedList = new List<List<string>>();
-
-            for (int i = 0; i < filesList.Count; i += 4)
-            {
-                chunkedList.Add(filesList.GetRange(i, Math.Min(4, filesList.Count - i)));
-            }
-
-            var tasks = new List<Task>();
+            var chunkedList = Shared.SplitArrayIntoChunksOfLen(filesList, 4);
 
             List<string> clientFiles = new List<string>();
 
             foreach (List<string> chunkedFolderFiles in chunkedList)
             {
-                var task = Task.Run(() => {
-                    foreach (string X in chunkedFolderFiles)
-                    {
-                        FileInfo file = new FileInfo(baseFolder + X);
+                var tasks = new List<Task<string>>();
 
-                        ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+                foreach (string X in chunkedFolderFiles)
+                {
+                    FileInfo file = new FileInfo(baseFolder + X);
+
+                    ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
+
+                    var task = Task.Run(() =>
+                    {
+                        var filePath = @"\" + sourceType + X;
 
                         if (!fullVerify)
-                            clientFiles.Add(X + ":" + file.Length);
+                            return filePath + ":" + file.Length;
                         else
-                            clientFiles.Add(X + ":" + Shared.GetMD5(baseFolder + X, false));
+                            return filePath + ":" + Shared.GetMD5(baseFolder + X, false);
+                    });
 
-                        Invoke(new Action(() => progressBar1.PerformStep()));
+                    tasks.Add(task);
+                }                
 
-                        ChangeHeader("Verifying... (" + progressBar1.Value + "/" + progressBar1.Maximum + ") - " + file.Name + "/" + file.Length / 1024 / 1024 + "mb");
-                    }
-                });
+                Task.WaitAll(tasks.ToArray());
 
-                tasks.Add(task);
+                clientFiles.AddRange(tasks.Select(x => x.Result));
+
+                BeginInvoke(new Action(() => progressBar1.Value += tasks.Count));
             }
-
-            Task.WaitAll(tasks.ToArray());
 
             return clientFiles;
         }
 
         public IEnumerable<string> GetVerifyList(List<string> folderFiles, List<string> steamFolderFiles, bool fullVerify)
         {
-            Invoke(new Action(() => {
+            BeginInvoke(new Action(() => {
                 progressBar1.Minimum = 0;
                 progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
                 progressBar1.Value = 0;
                 progressBar1.Step = 1;
             }));
 
-            var clientFiles = ProcessFilesList(pathToMods_textBox.Text, folderFiles, fullVerify);
-            var steamClientFiles = ProcessFilesList(steamWorkshopFolderTextBox.Text, steamFolderFiles, fullVerify);
+            var clientFiles = ProcessFilesList("repo", pathToMods_textBox.Text, folderFiles, fullVerify);
+            var steamClientFiles = ProcessFilesList("steam", steamWorkshopFolderTextBox.Text, steamFolderFiles, fullVerify);
 
             return clientFiles.Concat(steamClientFiles);
         }
@@ -417,7 +419,7 @@ namespace OperationsLauncherServer
 
                         string response = client.DownloadString(repoConfigJson.missionsLink);
 
-                        var missions = JsonConvert.DeserializeObject<List<IMissionResponse>>(response);
+                        var missions = JsonConvert.DeserializeObject<IMissionResponse[]>(response);
 
                         foreach (var mission in missions)
                         {
@@ -455,7 +457,7 @@ namespace OperationsLauncherServer
 
         public void LockInterface(string text)
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
                 tabControl1.Enabled = false;
                 ChangeHeader(text);
@@ -464,7 +466,7 @@ namespace OperationsLauncherServer
 
         public void UnlockInterface()
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
                 tabControl1.Enabled = true;
                 ChangeHeader("Operations Launcher Server");
@@ -473,7 +475,7 @@ namespace OperationsLauncherServer
 
         public void ChangeHeader(string text)
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
                 this.Text = text;
             }));
@@ -481,7 +483,7 @@ namespace OperationsLauncherServer
 
         public void ResetHeader()
         {
-            Invoke(new Action(() =>
+            BeginInvoke(new Action(() =>
             {
                 ChangeHeader("Operations Launcher");
             }));

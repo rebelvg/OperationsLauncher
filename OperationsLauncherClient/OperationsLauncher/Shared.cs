@@ -43,9 +43,9 @@ namespace SharedNamespace
         public string syncFolder;
     }
 
-    interface IMissionResponse {
-        string file { get; }
-        string hash { get; }
+    public class IMissionResponse {
+        public string file;
+        public string hash;
     }
 
     class CustomReadStream : Stream
@@ -175,6 +175,18 @@ namespace SharedNamespace
                     System.Diagnostics.Process.Start(archivePath);
                 }
             }
+        }
+
+        public static List<List<string>> SplitArrayIntoChunksOfLen(List<string> list, int chunkSize)
+        {
+            List<List<string>> chunks = new List<List<string>>();
+
+            for (int i = 0; i < list.Count; i += chunkSize)
+            {
+                chunks.Add(list.GetRange(i, Math.Min(chunkSize, list.Count - i)));
+            }
+
+            return chunks;
         }
     }
 }

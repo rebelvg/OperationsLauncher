@@ -22,6 +22,8 @@ namespace OperationsLauncher
         {
             InitializeComponent();
 
+            label3.Text = "Version " + launcherVersion;
+
             string[] args = Environment.GetCommandLineArgs();
 
             if (!args.Contains("--debug"))
@@ -78,8 +80,6 @@ namespace OperationsLauncher
                         MessageBox.Show("Saving settings failed. " + error.Message);
                     }
                 }
-
-                label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {
@@ -269,8 +269,8 @@ namespace OperationsLauncher
         {
             if (defaultStartLine_textBox.Text.Contains("-nologs"))
             {
-                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace(" -nologs", "");
                 defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Replace("-nologs", "");
+                defaultStartLine_textBox.Text = defaultStartLine_textBox.Text.Trim();
             }
             else
             {

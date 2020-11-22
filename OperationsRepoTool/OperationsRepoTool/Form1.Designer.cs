@@ -56,6 +56,8 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.compareClientFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -77,6 +79,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.linkLabel4);
+            this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.createVerifyFile_button);
             this.tabPage3.Controls.Add(this.changeRepoConfigPath_button);
             this.tabPage3.Controls.Add(this.label4);
@@ -341,6 +345,26 @@
             this.columnHeader13.Text = "Files (Path:Size)";
             this.columnHeader13.Width = 503;
             // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.Location = new System.Drawing.Point(3, 671);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(40, 13);
+            this.linkLabel4.TabIndex = 64;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "GitHub";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 692);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.TabIndex = 63;
+            this.label3.Text = "Version 0.0.0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,5 +417,7 @@
         private System.Windows.Forms.Button changeRepoConfigPath_button;
         private System.Windows.Forms.Button createVerifyFile_button;
         private System.Windows.Forms.Button createVerifyFile_button2;
+        private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.Label label3;
     }
 }

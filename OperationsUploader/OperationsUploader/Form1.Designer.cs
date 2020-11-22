@@ -68,9 +68,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 363);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
+            this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Version 0.0.00";
+            this.label2.Text = "Version 0.0.0";
             // 
             // directUpload_checkBox
             // 

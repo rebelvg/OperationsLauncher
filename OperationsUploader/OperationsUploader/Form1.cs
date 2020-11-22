@@ -19,7 +19,7 @@ namespace OperationsUploader
 {
     public partial class Form1 : Form
     {
-        string version = "0.5.1";
+        string version = "0.5.2";
 
         public string settingsJsonPath;
         public string operationsFilesFolderPath;
@@ -27,6 +27,8 @@ namespace OperationsUploader
         public Form1()
         {
             InitializeComponent();
+
+            label2.Text = "Version " + version;
 
             password_textBox.PasswordChar = '*';
             password_textBox.Text = OperationsUploader.Properties.Settings.Default.password;
@@ -68,8 +70,6 @@ namespace OperationsUploader
                     MessageBox.Show("Saving settings failed. " + error.Message);
                 }
             }
-
-            label2.Text = "Version " + version;
         }
 
         static byte[] TempArrayHex(int bytecount, byte[] importarray, int offsetinarray)

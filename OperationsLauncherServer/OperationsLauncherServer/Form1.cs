@@ -22,6 +22,8 @@ namespace OperationsLauncherServer
         {
             InitializeComponent();
 
+            label3.Text = "Version " + launcherVersion;
+
             try
             {
                 if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName)).Length > 1)
@@ -67,8 +69,6 @@ namespace OperationsLauncherServer
                         MessageBox.Show("Saving settings failed. " + error.Message);
                     }
                 }
-
-                label3.Text = "Version " + launcherVersion;
             }
             catch (Exception e)
             {
@@ -331,8 +331,8 @@ namespace OperationsLauncherServer
         {
             if (defaultStartLineServer_textBox.Text.Contains("-nologs"))
             {
-                defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text.Replace(" -nologs", "");
                 defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text.Replace("-nologs", "");
+                defaultStartLineServer_textBox.Text = defaultStartLineServer_textBox.Text.Trim();
             }
             else
             {

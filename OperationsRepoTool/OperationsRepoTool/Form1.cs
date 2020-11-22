@@ -22,6 +22,8 @@ namespace OperationsRepoTool
         {
             InitializeComponent();
 
+            label3.Text = "Version " + launcherVersion;
+
             try
             {
                 if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName)).Length > 1)
@@ -170,6 +172,11 @@ namespace OperationsRepoTool
         private void createVerifyFile_button2_Click(object sender, EventArgs e)
         {
             CreateVerifyFile();
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/rebelvg/OperationsLauncher");
         }
     }
 }
