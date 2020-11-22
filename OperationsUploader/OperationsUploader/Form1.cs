@@ -19,7 +19,7 @@ namespace OperationsUploader
 {
     public partial class Form1 : Form
     {
-        string version = "0.5.0";
+        string version = "0.5.1";
 
         public string settingsJsonPath;
         public string operationsFilesFolderPath;

@@ -18,7 +18,7 @@ namespace OperationsLauncher
 {
     public partial class Form1 : Form
     {
-        string launcherVersion = "0.5.0";
+        string launcherVersion = "0.5.1";
 
         bool debugMode;
     }
