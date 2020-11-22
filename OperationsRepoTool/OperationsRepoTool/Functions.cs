@@ -20,7 +20,7 @@ namespace OperationsRepoTool
 {
     public partial class Form1 : Form
     {
-        RepoConfigJson repoConfigJson;
+        RepoConfigJson repoConfigJson = new RepoConfigJson();
 
         public class RepoToolSettingsJson
         {

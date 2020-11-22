@@ -118,9 +118,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(8, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 57;
-            this.label4.Text = "Xml Path";
+            this.label4.Text = "Settings Path";
             // 
             // xmlPath_textBox
             // 

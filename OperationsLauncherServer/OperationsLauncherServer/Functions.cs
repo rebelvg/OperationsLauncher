@@ -20,20 +20,20 @@ namespace OperationsLauncherServer
 {
     public partial class Form1 : Form
     {
-        LauncherConfigJson repoConfigJson;
+        LauncherConfigJson repoConfigJson = new LauncherConfigJson();
 
         public class LauncherSettingsJson
         {          
-            public string pathToArma3Exe = Directory.GetCurrentDirectory() + "\\arma3server_x64.exe";
-            public string pathToArma3Mods = Directory.GetCurrentDirectory();
-            public string pathToSteamWorkshopFolder = Directory.GetCurrentDirectory() + "\\!Workshop";
+            public string arma3ExePath = Directory.GetCurrentDirectory() + "\\arma3server_x64.exe";
+            public string repoFolderPath = Directory.GetCurrentDirectory();
+            public string steamWorkshopFolderPath = Directory.GetCurrentDirectory() + "\\!Workshop";
             public string[] customMods = new string[0];
             public string[] checkedCustomMods = new string[0];
             public string serverConfig = "";
             public string serverCfg = "";
             public string serverProfiles = "";
             public string serverProfileName = "";
-            public bool hideWindow = false;
+            public bool hideServerWindow = false;
         }
 
         public void ReadXmlFile()
@@ -42,14 +42,14 @@ namespace OperationsLauncherServer
             {
                 var LauncherSettingsJson = JsonConvert.DeserializeObject<LauncherSettingsJson>(File.ReadAllText(xmlPath_textBox.Text));
 
-                pathToArma3_textBox.Text = LauncherSettingsJson.pathToArma3Exe;
-                pathToMods_textBox.Text = LauncherSettingsJson.pathToArma3Mods;
-                steamWorkshopFolderTextBox.Text = LauncherSettingsJson.pathToSteamWorkshopFolder;
+                pathToArma3_textBox.Text = LauncherSettingsJson.arma3ExePath;
+                pathToMods_textBox.Text = LauncherSettingsJson.repoFolderPath;
+                steamWorkshopFolderTextBox.Text = LauncherSettingsJson.steamWorkshopFolderPath;
                 serverConfig_textBox.Text = LauncherSettingsJson.serverConfig;
                 serverCfg_textBox.Text = LauncherSettingsJson.serverCfg;
                 serverProfiles_textBox.Text = LauncherSettingsJson.serverProfiles;
                 serverProfileName_textBox.Text = LauncherSettingsJson.serverProfileName;
-                hideWindow_checkBox.Checked = LauncherSettingsJson.hideWindow;
+                hideWindow_checkBox.Checked = LauncherSettingsJson.hideServerWindow;
 
                 foreach (string X in LauncherSettingsJson.customMods)
                 {
@@ -88,16 +88,16 @@ namespace OperationsLauncherServer
             {
                 var LauncherSettingsJson = new LauncherSettingsJson();
 
-                LauncherSettingsJson.pathToArma3Exe = pathToArma3_textBox.Text;
-                LauncherSettingsJson.pathToArma3Mods = pathToMods_textBox.Text;
-                LauncherSettingsJson.pathToSteamWorkshopFolder = steamWorkshopFolderTextBox.Text;
+                LauncherSettingsJson.arma3ExePath = pathToArma3_textBox.Text;
+                LauncherSettingsJson.repoFolderPath = pathToMods_textBox.Text;
+                LauncherSettingsJson.steamWorkshopFolderPath = steamWorkshopFolderTextBox.Text;
                 LauncherSettingsJson.customMods = customMods_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToArray();
                 LauncherSettingsJson.checkedCustomMods = customMods_listView.CheckedItems.Cast<ListViewItem>().Select(x => x.Text).ToArray();
                 LauncherSettingsJson.serverConfig = serverConfig_textBox.Text;
                 LauncherSettingsJson.serverCfg = serverCfg_textBox.Text;
                 LauncherSettingsJson.serverProfiles = serverProfiles_textBox.Text;
                 LauncherSettingsJson.serverProfileName = serverProfileName_textBox.Text;
-                LauncherSettingsJson.hideWindow = hideWindow_checkBox.Checked;
+                LauncherSettingsJson.hideServerWindow = hideWindow_checkBox.Checked;
 
                 string json = JsonConvert.SerializeObject(LauncherSettingsJson, Formatting.Indented);
 
@@ -206,27 +206,54 @@ namespace OperationsLauncherServer
         {
             Shared.CheckSyncFolderSize(pathToMods_textBox.Text);
 
-            if (!ReadPresetFile())
+            if (!ReadPresetFile()) {
                 return false;
+            }                
+
+            LockInterface("Verifying...");
 
             string operationsLauncherFilesPath = pathToMods_textBox.Text + "\\OperationsLauncherFiles.json";
 
-            if (!await Task.Run(() => CheckLauncherFiles(repoConfigJson.verifyLink, Shared.GetMD5(operationsLauncherFilesPath, true))))
+            if (!await Task.Run(() => CheckLauncherFiles(repoConfigJson.verifyLink, Shared.GetMD5(operationsLauncherFilesPath, true)))) {
+                UnlockInterface();
+
                 return false;
+            }
 
-            List<string> folderFiles = Shared.GetFolderFilesToHash(pathToMods_textBox.Text, repoConfigJson.mods);
+            List<string> folderFiles;
 
-            List<string> steamFolderFiles = Shared.GetFolderFilesToHash(steamWorkshopFolderTextBox.Text, repoConfigJson.steamMods);
+            List<string> steamFolderFiles;
+
+            try
+            {
+                folderFiles = Shared.GetFolderFilesToHash(pathToMods_textBox.Text, repoConfigJson.mods);
+
+                steamFolderFiles = Shared.GetFolderFilesToHash(steamWorkshopFolderTextBox.Text, repoConfigJson.steamMods);
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message);
+
+                UnlockInterface();
+
+                return false;
+            }
 
             modsFiles_listView.Items.Clear();
             launcherFiles_listView.Items.Clear();
 
             var clientFiles = await Task.Run(() => GetVerifyList(folderFiles, steamFolderFiles, fullVerify));
 
+            modsFiles_listView.BeginUpdate();
+
             foreach (string X in clientFiles)
             {
                 modsFiles_listView.Items.Add(X);
             }
+
+            modsFiles_listView.EndUpdate();
+
+            launcherFiles_listView.BeginUpdate();
 
             foreach (LauncherConfigJsonFile X in repoConfigJson.files.Concat(repoConfigJson.steamFiles))
             {
@@ -240,12 +267,13 @@ namespace OperationsLauncherServer
                     launcherFiles_listView.Items.Add(X.filePath + ":" + md5);
             }
 
-            folderFiles = modsFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+            launcherFiles_listView.EndUpdate();
 
-            List<string> jsonFiles = launcherFiles_listView.Items.Cast<ListViewItem>().Select(x => x.Text).ToList();
+            List<string> allRepoFiles = repoConfigJson.files.Concat(repoConfigJson.steamFiles).Select(x => x.filePath).ToList();
+            List<string> allLocalFiles = folderFiles.Concat(steamFolderFiles).ToList();
 
-            List<string> missingFilesList = jsonFiles.Where(x => !folderFiles.Contains(x)).ToList();
-            List<string> excessFilesList = folderFiles.Where(x => !jsonFiles.Contains(x)).ToList();
+            List<string> missingFilesList = allRepoFiles.Where(x => !allLocalFiles.Contains(x)).ToList();
+            List<string> excessFilesList = allLocalFiles.Where(x => !allRepoFiles.Contains(x)).ToList();
 
             missingFiles_listView.Items.Clear();
             excessFiles_listView.Items.Clear();
@@ -270,8 +298,12 @@ namespace OperationsLauncherServer
                     MessageBox.Show("You have missing or excess files.");
                 }
 
+                UnlockInterface();
+
                 return false;
             }
+
+            UnlockInterface();
 
             return true;
         }
@@ -319,17 +351,15 @@ namespace OperationsLauncherServer
 
         public IEnumerable<string> GetVerifyList(List<string> folderFiles, List<string> steamFolderFiles, bool fullVerify)
         {
-            LockInterface("Verifying...");
-
-            progressBar1.Minimum = 0;
-            progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
-            progressBar1.Value = 0;
-            progressBar1.Step = 1;
+            Invoke(new Action(() => {
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = folderFiles.Count() + steamFolderFiles.Count();
+                progressBar1.Value = 0;
+                progressBar1.Step = 1;
+            }));
 
             var clientFiles = ProcessFilesList(pathToMods_textBox.Text, folderFiles, fullVerify);
             var steamClientFiles = ProcessFilesList(steamWorkshopFolderTextBox.Text, steamFolderFiles, fullVerify);
-
-            UnlockInterface();
 
             return clientFiles.Concat(steamClientFiles);
         }
@@ -364,6 +394,8 @@ namespace OperationsLauncherServer
 
                 return false;
             }
+
+            ResetHeader();
 
             return true;
         }       
@@ -439,6 +471,14 @@ namespace OperationsLauncherServer
             Invoke(new Action(() =>
             {
                 this.Text = text;
+            }));
+        }
+
+        public void ResetHeader()
+        {
+            Invoke(new Action(() =>
+            {
+                ChangeHeader("Operations Launcher");
             }));
         }
     }

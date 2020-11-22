@@ -17,16 +17,16 @@ namespace SharedNamespace
         public string md5;
     }
 
-    public struct LauncherConfigJson
+    public class LauncherConfigJson
     {
         public string serverHost;
         public string serverPassword;
         public string verifyLink;
         public string missionsLink;
-        public string[] mods;
-        public string[] steamMods;
-        public List<LauncherConfigJsonFile> files;
-        public List<LauncherConfigJsonFile> steamFiles;
+        public string[] mods = new string[0];
+        public string[] steamMods = new string[0];
+        public List<LauncherConfigJsonFile> files = new List<LauncherConfigJsonFile>();
+        public List<LauncherConfigJsonFile> steamFiles = new List<LauncherConfigJsonFile>();
     }
 
     interface IMissionResponse {

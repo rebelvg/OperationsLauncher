@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.steamWorkshopFolderFindButton = new System.Windows.Forms.Button();
+            this.steamWorkshopFolderTextBox = new System.Windows.Forms.TextBox();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -82,10 +84,7 @@
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.modsFiles_listView = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.steamWorkshopFolderFindButton = new System.Windows.Forms.Button();
-            this.steamWorkshopFolderTextBox = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -150,6 +149,33 @@
             this.tabPage3.Text = "Server";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 123);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 13);
+            this.label1.TabIndex = 62;
+            this.label1.Text = "Steam Workshop Folder";
+            // 
+            // steamWorkshopFolderFindButton
+            // 
+            this.steamWorkshopFolderFindButton.Location = new System.Drawing.Point(420, 139);
+            this.steamWorkshopFolderFindButton.Name = "steamWorkshopFolderFindButton";
+            this.steamWorkshopFolderFindButton.Size = new System.Drawing.Size(26, 20);
+            this.steamWorkshopFolderFindButton.TabIndex = 61;
+            this.steamWorkshopFolderFindButton.Text = "...";
+            this.steamWorkshopFolderFindButton.UseVisualStyleBackColor = true;
+            this.steamWorkshopFolderFindButton.Click += new System.EventHandler(this.steamWorkshopFolderFindButton_Click);
+            // 
+            // steamWorkshopFolderTextBox
+            // 
+            this.steamWorkshopFolderTextBox.Location = new System.Drawing.Point(7, 139);
+            this.steamWorkshopFolderTextBox.Name = "steamWorkshopFolderTextBox";
+            this.steamWorkshopFolderTextBox.ReadOnly = true;
+            this.steamWorkshopFolderTextBox.Size = new System.Drawing.Size(406, 20);
+            this.steamWorkshopFolderTextBox.TabIndex = 60;
+            // 
             // linkLabel4
             // 
             this.linkLabel4.AutoSize = true;
@@ -175,9 +201,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(8, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 57;
-            this.label4.Text = "Xml Path";
+            this.label4.Text = "Settings Path";
             // 
             // xmlPath_textBox
             // 
@@ -638,33 +664,6 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 123);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 13);
-            this.label1.TabIndex = 62;
-            this.label1.Text = "Steam Workshop Folder";
-            // 
-            // steamWorkshopFolderFindButton
-            // 
-            this.steamWorkshopFolderFindButton.Location = new System.Drawing.Point(420, 139);
-            this.steamWorkshopFolderFindButton.Name = "steamWorkshopFolderFindButton";
-            this.steamWorkshopFolderFindButton.Size = new System.Drawing.Size(26, 20);
-            this.steamWorkshopFolderFindButton.TabIndex = 61;
-            this.steamWorkshopFolderFindButton.Text = "...";
-            this.steamWorkshopFolderFindButton.UseVisualStyleBackColor = true;
-            this.steamWorkshopFolderFindButton.Click += new System.EventHandler(this.steamWorkshopFolderFindButton_Click);
-            // 
-            // steamWorkshopFolderTextBox
-            // 
-            this.steamWorkshopFolderTextBox.Location = new System.Drawing.Point(7, 139);
-            this.steamWorkshopFolderTextBox.Name = "steamWorkshopFolderTextBox";
-            this.steamWorkshopFolderTextBox.ReadOnly = true;
-            this.steamWorkshopFolderTextBox.Size = new System.Drawing.Size(406, 20);
-            this.steamWorkshopFolderTextBox.TabIndex = 60;
             // 
             // Form1
             // 
